@@ -1,15 +1,22 @@
 package com.quazar.sms_firewall;
 
+import com.quazar.sms_firewall.dao.DataDao;
+import com.quazar.sms_firewall.dao.DataDao.FilterType;
+
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 
 public class MainActivity extends Activity {
-
+	private static DataDao dataDao;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		dataDao=new DataDao(getApplicationContext());
+		int result=dataDao.insertFilter(FilterType.WORD, "υσι");
+		Log.i("sql", "result: "+result);
 		/*Cursor cursor = getContentResolver().query(
 				Uri.parse("content://sms/inbox"), null, null, null, null);
 		cursor.moveToFirst();
