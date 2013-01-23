@@ -1,5 +1,6 @@
 package com.quazar.sms_firewall.models;
 
+
 public class TopItemModel {
 	public enum TopTypes {
 		SPAM, FRAUD, WORD
@@ -14,10 +15,10 @@ public class TopItemModel {
 		this.pos = pos;
 		this.votes = votes;
 		this.phoneName = phoneName;
-		if (type == 1)
-			this.type = TopTypes.SPAM;
-		else
-			this.type = TopTypes.FRAUD;
+		for (TopTypes tt : TopTypes.values()) {
+			if (tt.ordinal() == type)
+				this.type = tt;
+		}
 	}
 
 	public int getId() {

@@ -1,6 +1,7 @@
 package com.quazar.sms_firewall.network;
 
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,19 +16,33 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
+import com.quazar.sms_firewall.utils.DeviceInfoUtil;
+
+import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Base64;
 import android.util.Log;
 
 public class ServerClient {
 	public enum ServerMethods{get_vocabulary, get_tops, check_fraud, post_filters, post_vote, post_fraud};
 	private static final String HOST="http://sms-firewall.appspot.com/";
-	public static JSONObject get(ServerMethods method) {
+	private String imei, phoneName, phoneNumber;
+	public ServerClient(Activity act){
+		this.imei=DeviceInfoUtil.getIMEI(act);
+		this.phoneName=DeviceInfoUtil.getPhoneName();
+		this.phoneNumber=DeviceInfoUtil.getMyPhoneNumber(act);
+	}
+	public JSONObject get(ServerMethods method) {
 		try {
 			DefaultHttpClient httpclient = new DefaultHttpClient();
-			HttpGet httpGetRequest = new HttpGet(HOST+method.toString());
+			String url=HOST+method.toString();
+			addParam(url, "i", this.imei);
+			addParam(url, "pna", this.phoneName);
+			addParam(url, "pnu", this.phoneNumber);
+			HttpGet httpGet = new HttpGet(url);
 			HttpResponse response = (HttpResponse) httpclient
-					.execute(httpGetRequest);
+					.execute(httpGet);
 			HttpEntity entity = response.getEntity();
 			if (entity != null) {
 				InputStream instream = entity.getContent();
@@ -41,14 +56,14 @@ public class ServerClient {
 		return null;
 	}
 
-	public static boolean post(ServerMethods method, JSONObject data) {
+	public boolean post(ServerMethods method, JSONObject data) {
 		try {
 			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost(HOST+method.toString());
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-			nameValuePairs.add(new BasicNameValuePair("data", data.toString()));			
-			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));			
-			HttpResponse response = httpclient.execute(httppost);
+			HttpPost httpPost = new HttpPost(HOST+method.toString());
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);			
+			nameValuePairs.add(new BasicNameValuePair("data", encodeString(data.toString())));			
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));			
+			HttpResponse response = httpclient.execute(httpPost);
 			HttpEntity entity = response.getEntity();
 			if (entity != null) {
 				InputStream instream = entity.getContent();
@@ -63,7 +78,7 @@ public class ServerClient {
 		return false;
 	}
 
-	public static void getAsync(final ServerMethods method, final Handler handler) {
+	public void getAsync(final ServerMethods method, final Handler handler) {
 		Thread thread = new Thread() {
 			@Override
 			public void run() {
@@ -75,7 +90,7 @@ public class ServerClient {
 		thread.start();
 	}
 	
-	public static void postAsync(final ServerMethods method, final JSONObject data, final Handler handler) {
+	public void postAsync(final ServerMethods method, final JSONObject data, final Handler handler) {
 		Thread thread = new Thread() {
 			@Override
 			public void run() {
@@ -87,7 +102,7 @@ public class ServerClient {
 		thread.start();
 	}
 
-	private static String convertStreamToString(InputStream is) {
+	private String convertStreamToString(InputStream is) {
 		try {
 			byte[] bytes = new byte[is.available()];
 			is.read(bytes);
@@ -96,5 +111,19 @@ public class ServerClient {
 			Log.e("network", ex.toString());
 			return null;
 		}
+	}
+	private void addParam(String url, String name, String value){
+		if(!url.contains("?"))			
+			url=String.format("%s?%s=$s", url, name, encodeString(value));
+		else url=String.format("%s&%s=$s", url, name, encodeString(value));
+	}
+	private String encodeString(String source){
+		try{
+			byte[] bytes=Base64.encode(source.getBytes("UTF-8"), Base64.DEFAULT);
+			return URLEncoder.encode(new String(bytes, "UTF-8"), "UTF-8");
+		}catch(Exception ex){
+			Log.e("param encode", ex.toString());
+		}
+		return null;
 	}
 }

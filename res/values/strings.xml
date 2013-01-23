@@ -2,7 +2,14 @@
 <resources>
 
     <string name="app_name">sms_firewall</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
+    <string name="stat_blocked">Заблокировано SMS: %d</string>
+    <string name="stat_suspicious">Подозрительных SMS: %d</string>
+    <string name="stat_recieved">Получено SMS: %d</string>
+    <string name="stat_bodies_vol">Объём заблокированного текста: %d символов</string>
+    <string name="stat_bodies_vol">Последняя синхронизация с сервером: %s</string>
+    <string name="word">Слово</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="filters">Фильтры</string>
+    <string name="logs">Логи</string>
 
 </resources>
