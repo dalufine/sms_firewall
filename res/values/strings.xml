@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">sms_firewall</string>
     <string name="stat_blocked">Заблокировано SMS: %d</string>
     <string name="stat_suspicious">Подозрительных SMS: %d</string>
     <string name="stat_recieved">Получено SMS: %d</string>
     <string name="stat_bodies_vol">Объём заблокированного текста: %d символов</string>
-    <string name="stat_bodies_vol">Последняя синхронизация с сервером: %s</string>
+    <string name="stat_last_sync">Последняя синхронизация с сервером: %s</string>
     <string name="word">Слово</string>
     <string name="phone_number">Номер телефона</string>
     <string name="filters">Фильтры</string>
     <string name="logs">Логи</string>
-
+    <string name="select_source_popup_title">Выберите источник</string>
+    <string-array name="sources">
+        <item>Контакты</item>
+        <item>Входящие SMS</item>
+        <item>Входящие звонки</item>
+        <item>Подозрительные SMS</item>
+        <item>Топ мошенников</item>
+    </string-array>    
 </resources>

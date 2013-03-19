@@ -80,7 +80,9 @@
                 android:id="@+id/fast_phone_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/phone_number" />
+                android:text="@string/phone_number"
+                android:onClick="onPhoneNumberClick" 
+                />
 
             <Button
                 android:id="@+id/button2"
