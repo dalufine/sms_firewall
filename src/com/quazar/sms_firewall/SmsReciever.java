@@ -11,7 +11,7 @@ import android.widget.Toast;
 public class SmsReciever extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		this.abortBroadcast();
+		//this.abortBroadcast();
 		Bundle extras = intent.getExtras();
 		if (extras != null) {
 			Object[] smsextras = (Object[]) extras.get("pdus");
