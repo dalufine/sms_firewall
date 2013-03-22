@@ -29,12 +29,15 @@ public final class R {
         public static final int button6=0x7f08000c;
         public static final int fast_access=0x7f080005;
         public static final int fast_phone_number=0x7f080006;
-        public static final int item_icon=0x7f08000e;
-        public static final int item_text=0x7f08000f;
+        public static final int item_icon=0x7f080011;
+        public static final int item_text=0x7f080012;
         public static final int logo=0x7f080000;
-        public static final int menu_settings=0x7f080010;
+        public static final int menu_settings=0x7f080013;
         public static final int nav_panel=0x7f080008;
-        public static final int sources_list=0x7f08000d;
+        public static final int sms_list=0x7f08000d;
+        public static final int sms_number=0x7f08000e;
+        public static final int sms_text=0x7f08000f;
+        public static final int sources_list=0x7f080010;
         public static final int stat_blocked=0x7f080002;
         public static final int stat_recieved=0x7f080003;
         public static final int stat_suspicious=0x7f080004;
@@ -42,8 +45,10 @@ public final class R {
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int source_list=0x7f030001;
-        public static final int source_list_item=0x7f030002;
+        public static final int sms_list=0x7f030001;
+        public static final int sms_list_item=0x7f030002;
+        public static final int source_list=0x7f030003;
+        public static final int source_list_item=0x7f030004;
     }
     public static final class menu {
         public static final int activity_main=0x7f070000;
@@ -51,6 +56,7 @@ public final class R {
     public static final class string {
         public static final int app_name=0x7f040000;
         public static final int filters=0x7f040008;
+        public static final int inbox_sms=0x7f04000b;
         public static final int logs=0x7f040009;
         public static final int phone_number=0x7f040007;
         public static final int select_source_popup_title=0x7f04000a;

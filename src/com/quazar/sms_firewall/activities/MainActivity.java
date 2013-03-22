@@ -3,8 +3,6 @@ package com.quazar.sms_firewall.activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -12,8 +10,9 @@ import android.widget.Toast;
 
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.StateManager;
+import com.quazar.sms_firewall.popups.SelectListener;
 import com.quazar.sms_firewall.popups.SelectSourcePopup;
-import com.quazar.sms_firewall.popups.SelectSourcePopup.SelectSourceListener;
+import com.quazar.sms_firewall.popups.SmsSelectPopup;
 import com.quazar.sms_firewall.utils.ContentUtils;
 
 public class MainActivity extends Activity {
@@ -34,12 +33,20 @@ public class MainActivity extends Activity {
 
 	public void onPhoneNumberClick(View v) {
 		AlertDialog sourceSelect = new SelectSourcePopup(this,
-				new SelectSourceListener() {
+				new SelectListener() {
 					@Override
 					public void recieveSelection(int selection) {
 						switch (selection) {
 						case SelectSourcePopup.FROM_CONTACTS:
 							StateManager.getContact(MainActivity.this);
+							break;
+						case SelectSourcePopup.FROM_INBOX_SMS:
+							SmsSelectPopup smsPopup=new SmsSelectPopup(MainActivity.this, new SelectListener() {								
+								@Override
+								public void recieveSelection(int selection) {									
+								}
+							});
+							smsPopup.show();
 							break;
 						default:
 							break;

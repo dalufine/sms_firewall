@@ -9,5 +9,5 @@ public class StateManager {
 	public static void getContact(Activity activity){
 		Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);  
 		activity.startActivityForResult(intent, CONTACTS_REQUEST_ID);
-	}
+	}	
 }

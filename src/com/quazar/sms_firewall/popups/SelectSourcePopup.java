@@ -18,11 +18,8 @@ public class SelectSourcePopup extends AlertDialog {
 	private final String TEXT_KEY = "text", ICON_KEY = "icon";
 	public static final int FROM_CONTACTS = 0, FROM_INBOX_SMS = 1,
 			FROM_INCOME_CALLS = 2, FROM_SUSPICIOUS_SMS = 3,
-			FROM_FRAUDS_TOP = 4;
-	public interface SelectSourceListener{
-		void recieveSelection(int selection);
-	}
-	public SelectSourcePopup(final Context context, final SelectSourceListener listener) {
+			FROM_FRAUDS_TOP = 4;	
+	public SelectSourcePopup(final Context context, final SelectListener listener) {
 		super(context);
 		View v = getLayoutInflater().inflate(R.layout.source_list, null);
 		ListView listView = (ListView) v.findViewById(R.id.sources_list);
