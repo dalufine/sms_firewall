@@ -57,7 +57,11 @@ public class DataDao extends SQLiteOpenHelper {
 			ContentValues cv = new ContentValues();
 			cv.put("value", value);
 			cv.put("type", type.ordinal());
-			return (int) dbase.insert("filters", null, cv);
+			int result = (int) dbase.insert("filters", null, cv);
+			if (result > 0 && filters != null) {
+				filters.add(new FilterModel(result, value, type.ordinal()));
+			}
+			return result;
 		}
 		return 0;
 	}
@@ -78,8 +82,7 @@ public class DataDao extends SQLiteOpenHelper {
 		int idIdx = cursor.getColumnIndex("_id"), valueIdx = cursor
 				.getColumnIndex("value"), typeIdx = cursor
 				.getColumnIndex("type");
-		for (int i = 0; i < cursor.getCount(); i++) {
-			cursor.move(i);
+		while (cursor.moveToNext()) {
 			filters.add(new FilterModel(cursor.getInt(idIdx), cursor
 					.getString(valueIdx), cursor.getInt(typeIdx)));
 		}
@@ -99,9 +102,10 @@ public class DataDao extends SQLiteOpenHelper {
 					.getColumnIndex("body");
 			for (int i = 0; i < cursor.getCount(); i++) {
 				cursor.move(i);
-				logs.add(new LogItemModel(cursor.getInt(idIdx), cursor.getString(phoneNameIdx), 
-						cursor.getString(bodyIdx), sdf.parse(cursor
-						.getString(addTimeIdx)), cursor.getInt(statusIdx)));
+				logs.add(new LogItemModel(cursor.getInt(idIdx), cursor
+						.getString(phoneNameIdx), cursor.getString(bodyIdx),
+						sdf.parse(cursor.getString(addTimeIdx)), cursor
+								.getInt(statusIdx)));
 			}
 		} catch (Exception ex) {
 			Log.e("logs loading", ex.toString());
@@ -130,17 +134,19 @@ public class DataDao extends SQLiteOpenHelper {
 				.getColumnIndex("type");
 		for (int i = 0; i < cursor.getCount(); i++) {
 			cursor.move(i);
-			tops.add(new TopItemModel(cursor.getInt(idIdx), cursor.getInt(posIdx), cursor.getInt(votesIdx), 
-					cursor.getString(phoneNameIdx), cursor.getInt(typeIdx)));
+			tops.add(new TopItemModel(cursor.getInt(idIdx), cursor
+					.getInt(posIdx), cursor.getInt(votesIdx), cursor
+					.getString(phoneNameIdx), cursor.getInt(typeIdx)));
 		}
 		return tops;
 	}
-	public void updateTop(List<TopItemModel> newTop){
-		tops=newTop;
+
+	public void updateTop(List<TopItemModel> newTop) {
+		tops = newTop;
 		dbase.beginTransaction();
 		dbase.delete("tops", null, null);
-		for(TopItemModel ti:tops){
-			ContentValues cv=new ContentValues();
+		for (TopItemModel ti : tops) {
+			ContentValues cv = new ContentValues();
 			cv.put("pos", ti.getPos());
 			cv.put("phone_name", ti.getPhoneName());
 			cv.put("votes", ti.getVotes());

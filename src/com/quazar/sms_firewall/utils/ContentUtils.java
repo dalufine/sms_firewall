@@ -1,9 +1,12 @@
 package com.quazar.sms_firewall.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -11,10 +14,13 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 public class ContentUtils {
 	public static final String SMS_NUMBER = "sms_number",
-			SMS_TEXT = "sms_text";
+			SMS_TEXT = "sms_text", CALLS_NUMBER = "number",
+			CALLS_DATE = "date", CALLS_DURATION = "duration",
+			CALLS_NAME = "name";
 
 	public static String getPhoneNumber(Context activity, Uri contentUri) {
 		ContentResolver cr = activity.getContentResolver();
@@ -45,51 +51,54 @@ public class ContentUtils {
 	public static List<HashMap<String, Object>> getInboxSms(Context context) {
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		Cursor cursor = context.getContentResolver().query(
-				Uri.parse("content://sms/inbox"), null, null, null, null);
+				Uri.parse("content://sms/inbox"),
+				new String[] { "address", "body" }, null, null, null);
 		while (cursor.moveToNext()) {
 			HashMap<String, Object> sms = new HashMap<String, Object>();
-			sms.put(SMS_NUMBER,
-					cursor.getString(cursor.getColumnIndex("address")));
-			sms.put(SMS_TEXT, cursor.getString(cursor.getColumnIndex("body")));
+			sms.put(SMS_NUMBER, cursor.getString(0));
+			String text = cursor.getString(1);
+			if (text.length() > 40)
+				text = text.substring(0, 37) + "...";
+			sms.put(SMS_TEXT, text);
 			list.add(sms);
 		}
 		return list;
 	}
 
-	private void getCallDetails(Context context) {
-
-		StringBuffer sb = new StringBuffer();
-		Cursor managedCursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, 
-				new String[]{CallLog.Calls.NUMBER, CallLog.Calls.DATE, CallLog.Calls.DURATION},
-				"type=?", new String[]{String.valueOf(CallLog.Calls.INCOMING_TYPE)}, null);		
-		sb.append("Call Details :");
-		while (managedCursor.moveToNext()) {
-			String phNumber = managedCursor.getString(managedCursor.getColumnIndex(CallLog.Calls.NUMBER));
-			String callType = managedCursor.getString(managedCursor.getColumnIndex(CallLog.Calls.TYPE));
-			String callDate = managedCursor.getString(managedCursor.getColumnIndex(CallLog.Calls.DATE));
-			Date callDayTime = new Date(Long.valueOf(callDate));
-			String callDuration = managedCursor.getString(managedCursor.getColumnIndex(CallLog.Calls.DURATION));
-			String dir = null;
-			int dircode = Integer.parseInt(callType);
-			switch (dircode) {
-			case CallLog.Calls.OUTGOING_TYPE:
-				dir = "OUTGOING";
-				break;
-
-			case CallLog.Calls.INCOMING_TYPE:
-				dir = "INCOMING";
-				break;
-
-			case CallLog.Calls.MISSED_TYPE:
-				dir = "MISSED";
-				break;
-			}
-			sb.append("\nPhone Number:--- " + phNumber + " \nCall Type:--- "
-					+ dir + " \nCall Date:--- " + callDayTime
-					+ " \nCall duration in sec :--- " + callDuration);
-			sb.append("\n----------------------------------");
+	public static String getDateTemplate() {
+		Locale locale = Locale.getDefault();
+		if (locale.getCountry() == "RU") {
+			return "dd.MM.yyyy HH:mm:ss";
 		}
-		managedCursor.close();
-		call.setText(sb);
+		return "yyyy-MM-dd HH:mm:ss";
+	}
+
+	public static String secondsToTime(int secs) {
+		int hours = secs / 3600, remainder = secs % 3600, minutes = remainder / 60, seconds = remainder % 60;
+		return String.format("%s:%s:%s", (hours < 10 ? "0" : "") + hours,
+				(minutes < 10 ? "0" : "") + minutes, (seconds < 10 ? "0" : "")+ seconds);
+
+	}
+
+	public static List<HashMap<String, Object>> getIncomeCalls(Context context) {
+		SimpleDateFormat sdf = new SimpleDateFormat(getDateTemplate());
+		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		Cursor cursor = context.getContentResolver().query(
+				CallLog.Calls.CONTENT_URI,
+				new String[] { "name", "number", "date", "duration" },
+				"type=?",
+				new String[] { String.valueOf(CallLog.Calls.INCOMING_TYPE) },
+				null);
+		while (cursor.moveToNext()) {
+			HashMap<String, Object> calls = new HashMap<String, Object>();
+			String name = cursor.getString(0), number = cursor.getString(1);
+			calls.put(CALLS_NAME, name == null ? number : name);
+			calls.put(CALLS_NUMBER, number);
+			calls.put(CALLS_DATE, sdf.format(new Date(cursor.getLong(2))));
+			calls.put(CALLS_DURATION, secondsToTime(cursor.getInt(3)));
+			list.add(calls);
+		}
+		cursor.close();
+		return list;
 	}
 }

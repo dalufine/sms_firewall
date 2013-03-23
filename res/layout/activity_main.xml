@@ -104,10 +104,11 @@
         android:padding="5dp" >
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/filters"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:onClick="onShowFilters"
+            android:text="F" />
 
         <Button
             android:id="@+id/button4"

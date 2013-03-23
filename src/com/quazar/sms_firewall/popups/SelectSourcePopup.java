@@ -19,7 +19,7 @@ public class SelectSourcePopup extends AlertDialog {
 	public static final int FROM_CONTACTS = 0, FROM_INBOX_SMS = 1,
 			FROM_INCOME_CALLS = 2, FROM_SUSPICIOUS_SMS = 3,
 			FROM_FRAUDS_TOP = 4;	
-	public SelectSourcePopup(final Context context, final SelectListener listener) {
+	public SelectSourcePopup(final Context context, final SelectListener<Integer> listener) {
 		super(context);
 		View v = getLayoutInflater().inflate(R.layout.source_list, null);
 		ListView listView = (ListView) v.findViewById(R.id.sources_list);
@@ -41,7 +41,6 @@ public class SelectSourcePopup extends AlertDialog {
 			hm.put(ICON_KEY, icons[i]);
 			sources.add(hm);
 		}
-
 		SimpleAdapter adapter = new SimpleAdapter(context, sources,
 				R.layout.source_list_item, new String[] { TEXT_KEY, ICON_KEY },
 				new int[] { R.id.item_text, R.id.item_icon });

@@ -12,6 +12,9 @@
     <string name="logs">Логи</string>
     <string name="select_source_popup_title">Выберите источник</string>
     <string name="inbox_sms">Входящие SMS</string>
+    <string name="income_calls">Входящие звонки</string>
+    <string name="numbers">Номера</string>    
+    <string name="words">Слова</string>
     <string-array name="sources">
         <item>Контакты</item>
         <item>Входящие SMS</item>

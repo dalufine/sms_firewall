@@ -13,10 +13,7 @@ public class FilterModel {
 		super();
 		this.id = id;
 		this.value = value;
-		for (FilterType ft : FilterType.values()) {
-			if (ft.ordinal() == type)
-				this.type = ft;
-		}
+		this.type=FilterType.values()[type];		
 	}
 
 	public int getId() {

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:orientation="vertical" >    
+    <TextView
+        android:id="@+id/filter_value"
+        android:textColorHighlight="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"        
+        android:textSize="16sp"
+        android:gravity="left" 
+        android:layout_marginLeft="5dp"/>    
+</LinearLayout>
