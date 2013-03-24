@@ -10,8 +10,6 @@ import android.widget.SimpleAdapter;
 import android.widget.TabHost;
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.dao.DataDao;
-import com.quazar.sms_firewall.models.Filter;
-import com.quazar.sms_firewall.models.Filter.FilterType;
 import com.quazar.sms_firewall.models.LogItem;
 import com.quazar.sms_firewall.models.LogItem.LogStatus;
 import com.quazar.sms_firewall.utils.ContentUtils;
@@ -55,10 +53,13 @@ public class LogsActivity extends Activity{
 		List<HashMap<String, Object>> list=new ArrayList<HashMap<String, Object>>();
 		for(LogItem log:logs){
 			HashMap<String, Object> map=new HashMap<String, Object>();
-			map.put("id", log.getId());			
+			map.put("id", log.getId());
 			map.put("date", ContentUtils.getDateFormater().format(log.getDate()));
+			map.put("body", log.getBody());
+			map.put("number", log.getPhoneName());
 			list.add(map);
 		}
-		return new SimpleAdapter(this, list, R.layout.filters_list_item, new String[]{"filter_value"}, new int[]{R.id.filter_value});
+		return new SimpleAdapter(this, list, R.layout.logs_list_item, new String[]{"date", "body", "number"}, new int[]{
+				R.id.log_date, R.id.log_body, R.id.log_number});
 	}
 }

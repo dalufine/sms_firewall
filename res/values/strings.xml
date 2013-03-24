@@ -24,6 +24,7 @@
     <string name="blocked">Заблокированые</string>
     <string name="suspicious">Подозрительные</string>
     <string name="filtered">Пропущенные</string>
+    <string name="journal">Журнал</string>
     <string-array name="sources">
         <item>Контакты</item>
         <item>Входящие SMS</item>

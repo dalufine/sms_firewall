@@ -27,4 +27,13 @@ public class Filter {
 	public FilterType getType() {
 		return type;
 	}
+	public boolean isValid(String phoneName, String body) {
+		if(type==FilterType.PHONE_NAME) {
+			return !phoneName.equals(value);
+		}
+		if(type==FilterType.WORD) {
+			return !body.contains(value);
+		}
+		return false;
+	}
 }

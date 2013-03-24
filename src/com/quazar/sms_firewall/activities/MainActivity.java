@@ -27,7 +27,7 @@ public class MainActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-		dataDao=new DataDao(this);		
+		dataDao=new DataDao(this);
 	}
 
 	@Override
@@ -70,9 +70,11 @@ public class MainActivity extends Activity{
 		});
 		sourceSelect.show();
 	}
-
 	public void onShowFilters(View v){
 		StateManager.showFilters(this);
+	}
+	public void onShowLogs(View v){
+		StateManager.showLogs(this);
 	}
 	public void onWordClick(View v){
 		EnterValuePopup popup=new EnterValuePopup(this, getResources().getString(R.string.enter_word), new SelectListener<String>(){

@@ -20,10 +20,7 @@ public class LogItem {
 		this.phoneName = phoneName;
 		this.body = body;
 		this.date = date;
-		for (LogStatus ls : LogStatus.values()) {
-			if (ls.ordinal() == status)
-				this.status = ls;
-		}
+		this.status=LogStatus.values()[status];		
 	}
 
 	public int getId() {

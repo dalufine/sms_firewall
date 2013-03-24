@@ -24,7 +24,6 @@ public final class R {
     public static final class id {
         public static final int blocked_logs=0x7f080006;
         public static final int blocked_logs_list=0x7f080007;
-        public static final int button4=0x7f080016;
         public static final int button5=0x7f080017;
         public static final int button6=0x7f080018;
         public static final int call_date=0x7f08001b;
@@ -42,19 +41,23 @@ public final class R {
         public static final int filtered_logs_list=0x7f08000b;
         public static final int filters=0x7f080015;
         public static final int filters_tabhost=0x7f080000;
-        public static final int item_icon=0x7f080028;
-        public static final int item_text=0x7f080029;
+        public static final int item_icon=0x7f08002b;
+        public static final int item_text=0x7f08002c;
+        public static final int log_body=0x7f080026;
+        public static final int log_date=0x7f080024;
+        public static final int log_number=0x7f080025;
         public static final int logo=0x7f08000c;
+        public static final int logs=0x7f080016;
         public static final int logs_tabhost=0x7f080005;
-        public static final int menu_settings=0x7f08002a;
+        public static final int menu_settings=0x7f08002d;
         public static final int nav_panel=0x7f080014;
         public static final int ok_btn=0x7f080021;
         public static final int phone_filters=0x7f080001;
         public static final int phone_filters_list=0x7f080002;
-        public static final int sms_list=0x7f080024;
-        public static final int sms_number=0x7f080025;
-        public static final int sms_text=0x7f080026;
-        public static final int sources_list=0x7f080027;
+        public static final int sms_list=0x7f080027;
+        public static final int sms_number=0x7f080028;
+        public static final int sms_text=0x7f080029;
+        public static final int sources_list=0x7f08002a;
         public static final int stat_blocked=0x7f08000e;
         public static final int stat_recieved=0x7f08000f;
         public static final int stat_suspicious=0x7f080010;
@@ -75,10 +78,11 @@ public final class R {
         public static final int delete_list=0x7f030005;
         public static final int enter_value_popup=0x7f030006;
         public static final int filters_list_item=0x7f030007;
-        public static final int sms_list=0x7f030008;
-        public static final int sms_list_item=0x7f030009;
-        public static final int source_list=0x7f03000a;
-        public static final int source_list_item=0x7f03000b;
+        public static final int logs_list_item=0x7f030008;
+        public static final int sms_list=0x7f030009;
+        public static final int sms_list_item=0x7f03000a;
+        public static final int source_list=0x7f03000b;
+        public static final int source_list_item=0x7f03000c;
     }
     public static final class menu {
         public static final int activity_main=0x7f070000;
@@ -95,6 +99,7 @@ public final class R {
         public static final int filters=0x7f040008;
         public static final int inbox_sms=0x7f04000b;
         public static final int income_calls=0x7f04000c;
+        public static final int journal=0x7f040018;
         public static final int logs=0x7f040009;
         public static final int numbers=0x7f04000d;
         public static final int ok=0x7f040011;

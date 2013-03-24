@@ -1,10 +1,10 @@
 package com.quazar.sms_firewall;
 
-import com.quazar.sms_firewall.activities.FiltersActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.provider.ContactsContract;
+import com.quazar.sms_firewall.activities.FiltersActivity;
+import com.quazar.sms_firewall.activities.LogsActivity;
 
 public class StateManager {
 	public static final int CONTACTS_REQUEST_ID=1;
@@ -14,6 +14,10 @@ public class StateManager {
 	}
 	public static void showFilters(Activity activity){
 		Intent intent = new Intent(activity, FiltersActivity.class);		
+		activity.startActivity(intent);
+	}
+	public static void showLogs(Activity activity){
+		Intent intent = new Intent(activity, LogsActivity.class);		
 		activity.startActivity(intent);
 	}	
 }
