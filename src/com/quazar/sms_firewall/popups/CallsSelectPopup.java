@@ -24,7 +24,7 @@ public class CallsSelectPopup extends AlertDialog {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				listener.recieveSelection(sources.get(position));
-				CallsSelectPopup.this.hide();
+				CallsSelectPopup.this.dismiss();
 			}
 		});		
 		SimpleAdapter adapter = new SimpleAdapter(context, sources,

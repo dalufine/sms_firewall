@@ -24,7 +24,7 @@ public class SmsSelectPopup extends AlertDialog {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				listener.recieveSelection(sms.get(position));
-				SmsSelectPopup.this.hide();
+				dismiss();
 			}
 		});		
 		SimpleAdapter adapter = new SimpleAdapter(context, sms,

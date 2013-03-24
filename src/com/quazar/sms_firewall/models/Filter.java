@@ -1,6 +1,6 @@
 package com.quazar.sms_firewall.models;
 
-public class FilterModel {
+public class Filter {
 	public enum FilterType {
 		PHONE_NAME, WORD, REGEXP
 	};
@@ -9,7 +9,7 @@ public class FilterModel {
 	private String value;
 	private FilterType type;
 
-	public FilterModel(int id, String value, int type) {
+	public Filter(int id, String value, int type) {
 		super();
 		this.id = id;
 		this.value = value;

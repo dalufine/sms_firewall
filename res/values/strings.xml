@@ -13,13 +13,22 @@
     <string name="select_source_popup_title">Выберите источник</string>
     <string name="inbox_sms">Входящие SMS</string>
     <string name="income_calls">Входящие звонки</string>
-    <string name="numbers">Номера</string>    
+    <string name="numbers">Номера</string>
     <string name="words">Слова</string>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
+    <string name="ok">OK</string>
+    <string name="enter_word">Введите слово</string>
+    <string name="enter_number">Введите номер(имя)</string>
+    <string name="enter_value_warning">Введите значение!</string>
+    <string name="blocked">Заблокированые</string>
+    <string name="suspicious">Подозрительные</string>
+    <string name="filtered">Пропущенные</string>
     <string-array name="sources">
         <item>Контакты</item>
         <item>Входящие SMS</item>
         <item>Входящие звонки</item>
         <item>Подозрительные SMS</item>
         <item>Топ мошенников</item>
-    </string-array>    
+    </string-array>
 </resources>

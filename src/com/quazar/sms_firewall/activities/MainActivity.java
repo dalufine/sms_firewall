@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.StateManager;
 import com.quazar.sms_firewall.dao.DataDao;
-import com.quazar.sms_firewall.models.FilterModel.FilterType;
+import com.quazar.sms_firewall.models.Filter.FilterType;
 import com.quazar.sms_firewall.popups.CallsSelectPopup;
+import com.quazar.sms_firewall.popups.EnterValuePopup;
 import com.quazar.sms_firewall.popups.SelectListener;
 import com.quazar.sms_firewall.popups.SelectSourcePopup;
 import com.quazar.sms_firewall.popups.SmsSelectPopup;
@@ -23,8 +25,9 @@ public class MainActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-		dataDao=new DataDao(this);
+		dataDao=new DataDao(this);		
 	}
 
 	@Override
@@ -70,6 +73,15 @@ public class MainActivity extends Activity{
 
 	public void onShowFilters(View v){
 		StateManager.showFilters(this);
+	}
+	public void onWordClick(View v){
+		EnterValuePopup popup=new EnterValuePopup(this, getResources().getString(R.string.enter_word), new SelectListener<String>(){
+			@Override
+			public void recieveSelection(String selection){
+				dataDao.insertFilter(FilterType.WORD, selection);
+			}
+		});
+		popup.show();
 	}
 
 	@Override

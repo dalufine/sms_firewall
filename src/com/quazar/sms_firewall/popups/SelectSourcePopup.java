@@ -28,7 +28,7 @@ public class SelectSourcePopup extends AlertDialog {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				listener.recieveSelection(position);
-				SelectSourcePopup.this.hide();
+				dismiss();
 			}
 		});
 		List<HashMap<String, Object>> sources = new ArrayList<HashMap<String, Object>>();

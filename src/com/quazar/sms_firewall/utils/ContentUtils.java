@@ -2,19 +2,16 @@ package com.quazar.sms_firewall.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
-import android.util.Log;
 
 public class ContentUtils {
 	public static final String SMS_NUMBER = "sms_number",
@@ -65,12 +62,12 @@ public class ContentUtils {
 		return list;
 	}
 
-	public static String getDateTemplate() {
-		Locale locale = Locale.getDefault();
+	public static SimpleDateFormat getDateFormater() {
+		Locale locale = Locale.getDefault();		
 		if (locale.getCountry() == "RU") {
-			return "dd.MM.yyyy HH:mm:ss";
+			return new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 		}
-		return "yyyy-MM-dd HH:mm:ss";
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	}
 
 	public static String secondsToTime(int secs) {
@@ -80,8 +77,7 @@ public class ContentUtils {
 
 	}
 
-	public static List<HashMap<String, Object>> getIncomeCalls(Context context) {
-		SimpleDateFormat sdf = new SimpleDateFormat(getDateTemplate());
+	public static List<HashMap<String, Object>> getIncomeCalls(Context context) {		
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		Cursor cursor = context.getContentResolver().query(
 				CallLog.Calls.CONTENT_URI,
@@ -94,7 +90,7 @@ public class ContentUtils {
 			String name = cursor.getString(0), number = cursor.getString(1);
 			calls.put(CALLS_NAME, name == null ? number : name);
 			calls.put(CALLS_NUMBER, number);
-			calls.put(CALLS_DATE, sdf.format(new Date(cursor.getLong(2))));
+			calls.put(CALLS_DATE, getDateFormater().format(new Date(cursor.getLong(2))));
 			calls.put(CALLS_DURATION, secondsToTime(cursor.getInt(3)));
 			list.add(calls);
 		}
