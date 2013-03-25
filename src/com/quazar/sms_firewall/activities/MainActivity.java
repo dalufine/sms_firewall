@@ -76,6 +76,12 @@ public class MainActivity extends Activity{
 	public void onShowLogs(View v){
 		StateManager.showLogs(this);
 	}
+	public void onShowTops(View v){
+		StateManager.showTops(this);
+	}
+	public void onShowSettings(View v){
+		StateManager.showSettings(this);
+	}
 	public void onWordClick(View v){
 		EnterValuePopup popup=new EnterValuePopup(this, getResources().getString(R.string.enter_word), new SelectListener<String>(){
 			@Override
@@ -84,6 +90,21 @@ public class MainActivity extends Activity{
 			}
 		});
 		popup.show();
+		/*PasswordPopup popup=new PasswordPopup(this, "¬ведите пароль дл€ доступа к журналу", new DialogListener<String>(){
+			
+			@Override
+			public void ok(String value){
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void cancel(){
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		popup.show();*/
 	}
 
 	@Override

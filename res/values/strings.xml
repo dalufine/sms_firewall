@@ -25,11 +25,26 @@
     <string name="suspicious">Подозрительные</string>
     <string name="filtered">Пропущенные</string>
     <string name="journal">Журнал</string>
+    <string name="frauds">Мошенники</string>
+    <string name="spam">Спам</string>
+    <string name="tops">Топ 100</string>
+    <string name="sync_on">Синхронизация с сервером</string>
+    <string name="top_filter_on">Использовать все фильтры из Топ100</string>
+    <string name="reset_stats">Сброс статистики</string>
+    <string name="reset_logs_password">Сброс пароля на журнал</string>
+    <string name="clear_logs">Очистить журнал</string>
+    <string name="blocked_counter">Показывать счётчик заблокированных SMS</string>
+    <string name="language">Язык</string>
+    <string name="settings">Настройки</string>
     <string-array name="sources">
         <item>Контакты</item>
         <item>Входящие SMS</item>
         <item>Входящие звонки</item>
         <item>Подозрительные SMS</item>
         <item>Топ мошенников</item>
+    </string-array>
+    <string-array name="languages">
+        <item>Русский</item>
+        <item>English</item>
     </string-array>
 </resources>
