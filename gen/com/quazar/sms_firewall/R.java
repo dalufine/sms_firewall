@@ -15,12 +15,14 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int call=0x7f020000;
-        public static final int contacts=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int inbox_sms=0x7f020003;
-        public static final int top=0x7f020004;
-        public static final int warning=0x7f020005;
+        public static final int button=0x7f020000;
+        public static final int call=0x7f020001;
+        public static final int contacts=0x7f020002;
+        public static final int group_back=0x7f020003;
+        public static final int ic_launcher=0x7f020004;
+        public static final int inbox_sms=0x7f020005;
+        public static final int top=0x7f020006;
+        public static final int warning=0x7f020007;
     }
     public static final class id {
         public static final int blocked_counter=0x7f08001c;
@@ -153,7 +155,12 @@ public final class R {
         public static final int words=0x7f04000e;
     }
     public static final class style {
-        public static final int AppBaseTheme=0x7f060000;
-        public static final int AppTheme=0x7f060001;
+        public static final int AppBaseTheme=0x7f060004;
+        /**  <item name="android:background">#fff</item> 
+         */
+        public static final int AppTheme=0x7f060000;
+        public static final int Button9=0x7f060003;
+        public static final int CodeFont=0x7f060001;
+        public static final int CodeFont_Red=0x7f060002;
     }
 }

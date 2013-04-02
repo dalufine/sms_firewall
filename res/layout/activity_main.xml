@@ -25,6 +25,7 @@
             android:layout_gravity="center"
             android:layout_margin="30dp"
             android:layout_weight="1"
+            android:background="@drawable/group_back"
             android:gravity="center"
             android:orientation="vertical">
             <TextView
@@ -69,14 +70,16 @@
             android:orientation="horizontal">
             <Button
                 android:id="@+id/fast_phone_number"
+                style="@style/Button9"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:onClick="onPhoneNumberClick"
                 android:text="@string/phone_number"/>
             <Button
                 android:id="@+id/fast_word"
+                style="@style/Button9"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:onClick="onWordClick"
                 android:text="@string/word"/>
         </LinearLayout>
@@ -84,7 +87,7 @@
     <LinearLayout
         android:id="@+id/nav_panel"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_gravity="center_horizontal"
         android:background="#fff"
         android:gravity="center_horizontal"
@@ -92,6 +95,7 @@
         android:padding="5dp">
         <Button
             android:id="@+id/filters"
+            style="@style/Button9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onShowFilters"
@@ -99,6 +103,7 @@
             android:text="F"/>
         <Button
             android:id="@+id/logs"
+            style="@style/Button9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onShowLogs"
@@ -106,6 +111,7 @@
             android:text="L"/>
         <Button
             android:id="@+id/tops"
+            style="@style/Button9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onShowTops"
@@ -113,6 +119,7 @@
             android:text="T"/>
         <Button
             android:id="@+id/settings"
+            style="@style/Button9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onShowSettings"
