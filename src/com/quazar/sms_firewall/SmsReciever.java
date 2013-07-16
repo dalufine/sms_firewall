@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import com.quazar.sms_firewall.dao.DataDao;
 import com.quazar.sms_firewall.models.Filter;
-import com.quazar.sms_firewall.models.LogItem.LogStatus;
+import com.quazar.sms_firewall.models.SmsLogItem.LogStatus;
 
 public class SmsReciever extends BroadcastReceiver{
 	private DataDao dataDao=null;

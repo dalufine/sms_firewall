@@ -11,7 +11,7 @@ import android.widget.TabHost;
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.dao.DataDao;
 import com.quazar.sms_firewall.models.TopItem;
-import com.quazar.sms_firewall.models.TopItem.TopTypes;
+import com.quazar.sms_firewall.models.TopItem.TopCategory;
 import com.quazar.sms_firewall.utils.ContentUtils;
 
 public class TopsActivity extends Activity{
@@ -29,26 +29,26 @@ public class TopsActivity extends Activity{
 		fraudNumbersTab.setIndicator(getResources().getString(R.string.frauds));
 		fraudNumbersTab.setContent(R.id.fraud_numbers_top);
 		ListView fraudList=(ListView)findViewById(R.id.fraud_numbers_list);
-		fraudList.setAdapter(getAdapter(TopTypes.FRAUD));
+		fraudList.setAdapter(getAdapter(TopCategory.FRAUD));
 
 		TabHost.TabSpec wordsTab=tabHost.newTabSpec("words top");
 		wordsTab.setIndicator(getResources().getString(R.string.words));
 		wordsTab.setContent(R.id.words_top);
 		ListView wordsList=(ListView)findViewById(R.id.words_list);
-		wordsList.setAdapter(getAdapter(TopTypes.WORD));		
+		wordsList.setAdapter(getAdapter(TopCategory.WORD));		
 		
 		TabHost.TabSpec spamTab=tabHost.newTabSpec("spam top");
 		spamTab.setIndicator(getResources().getString(R.string.spam));
 		spamTab.setContent(R.id.spam_numbers_top);
 		ListView spamList=(ListView)findViewById(R.id.spam_numbers_list);
-		spamList.setAdapter(getAdapter(TopTypes.SPAM));
+		spamList.setAdapter(getAdapter(TopCategory.SPAM));
 
 		tabHost.addTab(fraudNumbersTab);		
 		tabHost.addTab(spamTab);		
 		tabHost.addTab(wordsTab);
 		tabHost.setCurrentTab(0);
 	}
-	public SimpleAdapter getAdapter(TopTypes type){
+	public SimpleAdapter getAdapter(TopCategory type){
 		List<TopItem> topItems=dataDao.getTop(type);
 		List<HashMap<String, Object>> list=new ArrayList<HashMap<String, Object>>();
 		for(TopItem item:topItems){

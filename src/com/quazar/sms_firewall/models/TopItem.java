@@ -2,20 +2,20 @@ package com.quazar.sms_firewall.models;
 
 
 public class TopItem {
-	public enum TopTypes {
+	public enum TopCategory {
 		SPAM, FRAUD, WORD
 	};
 
 	private int id, pos, votes;
 	private String phoneName;
-	private TopTypes type;
+	private TopCategory type;
 
 	public TopItem(int id, int pos, int votes, String phoneName, int type) {
 		this.id = id;
 		this.pos = pos;
 		this.votes = votes;
 		this.phoneName = phoneName;
-		for (TopTypes tt : TopTypes.values()) {
+		for (TopCategory tt : TopCategory.values()) {
 			if (tt.ordinal() == type)
 				this.type = tt;
 		}
@@ -37,7 +37,7 @@ public class TopItem {
 		return phoneName;
 	}
 
-	public TopTypes getType() {
+	public TopCategory getType() {
 		return type;
 	}
 

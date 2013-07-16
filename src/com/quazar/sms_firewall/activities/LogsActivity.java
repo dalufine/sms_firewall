@@ -10,8 +10,8 @@ import android.widget.SimpleAdapter;
 import android.widget.TabHost;
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.dao.DataDao;
-import com.quazar.sms_firewall.models.LogItem;
-import com.quazar.sms_firewall.models.LogItem.LogStatus;
+import com.quazar.sms_firewall.models.SmsLogItem;
+import com.quazar.sms_firewall.models.SmsLogItem.LogStatus;
 import com.quazar.sms_firewall.utils.ContentUtils;
 
 public class LogsActivity extends Activity{
@@ -49,9 +49,9 @@ public class LogsActivity extends Activity{
 		tabHost.setCurrentTab(0);
 	}
 	public SimpleAdapter getAdapter(LogStatus status){
-		List<LogItem> logs=dataDao.getLogs(status);
+		List<SmsLogItem> logs=dataDao.getLogs(status);
 		List<HashMap<String, Object>> list=new ArrayList<HashMap<String, Object>>();
-		for(LogItem log:logs){
+		for(SmsLogItem log:logs){
 			HashMap<String, Object> map=new HashMap<String, Object>();
 			map.put("id", log.getId());
 			map.put("date", ContentUtils.getDateFormater().format(log.getDate()));

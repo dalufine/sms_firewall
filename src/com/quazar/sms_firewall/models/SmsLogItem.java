@@ -4,7 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class LogItem {
+import org.json.JSONObject;
+
+import android.util.Log;
+
+public class SmsLogItem {
 	public enum LogStatus {
 		FILTERED, SUSPICIOUS, BLOCKED
 	};
@@ -14,7 +18,7 @@ public class LogItem {
 	private Date date;
 	private LogStatus status;
 
-	public LogItem(int id, String phoneName, String body, Date date, int status) {
+	public SmsLogItem(int id, String phoneName, String body, Date date, int status) {
 		super();
 		this.id = id;
 		this.phoneName = phoneName;
@@ -49,5 +53,16 @@ public class LogItem {
 				Locale.getDefault());
 		return String.format("id:%d date:%s phone:%s body:%s;\r\n", id,
 				sdf.format(date), phoneName, body);
+	}
+	public JSONObject toJSON(){
+		JSONObject obj=new JSONObject();
+		try{
+			obj.put("time", date.getTime());
+			obj.put("number", phoneName);
+			obj.put("text", body);
+		}catch(Exception ex){
+			Log.e("log item", ex.toString());
+		}
+		return obj;
 	}
 }

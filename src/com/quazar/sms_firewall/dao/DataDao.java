@@ -4,6 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.json.JSONObject;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -12,26 +15,29 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import com.quazar.sms_firewall.models.Filter;
 import com.quazar.sms_firewall.models.Filter.FilterType;
-import com.quazar.sms_firewall.models.LogItem;
-import com.quazar.sms_firewall.models.LogItem.LogStatus;
+import com.quazar.sms_firewall.models.SmsLogItem;
+import com.quazar.sms_firewall.models.SmsLogItem.LogStatus;
+import com.quazar.sms_firewall.models.Request;
 import com.quazar.sms_firewall.models.TopItem;
-import com.quazar.sms_firewall.models.TopItem.TopTypes;
+import com.quazar.sms_firewall.models.TopItem.TopCategory;
+import com.quazar.sms_firewall.network.ApiClient.ApiMethods;
 
 public class DataDao extends SQLiteOpenHelper{
 	private static final String DB_NAME="sms_firewall";
 	private static final String[] createSql= {"CREATE TABLE filters (_id integer PRIMARY KEY AUTOINCREMENT, type integer, value text NOT NULL)",
 			"CREATE TABLE logs(_id integer PRIMARY KEY AUTOINCREMENT, add_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, phone_name TEXT NOT NULL, body TEXT NOT NULL, status INTEGER DEFAULT 0)",
-			"CREATE TABLE tops(_id integer PRIMARY KEY AUTOINCREMENT, pos integer NOT NULL, phone_name text NOT NULL, votes integer DEFAULT 0, type integer)"},
-			dropSql= {"DROP TABLE IF EXISTS filters","DROP TABLE IF EXISTS logs","DROP IF EXISTS TABLE tops"};
+			"CREATE TABLE tops(_id integer PRIMARY KEY AUTOINCREMENT, pos integer NOT NULL, phone_name text NOT NULL, votes integer DEFAULT 0, type integer)",
+			"CREATE TABLE requests(_id integer PRIMARY KEY AUTOINCREMENT, method text NOT NULL, data text NOT NULL, add_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"},
+			dropSql= {"DROP TABLE IF EXISTS filters","DROP TABLE IF EXISTS logs","DROP IF EXISTS TABLE tops","DROP IF EXISTS TABLE requests"};
 
 	private static final SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");	
 	// cache
-	private static List<LogItem> logs=null;
+	private static List<SmsLogItem> logs=null;
 	private static List<Filter> filters=null;
 	private static List<TopItem> tops=null;
 
 	public DataDao(Context context){
-		super(context, DB_NAME, null, 1);		
+		super(context, DB_NAME, null, 2);		
 	}
 
 	@Override
@@ -95,16 +101,16 @@ public class DataDao extends SQLiteOpenHelper{
 		return result;
 	}
 	// ------------------Logs-----------------------------------
-	public List<LogItem> getLogs(LogStatus status){
+	public List<SmsLogItem> getLogs(LogStatus status){
 		if(logs!=null)
 			return filterLogsByStatus(status);
 		try{
-			logs=new ArrayList<LogItem>();
+			logs=new ArrayList<SmsLogItem>();
 			SQLiteDatabase dbase=getReadableDatabase();
 			Cursor cursor=dbase.query("logs", null, null, null, null, null, null);
 			int idIdx=cursor.getColumnIndex("_id"), phoneNameIdx=cursor.getColumnIndex("phone_name"), bodyIdx=cursor.getColumnIndex("body"), addTimeIdx=cursor.getColumnIndex("add_time"), statusIdx=cursor.getColumnIndex("status");
 			while(cursor.moveToNext()){				
-				logs.add(new LogItem(cursor.getInt(idIdx), cursor.getString(phoneNameIdx), cursor.getString(bodyIdx), sdf.parse(cursor.getString(addTimeIdx)), cursor.getInt(statusIdx)));
+				logs.add(new SmsLogItem(cursor.getInt(idIdx), cursor.getString(phoneNameIdx), cursor.getString(bodyIdx), sdf.parse(cursor.getString(addTimeIdx)), cursor.getInt(statusIdx)));
 			}
 			cursor.close();
 			dbase.close();
@@ -123,20 +129,20 @@ public class DataDao extends SQLiteOpenHelper{
 		int result=(int)dbase.insert("logs", null, cv);
 		if(logs==null)
 			getLogs(LogStatus.BLOCKED);
-		logs.add(new LogItem(result, phoneName, body, new Date(), status.ordinal()));
+		logs.add(new SmsLogItem(result, phoneName, body, new Date(), status.ordinal()));
 		dbase.close();
 		return result;
 	}
-	private List<LogItem> filterLogsByStatus(LogStatus status){
-		List<LogItem> result=new ArrayList<LogItem>();
-		for(LogItem li:logs){
+	private List<SmsLogItem> filterLogsByStatus(LogStatus status){
+		List<SmsLogItem> result=new ArrayList<SmsLogItem>();
+		for(SmsLogItem li:logs){
 			if(li.getStatus()==status)
 				result.add(li);
 		}
 		return result;
 	}
 	// ------------------Tops--------------------------------
-	public List<TopItem> getTop(TopTypes type){
+	public List<TopItem> getTop(TopCategory type){
 		if(tops!=null)
 			return tops;
 		SQLiteDatabase dbase=getReadableDatabase();
@@ -166,5 +172,42 @@ public class DataDao extends SQLiteOpenHelper{
 		dbase.setTransactionSuccessful();
 		dbase.endTransaction();
 		dbase.close();
+	}
+	//-----------------Requests------------------------
+	public List<Request> getRequests(){		
+		SQLiteDatabase dbase=getReadableDatabase();		
+		Cursor cursor=dbase.rawQuery("SELECT * FROM requests ORDER BY add_time", null);
+		int methodIdx=cursor.getColumnIndex("method"), dataIdx=cursor.getColumnIndex("data");
+		List<Request> requets=new ArrayList<Request>();
+		try{
+		while(cursor.moveToNext()){			
+			requets.add(new Request(ApiMethods.valueOf(cursor.getString(methodIdx)), new JSONObject(cursor.getString(dataIdx))));
+		}
+		}catch(Exception ex){
+			Log.e("dao", ex.toString());
+		}
+		finally{
+			cursor.close();
+			dbase.close();
+		}		
+		return requets;
+	}
+	public boolean clearRequests(){		
+		SQLiteDatabase dbase=getWritableDatabase();
+		dbase.beginTransaction();
+		dbase.delete("requests", null, null);		
+		dbase.setTransactionSuccessful();
+		dbase.endTransaction();
+		dbase.close();
+		return true;
+	}
+	public int insertRequest(ApiMethods method, JSONObject data){
+		ContentValues cv=new ContentValues();		
+		cv.put("method", method.name());
+		cv.put("data", data.toString());		
+		SQLiteDatabase dbase=getWritableDatabase();
+		int result=(int)dbase.insert("requests", null, cv);		
+		dbase.close();
+		return result;
 	}
 }

@@ -1,5 +1,9 @@
 package com.quazar.sms_firewall.models;
 
+import org.json.JSONObject;
+
+import android.util.Log;
+
 public class Filter {
 	public enum FilterType {
 		PHONE_NAME, WORD, REGEXP
@@ -35,5 +39,15 @@ public class Filter {
 			return !body.contains(value);
 		}
 		return false;
+	}
+	public JSONObject toJSON(){
+		JSONObject obj=new JSONObject();
+		try{
+			obj.put("type", type.ordinal());
+			obj.put("value", value);
+		}catch(Exception ex){
+			Log.e("filter", ex.toString());
+		}
+		return obj;
 	}
 }
