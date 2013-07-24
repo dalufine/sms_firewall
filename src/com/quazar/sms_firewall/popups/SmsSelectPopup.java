@@ -13,25 +13,33 @@ import android.widget.SimpleAdapter;
 
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.utils.ContentUtils;
+import com.quazar.sms_firewall.utils.DialogUtils;
 
 public class SmsSelectPopup extends AlertDialog {	
 	public SmsSelectPopup(final Context context, final SelectListener<HashMap<String, Object>> listener) {
 		super(context);
-		View v = getLayoutInflater().inflate(R.layout.sms_list, null);
-		ListView listView = (ListView) v.findViewById(R.id.sms_list);
 		final List<HashMap<String, Object>> sms = ContentUtils.getInboxSms(context);
-		listView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				listener.recieveSelection(sms.get(position));
-				dismiss();
-			}
-		});		
-		SimpleAdapter adapter = new SimpleAdapter(context, sms,
-				R.layout.sms_list_item, new String[] {ContentUtils.SMS_NUMBER, ContentUtils.SMS_TEXT},
-				new int[] {R.id.sms_number, R.id.sms_text});
-		listView.setAdapter(adapter);
-		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		setView(v);
+		if(!sms.isEmpty()){
+			View v = getLayoutInflater().inflate(R.layout.sms_list, null);
+			ListView listView = (ListView) v.findViewById(R.id.sms_list);		
+			listView.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					listener.recieveSelection(sms.get(position));
+					dismiss();
+				}
+			});		
+			SimpleAdapter adapter = new SimpleAdapter(context, sms,
+					R.layout.sms_list_item, new String[] {ContentUtils.SMS_NUMBER, ContentUtils.SMS_TEXT},
+					new int[] {R.id.sms_number, R.id.sms_text});
+			listView.setAdapter(adapter);
+			listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+			setView(v);
+		}else{	
+			DialogUtils.createWarningDialog(this, context.getResources()
+					.getString(R.string.warning), context.getResources()
+					.getString(R.string.no_sms_warn), context.getResources()
+					.getString(R.string.ok));					        
+		}
 	}	
 }

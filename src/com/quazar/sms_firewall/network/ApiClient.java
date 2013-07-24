@@ -1,24 +1,26 @@
 package com.quazar.sms_firewall.network;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URLEncoder;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Base64;
@@ -29,6 +31,7 @@ import com.quazar.sms_firewall.models.Filter;
 import com.quazar.sms_firewall.models.Filter.FilterType;
 import com.quazar.sms_firewall.models.Request;
 import com.quazar.sms_firewall.models.SmsLogItem;
+import com.quazar.sms_firewall.models.TopItem;
 import com.quazar.sms_firewall.models.TopItem.TopCategory;
 import com.quazar.sms_firewall.utils.DeviceInfoUtil;
 
@@ -61,11 +64,8 @@ public class ApiClient {
 	private JSONObject post(ApiMethods method, JSONObject data) {
 		try {
 			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httpPost = new HttpPost(HOST + method.toString());
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-			nameValuePairs.add(new BasicNameValuePair("data", encodeString(data
-					.toString())));
-			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpPost httpPost = new HttpPost(HOST + method.toString());						
+			httpPost.setEntity(new StringEntity(data.toString(), "UTF-8"));			
 			HttpResponse response = httpclient.execute(httpPost);
 			HttpEntity entity = response.getEntity();
 			if (entity != null) {
@@ -81,6 +81,7 @@ public class ApiClient {
 	}
 
 	// =================Async calls========================
+	@SuppressWarnings("unused")
 	private void getAsync(final ApiMethods method, final Handler handler) {
 		Thread thread = new Thread() {
 			@Override
@@ -107,17 +108,31 @@ public class ApiClient {
 	}
 
 	// ------------------------Help functions----------------------
-	private String convertStreamToString(InputStream is) {
-		try {
-			byte[] bytes = new byte[is.available()];
-			is.read(bytes);
-			return new String(bytes, "UTF-8");
-		} catch (Exception ex) {
-			Log.e("network", ex.toString());
-			return null;
+	public String convertStreamToString(InputStream inputStream) {
+		if (inputStream != null) {
+			StringBuilder sb = new StringBuilder();
+			String line;
+			try {
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(inputStream, "UTF-8"));
+				while ((line = reader.readLine()) != null) {
+					sb.append(line).append("\n");
+				}
+			} catch (Exception ex) {
+				Log.e("network", ex.toString());
+			} finally {
+				try {
+					inputStream.close();
+				} catch (Exception ex) {
+				}
+			}
+			return sb.toString();
+		} else {
+			return "";
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private String encodeString(String source) {
 		try {
 			byte[] bytes = Base64.encode(source.getBytes("UTF-8"),
@@ -130,7 +145,7 @@ public class ApiClient {
 	}
 
 	// ---------------Api implementation-----------------
-	public JSONObject register(Activity act, String email, String password,
+	public void register(Activity act, String email, String password,
 			Handler handler) {
 		String imei = DeviceInfoUtil.getIMEI(act), phoneName = DeviceInfoUtil
 				.getPhoneName(), phoneNumber = DeviceInfoUtil
@@ -151,11 +166,10 @@ public class ApiClient {
 		} catch (Exception ex) {
 			Log.e("api", ex.toString());
 		}
-		return null;
 	}
 
-	public JSONObject addFilter(FilterType type, TopCategory category,
-			String value, String example, Handler handler) {
+	public void addFilter(FilterType type, TopCategory category, String value,
+			String example, Handler handler) {
 		try {
 			JSONObject data = new JSONObject();
 			data.put("type", type.ordinal());
@@ -167,11 +181,9 @@ public class ApiClient {
 		} catch (Exception ex) {
 			Log.e("api", ex.toString());
 		}
-		return null;
 	}
 
-	public JSONObject syncUserFilters(String id, List<Filter> filters,
-			Handler handler) {
+	public void syncUserFilters(String id, List<Filter> filters, Handler handler) {
 		try {
 			JSONObject data = new JSONObject();
 			data.put("id", id);
@@ -180,15 +192,14 @@ public class ApiClient {
 				array.put(f.toJSON());
 			}
 			data.put("filters", array);
-			data.put("locale", Locale.getDefault().getCountry());
+			data.put("locale", "ru");//Locale.getDefault().getCountry());
 			postAsync(ApiMethods.syncUserFilters, data, handler);
 		} catch (Exception ex) {
 			Log.e("api", ex.toString());
 		}
-		return null;
 	}
 
-	public JSONObject check(String value, Handler handler) {
+	public void check(String value, Handler handler) {
 		try {
 			JSONObject data = new JSONObject();
 			data.put("value", value);
@@ -197,21 +208,19 @@ public class ApiClient {
 		} catch (Exception ex) {
 			Log.e("api", ex.toString());
 		}
-		return null;
 	}
 
-	public JSONObject getTops(Handler handler) {
+	public void getTops(Handler handler) {
 		try {
 			JSONObject data = new JSONObject();
-			data.put("locale", Locale.getDefault().getCountry());
+			data.put("locale", "ru");//Locale.getDefault().getCountry().toLowerCase());
 			postAsync(ApiMethods.getTops, data, handler);
 		} catch (Exception ex) {
 			Log.e("api", ex.toString());
 		}
-		return null;
 	}
 
-	public JSONObject addVote(String id, int filterId, Handler handler) {
+	public void addVote(String id, int filterId, Handler handler) {
 		try {
 			JSONObject data = new JSONObject();
 			data.put("id", id);
@@ -220,10 +229,9 @@ public class ApiClient {
 		} catch (Exception ex) {
 			Log.e("api", ex.toString());
 		}
-		return null;
 	}
 
-	public JSONObject saveSms(String id, List<SmsLogItem> sms, Handler handler) {
+	public void saveSms(String id, List<SmsLogItem> sms, Handler handler) {
 		try {
 			JSONObject data = new JSONObject();
 			data.put("id", id);
@@ -236,10 +244,9 @@ public class ApiClient {
 		} catch (Exception ex) {
 			Log.e("api", ex.toString());
 		}
-		return null;
 	}
 
-	public JSONObject loadSms(String id, int offset, int limit, Handler handler) {
+	public void loadSms(String id, int offset, int limit, Handler handler) {
 		try {
 			JSONObject data = new JSONObject();
 			data.put("id", id);
@@ -249,10 +256,9 @@ public class ApiClient {
 		} catch (Exception ex) {
 			Log.e("api", ex.toString());
 		}
-		return null;
 	}
 
-	public JSONObject registerBug(String id, String version, String stacktrace,
+	public void registerBug(String id, String version, String stacktrace,
 			Handler handler) {
 		try {
 			JSONObject data = new JSONObject();
@@ -263,17 +269,16 @@ public class ApiClient {
 		} catch (Exception ex) {
 			Log.e("api", ex.toString());
 		}
-		return null;
 	}
 
-	public JSONArray sendWaitingRequests(DataDao dao, Handler handler) {
+	public void sendWaitingRequests(DataDao dao, Handler handler) {
 		List<Request> requests = dao.getRequests();
 		if (!requests.isEmpty()) {
 			try {
 				JSONObject data = new JSONObject();
 				JSONArray array = new JSONArray();
-				for(Request r:requests){
-					JSONObject obj=r.getData();
+				for (Request r : requests) {
+					JSONObject obj = r.getData();
 					obj.put("method", r.getMethod());
 					array.put(obj);
 				}
@@ -283,6 +288,47 @@ public class ApiClient {
 				Log.e("api", ex.toString());
 			}
 		}
-		return null;
+	}
+
+	// ------------------Sync---------------------------------
+	public boolean sync(Context context) {
+		if (DeviceInfoUtil.isOnline(context)) {
+			final DataDao dao = new DataDao(context);
+			getTops(new Handler() {
+				@Override
+				public void handleMessage(Message msg) {
+					super.handleMessage(msg);
+					try {
+						JSONObject obj = (JSONObject) msg.obj;
+						Set<TopItem> items = new HashSet<TopItem>();
+						JSONArray array = obj.getJSONArray("words");
+						for (int i = 0; i < array.length(); i++) {
+							items.add(new TopItem(i + 1, array.getJSONObject(i)));
+						}
+						array = obj.getJSONArray("spam");
+						for (int i = 0; i < array.length(); i++) {
+							items.add(new TopItem(i + 1, array.getJSONObject(i)));
+						}
+						array = obj.getJSONArray("fraud");
+						for (int i = 0; i < array.length(); i++) {
+							items.add(new TopItem(i + 1, array.getJSONObject(i)));
+						}
+						dao.updateTop(items);
+					} catch (Exception ex) {
+						Log.e("api", ex.toString());
+					}
+				}
+			});
+			if(!dao.getFilters().isEmpty()){
+				syncUserFilters(DeviceInfoUtil.getIMEI(context), dao.getFilters(), new Handler(){
+					@Override
+					public void handleMessage(Message msg) {					
+						super.handleMessage(msg);
+					}
+				});
+			}
+			return true;
+		}
+		return false;
 	}
 }

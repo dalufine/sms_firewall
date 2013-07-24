@@ -3,23 +3,26 @@ package com.quazar.sms_firewall.activities;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TabHost;
+
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.dao.DataDao;
 import com.quazar.sms_firewall.models.SmsLogItem;
 import com.quazar.sms_firewall.models.SmsLogItem.LogStatus;
 import com.quazar.sms_firewall.utils.ContentUtils;
+import com.quazar.sms_firewall.utils.DictionaryUtils;
 
 public class LogsActivity extends Activity{
 	private static DataDao dataDao;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);		
 		setContentView(R.layout.activity_logs);
 		TabHost tabHost=(TabHost)findViewById(R.id.logs_tabhost);
 		tabHost.setup();
@@ -55,11 +58,11 @@ public class LogsActivity extends Activity{
 			HashMap<String, Object> map=new HashMap<String, Object>();
 			map.put("id", log.getId());
 			map.put("date", ContentUtils.getDateFormater().format(log.getDate()));
-			map.put("body", log.getBody());
-			map.put("number", log.getPhoneName());
+			map.put("body", log.getBody());			
+			map.put("contact", DictionaryUtils.getInstance().getContactsName(log.getPhoneName()));
 			list.add(map);
 		}
-		return new SimpleAdapter(this, list, R.layout.logs_list_item, new String[]{"date", "body", "number"}, new int[]{
-				R.id.log_date, R.id.log_body, R.id.log_number});
+		return new SimpleAdapter(this, list, R.layout.logs_list_item, new String[]{"date", "body", "contact"}, new int[]{
+				R.id.log_date, R.id.log_body, R.id.log_contact});
 	}
 }

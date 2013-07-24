@@ -50,12 +50,12 @@ public final class R {
         public static final int item_text=0x7f08003e;
         public static final int language_select=0x7f080019;
         public static final int log_body=0x7f080038;
+        public static final int log_contact=0x7f080037;
         public static final int log_date=0x7f080036;
-        public static final int log_number=0x7f080037;
         public static final int logo=0x7f08000c;
         public static final int logs=0x7f080016;
         public static final int logs_tabhost=0x7f080005;
-        public static final int menu_settings=0x7f080043;
+        public static final int menu_settings=0x7f080042;
         public static final int nav_panel=0x7f080014;
         public static final int ok_btn=0x7f080033;
         public static final int password_cancel_btn=0x7f080030;
@@ -83,7 +83,6 @@ public final class R {
         public static final int top_filter_on=0x7f08001b;
         public static final int top_place=0x7f08003f;
         public static final int top_value=0x7f080040;
-        public static final int top_vote_item=0x7f080042;
         public static final int top_votes=0x7f080041;
         public static final int tops=0x7f080017;
         public static final int tops_tabhost=0x7f080020;
@@ -134,6 +133,8 @@ public final class R {
         public static final int journal=0x7f040018;
         public static final int language=0x7f040022;
         public static final int logs=0x7f040009;
+        public static final int no_income_calls=0x7f040026;
+        public static final int no_sms_warn=0x7f040024;
         public static final int numbers=0x7f04000d;
         public static final int ok=0x7f040011;
         public static final int phone_number=0x7f040007;
@@ -151,6 +152,7 @@ public final class R {
         public static final int sync_on=0x7f04001c;
         public static final int top_filter_on=0x7f04001d;
         public static final int tops=0x7f04001b;
+        public static final int warning=0x7f040025;
         public static final int word=0x7f040006;
         public static final int words=0x7f04000e;
     }

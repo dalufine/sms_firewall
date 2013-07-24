@@ -8,16 +8,21 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
+
+import com.quazar.sms_firewall.Param;
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.StateManager;
 import com.quazar.sms_firewall.dao.DataDao;
 import com.quazar.sms_firewall.models.Filter.FilterType;
+import com.quazar.sms_firewall.network.ApiClient;
 import com.quazar.sms_firewall.popups.CallsSelectPopup;
 import com.quazar.sms_firewall.popups.EnterValuePopup;
 import com.quazar.sms_firewall.popups.SelectListener;
 import com.quazar.sms_firewall.popups.SelectSourcePopup;
 import com.quazar.sms_firewall.popups.SmsSelectPopup;
 import com.quazar.sms_firewall.utils.ContentUtils;
+import com.quazar.sms_firewall.utils.DictionaryUtils;
 
 public class MainActivity extends Activity{
 	private static DataDao dataDao;
@@ -25,11 +30,28 @@ public class MainActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.activity_main);
 		dataDao=new DataDao(this);
+		DictionaryUtils.createInstance(this);		
+		Param.load(this);
+		ApiClient api=new ApiClient();
+		api.sync(this);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.activity_main);		
+		updateStatisticsViews();
 	}
-
+	@Override
+	protected void onResume() {		
+		super.onResume();
+		updateStatisticsViews();
+	}
+	private void updateStatisticsViews(){
+		TextView tv=(TextView)findViewById(R.id.stat_blocked);
+		tv.setText(String.format(tv.getText().toString().replaceAll("\\d", "%d"), (Integer)Param.BLOCKED_SMS_CNT.getValue()));
+		tv=(TextView)findViewById(R.id.stat_recieved);
+		tv.setText(String.format(tv.getText().toString().replaceAll("\\d", "%d"), (Integer)Param.RECIEVED_SMS_CNT.getValue()));
+		tv=(TextView)findViewById(R.id.stat_suspicious);
+		tv.setText(String.format(tv.getText().toString().replaceAll("\\d", "%d"), (Integer)Param.SUSPICIOUS_SMS_CNT.getValue()));
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
 		// Inflate the menu; this adds items to the action bar if it is present.

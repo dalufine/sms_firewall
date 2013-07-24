@@ -3,6 +3,7 @@ package com.quazar.sms_firewall.activities;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,12 +12,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TabHost;
+
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.dao.DataDao;
 import com.quazar.sms_firewall.models.Filter;
 import com.quazar.sms_firewall.models.Filter.FilterType;
 import com.quazar.sms_firewall.popups.MenuPopup;
 import com.quazar.sms_firewall.popups.SelectListener;
+import com.quazar.sms_firewall.utils.DictionaryUtils;
 
 public class FiltersActivity extends Activity{
 	private static DataDao dataDao;
@@ -72,7 +75,9 @@ public class FiltersActivity extends Activity{
 		for(Filter filter:filters){
 			if(filter.getType()==type){
 				HashMap<String, Object> map=new HashMap<String, Object>();
-				map.put("filter_value", filter.getValue());
+				if(type==FilterType.PHONE_NAME)
+					map.put("filter_value", DictionaryUtils.getInstance().getContactsName(filter.getValue()));
+				else map.put("filter_value", filter.getValue());
 				map.put("type", type);
 				map.put("id", filter.getId());
 				list.add(map);

@@ -13,28 +13,40 @@ import android.widget.SimpleAdapter;
 
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.utils.ContentUtils;
+import com.quazar.sms_firewall.utils.DialogUtils;
 
 public class CallsSelectPopup extends AlertDialog {
-	public CallsSelectPopup(final Context context, final SelectListener<HashMap<String, Object>> listener) {
+	public CallsSelectPopup(final Context context,
+			final SelectListener<HashMap<String, Object>> listener) {
 		super(context);
-		View v = getLayoutInflater().inflate(R.layout.calls_list, null);
-		ListView listView = (ListView) v.findViewById(R.id.calls_list);
-		final List<HashMap<String, Object>> sources = ContentUtils.getIncomeCalls(context);
-		listView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				listener.recieveSelection(sources.get(position));
-				CallsSelectPopup.this.dismiss();
-			}
-		});		
-		SimpleAdapter adapter = new SimpleAdapter(context, sources,
-				R.layout.calls_list_item, new String[] {
-						ContentUtils.CALLS_NAME,
-						ContentUtils.CALLS_DURATION, ContentUtils.CALLS_DATE },
-				new int[] {R.id.call_name,
-						R.id.call_duration, R.id.call_date });
-		listView.setAdapter(adapter);
-		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		setView(v);
+		final List<HashMap<String, Object>> sources = ContentUtils
+				.getIncomeCalls(context);
+		if (!sources.isEmpty()) {
+			View v = getLayoutInflater().inflate(R.layout.calls_list, null);
+			ListView listView = (ListView) v.findViewById(R.id.calls_list);
+			listView.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					listener.recieveSelection(sources.get(position));
+					CallsSelectPopup.this.dismiss();
+				}
+			});
+			SimpleAdapter adapter = new SimpleAdapter(context, sources,
+					R.layout.calls_list_item, new String[] {
+							ContentUtils.CALLS_NAME,
+							ContentUtils.CALLS_DURATION,
+							ContentUtils.CALLS_DATE },
+					new int[] { R.id.call_name, R.id.call_duration,
+							R.id.call_date });
+			listView.setAdapter(adapter);
+			listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+			setView(v);
+		} else {
+			DialogUtils.createWarningDialog(this, context.getResources()
+					.getString(R.string.warning), context.getResources()
+					.getString(R.string.no_income_calls), context.getResources()
+					.getString(R.string.ok));
+		}
 	}
 }

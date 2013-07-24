@@ -23,20 +23,11 @@ public class ContentUtils {
 		ContentResolver cr = activity.getContentResolver();
 		Cursor cur = cr.query(contentUri, null, null, null, null);
 		while (cur.moveToNext()) {
-			String id = cur.getString(cur
-					.getColumnIndex(ContactsContract.Contacts._ID));
-			if (Integer
-					.parseInt(cur.getString(cur
-							.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
-				Cursor pCur = cr.query(
-						ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-						null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID
-								+ " = ?", new String[] { id }, null);
-				while (pCur.moveToNext()) {
-					return pCur
-							.getString(
-									pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-							.replaceAll("[\\-\\s\\(\\)]", "");
+			String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
+			if (Integer.parseInt(cur.getString(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+				Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[] { id }, null);
+				if(pCur.moveToNext()) {
+					return pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).replaceAll("[\\-\\s\\(\\)]", "");
 				}
 				pCur.close();
 			}

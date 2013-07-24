@@ -13,9 +13,9 @@
             android:id="@+id/log_date"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:textSize="12sp"/>
+            android:textSize="12sp"/>        
         <TextView
-            android:id="@+id/log_number"
+            android:id="@+id/log_contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"

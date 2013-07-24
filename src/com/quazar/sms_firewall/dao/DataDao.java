@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONObject;
 
@@ -13,31 +14,32 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
 import com.quazar.sms_firewall.models.Filter;
 import com.quazar.sms_firewall.models.Filter.FilterType;
+import com.quazar.sms_firewall.models.Request;
 import com.quazar.sms_firewall.models.SmsLogItem;
 import com.quazar.sms_firewall.models.SmsLogItem.LogStatus;
-import com.quazar.sms_firewall.models.Request;
 import com.quazar.sms_firewall.models.TopItem;
 import com.quazar.sms_firewall.models.TopItem.TopCategory;
+import com.quazar.sms_firewall.models.TopItem.TopType;
 import com.quazar.sms_firewall.network.ApiClient.ApiMethods;
 
 public class DataDao extends SQLiteOpenHelper{
 	private static final String DB_NAME="sms_firewall";
-	private static final String[] createSql= {"CREATE TABLE filters (_id integer PRIMARY KEY AUTOINCREMENT, type integer, value text NOT NULL)",
-			"CREATE TABLE logs(_id integer PRIMARY KEY AUTOINCREMENT, add_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, phone_name TEXT NOT NULL, body TEXT NOT NULL, status INTEGER DEFAULT 0)",
-			"CREATE TABLE tops(_id integer PRIMARY KEY AUTOINCREMENT, pos integer NOT NULL, phone_name text NOT NULL, votes integer DEFAULT 0, type integer)",
-			"CREATE TABLE requests(_id integer PRIMARY KEY AUTOINCREMENT, method text NOT NULL, data text NOT NULL, add_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"},
-			dropSql= {"DROP TABLE IF EXISTS filters","DROP TABLE IF EXISTS logs","DROP IF EXISTS TABLE tops","DROP IF EXISTS TABLE requests"};
+	private static final String[] createSql= {"CREATE TABLE filters (_id INTEGER PRIMARY KEY AUTOINCREMENT, type INTEGER, value TEXT NOT NULL)",
+			"CREATE TABLE logs(_id INTEGER PRIMARY KEY AUTOINCREMENT, add_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, phone_name TEXT NOT NULL, body TEXT NOT NULL, status INTEGER DEFAULT 0)",
+			"CREATE TABLE tops(_id INTEGER PRIMARY KEY, pos INTEGER NOT NULL, value TEXT NOT NULL, example TEXT, votes INTEGER DEFAULT 0, type INTEGER, category INTEGER)",
+			"CREATE TABLE requests(_id INTEGER PRIMARY KEY AUTOINCREMENT, method TEXT NOT NULL, data TEXT NOT NULL, add_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"},
+			dropSql= {"DROP TABLE IF EXISTS filters","DROP TABLE IF EXISTS logs","DROP TABLE IF EXISTS tops","DROP TABLE IF EXISTS requests"};
 
 	private static final SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");	
 	// cache
 	private static List<SmsLogItem> logs=null;
-	private static List<Filter> filters=null;
-	private static List<TopItem> tops=null;
+	private static List<Filter> filters=null;	
 
 	public DataDao(Context context){
-		super(context, DB_NAME, null, 2);		
+		super(context, DB_NAME, null, 4);		
 	}
 
 	@Override
@@ -59,7 +61,7 @@ public class DataDao extends SQLiteOpenHelper{
 			return filters;
 		filters=new ArrayList<Filter>();
 		SQLiteDatabase dbase=getReadableDatabase();
-		Cursor cursor=dbase.rawQuery("SELECT * FROM filters", null);
+		Cursor cursor=dbase.rawQuery("SELECT * FROM filters ORDER BY _id DESC", null);
 		int idIdx=cursor.getColumnIndex("_id"), valueIdx=cursor.getColumnIndex("value"), typeIdx=cursor.getColumnIndex("type");
 		while(cursor.moveToNext()){
 			filters.add(new Filter(cursor.getInt(idIdx), cursor.getString(valueIdx), cursor.getInt(typeIdx)));
@@ -107,7 +109,7 @@ public class DataDao extends SQLiteOpenHelper{
 		try{
 			logs=new ArrayList<SmsLogItem>();
 			SQLiteDatabase dbase=getReadableDatabase();
-			Cursor cursor=dbase.query("logs", null, null, null, null, null, null);
+			Cursor cursor=dbase.query("logs", null, null, null, null, null, "_id DESC");
 			int idIdx=cursor.getColumnIndex("_id"), phoneNameIdx=cursor.getColumnIndex("phone_name"), bodyIdx=cursor.getColumnIndex("body"), addTimeIdx=cursor.getColumnIndex("add_time"), statusIdx=cursor.getColumnIndex("status");
 			while(cursor.moveToNext()){				
 				logs.add(new SmsLogItem(cursor.getInt(idIdx), cursor.getString(phoneNameIdx), cursor.getString(bodyIdx), sdf.parse(cursor.getString(addTimeIdx)), cursor.getInt(statusIdx)));
@@ -142,31 +144,43 @@ public class DataDao extends SQLiteOpenHelper{
 		return result;
 	}
 	// ------------------Tops--------------------------------
-	public List<TopItem> getTop(TopCategory type){
-		if(tops!=null)
-			return tops;
+	public List<TopItem> getTop(TopType type, TopCategory category){		
 		SQLiteDatabase dbase=getReadableDatabase();
-		tops=new ArrayList<TopItem>();
-		Cursor cursor=dbase.rawQuery("SELECT * FROM tops", null);
-		int idIdx=cursor.getColumnIndex("_id"), posIdx=cursor.getColumnIndex("pos"), votesIdx=cursor.getColumnIndex("votes"), phoneNameIdx=cursor.getColumnIndex("phone_name"), typeIdx=cursor.getColumnIndex("type");
+		List<TopItem> tops=new ArrayList<TopItem>();
+		String sql="SELECT * FROM tops WHERE";
+		boolean hasCond=false;
+		if(type!=TopType.GENERIC){
+			sql+=" type="+type.ordinal();
+			hasCond=true;
+		}
+		if(category!=TopCategory.GENERIC){
+			if(hasCond)
+				sql+=" AND";
+			sql+=" category="+category.ordinal();
+		}
+		Cursor cursor=dbase.rawQuery(sql, null);
+		int idIdx=cursor.getColumnIndex("_id"), posIdx=cursor.getColumnIndex("pos"), votesIdx=cursor.getColumnIndex("votes"), valueIdx=cursor.getColumnIndex("value"), 
+				typeIdx=cursor.getColumnIndex("type"), categoryIdx=cursor.getColumnIndex("category"), exampleIdx=cursor.getColumnIndex("example");
 		while(cursor.moveToNext()){			
-			tops.add(new TopItem(cursor.getInt(idIdx), cursor.getInt(posIdx), cursor.getInt(votesIdx), cursor.getString(phoneNameIdx), cursor.getInt(typeIdx)));
+			tops.add(new TopItem(cursor.getInt(idIdx), cursor.getInt(posIdx), cursor.getInt(votesIdx), cursor.getString(valueIdx), cursor.getString(exampleIdx), cursor.getInt(typeIdx), cursor.getInt(categoryIdx)));
 		}
 		cursor.close();
 		dbase.close();
 		return tops;
 	}
-	public void updateTop(List<TopItem> newTop){
-		tops=newTop;
+	public void updateTop(Set<TopItem> newTop){		
 		SQLiteDatabase dbase=getWritableDatabase();
 		dbase.beginTransaction();
 		dbase.delete("tops", null, null);
-		for(TopItem ti:tops){
+		for(TopItem ti:newTop){
 			ContentValues cv=new ContentValues();
+			cv.put("_id", ti.getId());
 			cv.put("pos", ti.getPos());
-			cv.put("phone_name", ti.getPhoneName());
+			cv.put("value", ti.getValue());
+			cv.put("example", ti.getExample());
 			cv.put("votes", ti.getVotes());
 			cv.put("type", ti.getType().ordinal());
+			cv.put("category", ti.getCategory().ordinal());
 			dbase.insert("tops", null, cv);
 		}
 		dbase.setTransactionSuccessful();
