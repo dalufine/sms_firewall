@@ -50,4 +50,19 @@
     <string name="no_sms_warn">There is no inbox sms!</string>
     <string name="warning">Warning!</string>
     <string name="no_income_calls">There is no income calls</string>
+    <string name="mobile_internet">Mobile Internet</string>
+    <string name="wi_fi">Wi-fi</string>
+    <string name="close">Close</string>
+    <string name="inet_conn_on">Turn on Internet connection!</string>
+    <string name="registration_welcome">Registartion welcome</string>
+    <string name="sync_filters_text">Check this option to sync your filters:</string>
+    <string name="sync_filters">sync filters</string>
+    <string name="use_email_text">Check this option to sync by e-mail on other devices:</string>
+    <string name="use_email">use e-mail</string>
+    <string name="your_email">Your e-mail:</string>
+    <string name="enter_password_text">Enter password for secure store of your sms logs:</string>
+    <string name="send_suspicious_text">Give us oppotunity to improve Sms Firewall:</string>
+    <string name="send_suspicious">send suspicious sms</string>
+    <string name="enter_email">Please, enter your e-mail!</string>
+    <string name="password_length_error">Password too short, min lenght is 8 chars</string>    
 </resources>

@@ -22,8 +22,9 @@ public class DeviceInfoUtil {
 	public static boolean isOnline(Context context) {
 		ConnectivityManager cm = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo netInfo = cm.getActiveNetworkInfo();
-		if (netInfo != null && netInfo.isConnected()) {
+		NetworkInfo netInfo = cm.getActiveNetworkInfo();		
+		if (netInfo != null && netInfo.isConnected()&&(netInfo.getType() == ConnectivityManager.TYPE_WIFI||
+				netInfo.getType() == ConnectivityManager.TYPE_MOBILE&&!netInfo.isRoaming())) {
 			return true;
 		}
 		return false;

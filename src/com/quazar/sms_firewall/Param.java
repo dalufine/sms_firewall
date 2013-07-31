@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public enum Param {
-	IS_NEW(true), BLOCKED_SMS_CNT(0), RECIEVED_SMS_CNT(0), SUSPICIOUS_SMS_CNT(0), LAST_SYNC(0L);
+	IS_NEW(true), BLOCKED_SMS_CNT(0), RECIEVED_SMS_CNT(0), SUSPICIOUS_SMS_CNT(0), LAST_SYNC(0L), LOGS_PASSWORD(null), USE_SYNC(false), USER_EMAIL(null), SEND_SUSPICIOUS(true);
 	private Object value;
 	private static SharedPreferences store;
 	private static boolean loaded;

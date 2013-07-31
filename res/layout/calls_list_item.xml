@@ -15,14 +15,14 @@
         android:id="@+id/call_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"        
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:gravity="left" 
         android:layout_marginLeft="5dp"/>
     <TextView
         android:id="@+id/call_duration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"        
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:gravity="left" 
         android:layout_marginLeft="5dp"/>
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.quazar.sms_firewall.activities;
 
 import java.util.HashMap;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -46,11 +47,11 @@ public class MainActivity extends Activity{
 	}
 	private void updateStatisticsViews(){
 		TextView tv=(TextView)findViewById(R.id.stat_blocked);
-		tv.setText(String.format(tv.getText().toString().replaceAll("\\d", "%d"), (Integer)Param.BLOCKED_SMS_CNT.getValue()));
+		tv.setText(String.format(tv.getText().toString().replaceAll("[0-9]{1,}", "%d"), (Integer)Param.BLOCKED_SMS_CNT.getValue()));
 		tv=(TextView)findViewById(R.id.stat_recieved);
-		tv.setText(String.format(tv.getText().toString().replaceAll("\\d", "%d"), (Integer)Param.RECIEVED_SMS_CNT.getValue()));
+		tv.setText(String.format(tv.getText().toString().replaceAll("[0-9]{1,}", "%d"), (Integer)Param.RECIEVED_SMS_CNT.getValue()));
 		tv=(TextView)findViewById(R.id.stat_suspicious);
-		tv.setText(String.format(tv.getText().toString().replaceAll("\\d", "%d"), (Integer)Param.SUSPICIOUS_SMS_CNT.getValue()));
+		tv.setText(String.format(tv.getText().toString().replaceAll("[0-9]{1,}", "%d"), (Integer)Param.SUSPICIOUS_SMS_CNT.getValue()));
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
@@ -111,22 +112,7 @@ public class MainActivity extends Activity{
 				dataDao.insertFilter(FilterType.WORD, selection);
 			}
 		});
-		popup.show();
-		/*PasswordPopup popup=new PasswordPopup(this, "¬ведите пароль дл€ доступа к журналу", new DialogListener<String>(){
-			
-			@Override
-			public void ok(String value){
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void cancel(){
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		popup.show();*/
+		popup.show();		
 	}
 
 	@Override
