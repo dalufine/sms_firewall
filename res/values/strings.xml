@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">sms_firewall</string>
-    <string name="stat_blocked">Заблокировано SMS: %d</string>
-    <string name="stat_suspicious">Подозрительных SMS: %d</string>
-    <string name="stat_recieved">Получено SMS: %d</string>
-    <string name="stat_bodies_vol">Объём заблокированного текста: %d символов</string>
-    <string name="stat_last_sync">Последняя синхронизация с сервером: %s</string>
-    <string name="word">Слово</string>
-    <string name="phone_number">Номер телефона</string>
-    <string name="filters">Фильтры</string>
-    <string name="logs">Логи</string>
-    <string name="select_source_popup_title">Выберите источник</string>
-    <string name="inbox_sms">Входящие SMS</string>
-    <string name="income_calls">Входящие звонки</string>
-    <string name="numbers">Номера</string>
-    <string name="words">Слова</string>
-    <string name="delete">Удалить</string>
-    <string name="cancel">Отмена</string>
+    <string name="stat_blocked">Blocked SMS: %d</string>
+    <string name="stat_suspicious">Suspicious SMS: %d</string>
+    <string name="stat_recieved">Received SMS: %d</string>
+    <string name="stat_bodies_vol">Volume of blocked text: %d symbols</string>
+    <string name="stat_last_sync">Last server sync: %s</string>
+    <string name="word">Word</string>
+    <string name="phone_number">Phone number</string>
+    <string name="filters">Filters</string>
+    <string name="logs">Logs</string>
+    <string name="select_source_popup_title">Select the source</string>
+    <string name="inbox_sms">Inbox SMS</string>
+    <string name="income_calls">Income calls</string>
+    <string name="numbers">Phone numbers</string>
+    <string name="words">Words</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
-    <string name="enter_word">Введите слово</string>
-    <string name="enter_number">Введите номер(имя)</string>
-    <string name="enter_value_warning">Введите значение!</string>
-    <string name="blocked">Заблокированые</string>
-    <string name="suspicious">Подозрительные</string>
-    <string name="filtered">Пропущенные</string>
-    <string name="journal">Журнал</string>
-    <string name="frauds">Мошенники</string>
-    <string name="spam">Спам</string>
-    <string name="tops">Топ 100</string>
-    <string name="sync_on">Синхронизация с сервером</string>
-    <string name="top_filter_on">Использовать все фильтры из Топ100</string>
-    <string name="reset_stats">Сброс статистики</string>
-    <string name="reset_logs_password">Сброс пароля на журнал</string>
-    <string name="clear_logs">Очистить журнал</string>
-    <string name="blocked_counter">Показывать счётчик заблокированных SMS</string>
-    <string name="language">Язык</string>
-    <string name="settings">Настройки</string>
+    <string name="enter_word">Enter the word</string>
+    <string name="enter_number">Enter phone number/name</string>
+    <string name="enter_value_warning">Enter value, please!</string>
+    <string name="blocked">Blocked</string>
+    <string name="suspicious">Suspicious</string>
+    <string name="filtered">Passed</string>
+    <string name="journal">Logs</string>
+    <string name="frauds">Frauders</string>
+    <string name="spam">Spam</string>
+    <string name="tops">Top 100</string>
+    <string name="sync_on">Server sync</string>
+    <string name="top_filter_on">Use all filters from top 100</string>
+    <string name="reset_stats">Reset statistics</string>
+    <string name="reset_logs_password">Reset logs password</string>
+    <string name="clear_logs">Clear logs</string>
+    <string name="blocked_counter">Show blocked SMS counter</string>
+    <string name="language">Language</string>
+    <string name="settings">Settings</string>
     <string-array name="sources">
-        <item>Контакты</item>
-        <item>Входящие SMS</item>
-        <item>Входящие звонки</item>
-        <item>Подозрительные SMS</item>
-        <item>Топ мошенников</item>
+        <item>Contacts</item>
+        <item>Inbox SMS</item>
+        <item>Income calls</item>
+        <item>Suspicious SMS</item>
+        <item>Frauder\'s top</item>
     </string-array>
     <string-array name="languages">
         <item>Русский</item>
@@ -63,6 +63,8 @@
     <string name="enter_password_text">Enter password for secure store of your sms logs:</string>
     <string name="send_suspicious_text">Give us oppotunity to improve Sms Firewall:</string>
     <string name="send_suspicious">send suspicious sms</string>
-    <string name="enter_email">Please, enter your e-mail!</string>
-    <string name="password_length_error">Password too short, min lenght is 8 chars</string>    
+    <string name="enter_email">Please, enter correct e-mail!</string>
+    <string name="password_length_error">Password too short, min length is 8 chars</string>
+    <string name="have_errors">There are some error! Please, fix them!</string>    
+    <string name="registration_thanks">Big thanks for registration!</string>
 </resources>

@@ -60,32 +60,42 @@ public class DataDao extends SQLiteOpenHelper{
 		if(filters!=null)
 			return filters;
 		filters=new ArrayList<Filter>();
-		SQLiteDatabase dbase=getReadableDatabase();
-		Cursor cursor=dbase.rawQuery("SELECT * FROM filters ORDER BY _id DESC", null);
-		int idIdx=cursor.getColumnIndex("_id"), valueIdx=cursor.getColumnIndex("value"), typeIdx=cursor.getColumnIndex("type");
-		while(cursor.moveToNext()){
-			filters.add(new Filter(cursor.getInt(idIdx), cursor.getString(valueIdx), cursor.getInt(typeIdx)));
-		}		
-		cursor.close();
-		dbase.close();
+		SQLiteDatabase dbase=null;
+		Cursor cursor=null;
+		try{
+			dbase=getReadableDatabase();
+			cursor=dbase.rawQuery("SELECT * FROM filters ORDER BY _id DESC", null);
+			int idIdx=cursor.getColumnIndex("_id"), valueIdx=cursor.getColumnIndex("value"), typeIdx=cursor.getColumnIndex("type");
+			while(cursor.moveToNext()){
+				filters.add(new Filter(cursor.getInt(idIdx), cursor.getString(valueIdx), cursor.getInt(typeIdx)));
+			}	
+		}finally{
+			cursor.close();
+			dbase.close();
+		}
 		return filters;
 	}
 	public int insertFilter(FilterType type, String value){
-		SQLiteDatabase dbase=getWritableDatabase();
-		Cursor cursor=dbase.rawQuery("SELECT * FROM filters WHERE type=? AND value=?", new String[]{String.valueOf(type.ordinal()), value});		
-		if(cursor.getCount()==0){
-			ContentValues cv=new ContentValues();
-			cv.put("value", value);
-			cv.put("type", type.ordinal());
-			int result=(int)dbase.insert("filters", null, cv);
-			if(result>0&&filters!=null){
-				filters.add(new Filter(result, value, type.ordinal()));
+		SQLiteDatabase dbase=null;
+		Cursor cursor=null;
+		try{
+			dbase=getWritableDatabase();
+			cursor=dbase.rawQuery("SELECT * FROM filters WHERE type=? AND value=?", new String[]{String.valueOf(type.ordinal()), value});		
+			if(cursor.getCount()==0){
+				ContentValues cv=new ContentValues();
+				cv.put("value", value);
+				cv.put("type", type.ordinal());
+				int result=(int)dbase.insert("filters", null, cv);
+				if(result>0&&filters!=null){
+					filters.add(new Filter(result, value, type.ordinal()));
+				}
+				cursor.close();
+				return result;
 			}
+		}finally{
 			cursor.close();
-			return result;
+			dbase.close();
 		}
-		cursor.close();
-		dbase.close();
 		return 0;
 	}
 	public int deleteFilter(int id){
@@ -98,9 +108,11 @@ public class DataDao extends SQLiteOpenHelper{
 			}
 		}
 		SQLiteDatabase dbase=getWritableDatabase();
-		int result=dbase.delete("filters", "_id=?", new String[] {String.valueOf(id)});
-		dbase.close();
-		return result;
+		try{
+			return dbase.delete("filters", "_id=?", new String[] {String.valueOf(id)});			
+		}finally{
+			dbase.close();
+		}		
 	}
 	// ------------------Logs-----------------------------------
 	public List<SmsLogItem> getLogs(LogStatus status){
@@ -108,14 +120,19 @@ public class DataDao extends SQLiteOpenHelper{
 			return filterLogsByStatus(status);
 		try{
 			logs=new ArrayList<SmsLogItem>();
-			SQLiteDatabase dbase=getReadableDatabase();
-			Cursor cursor=dbase.query("logs", null, null, null, null, null, "_id DESC");
-			int idIdx=cursor.getColumnIndex("_id"), phoneNameIdx=cursor.getColumnIndex("phone_name"), bodyIdx=cursor.getColumnIndex("body"), addTimeIdx=cursor.getColumnIndex("add_time"), statusIdx=cursor.getColumnIndex("status");
-			while(cursor.moveToNext()){				
-				logs.add(new SmsLogItem(cursor.getInt(idIdx), cursor.getString(phoneNameIdx), cursor.getString(bodyIdx), sdf.parse(cursor.getString(addTimeIdx)), cursor.getInt(statusIdx)));
+			SQLiteDatabase dbase=null;
+			Cursor cursor=null;
+			try{
+				dbase=getReadableDatabase();
+				cursor=dbase.query("logs", null, null, null, null, null, "_id DESC");
+				int idIdx=cursor.getColumnIndex("_id"), phoneNameIdx=cursor.getColumnIndex("phone_name"), bodyIdx=cursor.getColumnIndex("body"), addTimeIdx=cursor.getColumnIndex("add_time"), statusIdx=cursor.getColumnIndex("status");
+				while(cursor.moveToNext()){				
+					logs.add(new SmsLogItem(cursor.getInt(idIdx), cursor.getString(phoneNameIdx), cursor.getString(bodyIdx), sdf.parse(cursor.getString(addTimeIdx)), cursor.getInt(statusIdx)));
+				}
+			}finally{
+				cursor.close();
+				dbase.close();
 			}
-			cursor.close();
-			dbase.close();
 		}catch(Exception ex){
 			Log.e("logs loading", ex.toString());
 			return null;
@@ -128,12 +145,15 @@ public class DataDao extends SQLiteOpenHelper{
 		cv.put("body", body);
 		cv.put("status", status.ordinal());
 		SQLiteDatabase dbase=getWritableDatabase();
-		int result=(int)dbase.insert("logs", null, cv);
-		if(logs==null)
-			getLogs(LogStatus.BLOCKED);
-		logs.add(new SmsLogItem(result, phoneName, body, new Date(), status.ordinal()));
-		dbase.close();
-		return result;
+		try{
+			int result=(int)dbase.insert("logs", null, cv);
+			if(logs==null)
+				getLogs(LogStatus.BLOCKED);
+			logs.add(new SmsLogItem(result, phoneName, body, new Date(), status.ordinal()));
+			return result;
+		}finally{
+			dbase.close();
+		}		
 	}
 	private List<SmsLogItem> filterLogsByStatus(LogStatus status){
 		List<SmsLogItem> result=new ArrayList<SmsLogItem>();
@@ -144,75 +164,89 @@ public class DataDao extends SQLiteOpenHelper{
 		return result;
 	}
 	// ------------------Tops--------------------------------
-	public List<TopItem> getTop(TopType type, TopCategory category){		
-		SQLiteDatabase dbase=getReadableDatabase();
-		List<TopItem> tops=new ArrayList<TopItem>();
-		String sql="SELECT * FROM tops WHERE";
-		boolean hasCond=false;
-		if(type!=TopType.GENERIC){
-			sql+=" type="+type.ordinal();
-			hasCond=true;
-		}
-		if(category!=TopCategory.GENERIC){
-			if(hasCond)
-				sql+=" AND";
-			sql+=" category="+category.ordinal();
-		}
-		Cursor cursor=dbase.rawQuery(sql, null);
-		int idIdx=cursor.getColumnIndex("_id"), posIdx=cursor.getColumnIndex("pos"), votesIdx=cursor.getColumnIndex("votes"), valueIdx=cursor.getColumnIndex("value"), 
-				typeIdx=cursor.getColumnIndex("type"), categoryIdx=cursor.getColumnIndex("category"), exampleIdx=cursor.getColumnIndex("example");
-		while(cursor.moveToNext()){			
-			tops.add(new TopItem(cursor.getInt(idIdx), cursor.getInt(posIdx), cursor.getInt(votesIdx), cursor.getString(valueIdx), cursor.getString(exampleIdx), cursor.getInt(typeIdx), cursor.getInt(categoryIdx)));
-		}
-		cursor.close();
-		dbase.close();
-		return tops;
+	public List<TopItem> getTop(TopType type, TopCategory category){
+		SQLiteDatabase dbase=null;
+		Cursor cursor=null;
+		try{
+			dbase=getReadableDatabase();
+			List<TopItem> tops=new ArrayList<TopItem>();
+			String sql="SELECT * FROM tops WHERE";
+			boolean hasCond=false;
+			if(type!=TopType.GENERIC){
+				sql+=" type="+type.ordinal();
+				hasCond=true;
+			}
+			if(category!=TopCategory.GENERIC){
+				if(hasCond)
+					sql+=" AND";
+				sql+=" category="+category.ordinal();
+			}
+			cursor=dbase.rawQuery(sql, null);
+			int idIdx=cursor.getColumnIndex("_id"), posIdx=cursor.getColumnIndex("pos"), votesIdx=cursor.getColumnIndex("votes"), valueIdx=cursor.getColumnIndex("value"), 
+					typeIdx=cursor.getColumnIndex("type"), categoryIdx=cursor.getColumnIndex("category"), exampleIdx=cursor.getColumnIndex("example");
+			while(cursor.moveToNext()){			
+				tops.add(new TopItem(cursor.getInt(idIdx), cursor.getInt(posIdx), cursor.getInt(votesIdx), cursor.getString(valueIdx), cursor.getString(exampleIdx), cursor.getInt(typeIdx), cursor.getInt(categoryIdx)));
+			}
+			return tops;
+		}finally{
+			cursor.close();
+			dbase.close();
+		}		
 	}
 	public void updateTop(Set<TopItem> newTop){		
 		SQLiteDatabase dbase=getWritableDatabase();
-		dbase.beginTransaction();
-		dbase.delete("tops", null, null);
-		for(TopItem ti:newTop){
-			ContentValues cv=new ContentValues();
-			cv.put("_id", ti.getId());
-			cv.put("pos", ti.getPos());
-			cv.put("value", ti.getValue());
-			cv.put("example", ti.getExample());
-			cv.put("votes", ti.getVotes());
-			cv.put("type", ti.getType().ordinal());
-			cv.put("category", ti.getCategory().ordinal());
-			dbase.insert("tops", null, cv);
+		try{
+			dbase.beginTransaction();
+			dbase.delete("tops", null, null);
+			for(TopItem ti:newTop){
+				ContentValues cv=new ContentValues();
+				cv.put("_id", ti.getId());
+				cv.put("pos", ti.getPos());
+				cv.put("value", ti.getValue());
+				cv.put("example", ti.getExample());
+				cv.put("votes", ti.getVotes());
+				cv.put("type", ti.getType().ordinal());
+				cv.put("category", ti.getCategory().ordinal());
+				dbase.insert("tops", null, cv);
+			}
+			dbase.setTransactionSuccessful();
+			dbase.endTransaction();
+		}finally{
+			dbase.close();
 		}
-		dbase.setTransactionSuccessful();
-		dbase.endTransaction();
-		dbase.close();
 	}
 	//-----------------Requests------------------------
-	public List<Request> getRequests(){		
-		SQLiteDatabase dbase=getReadableDatabase();		
-		Cursor cursor=dbase.rawQuery("SELECT * FROM requests ORDER BY add_time", null);
-		int methodIdx=cursor.getColumnIndex("method"), dataIdx=cursor.getColumnIndex("data");
-		List<Request> requets=new ArrayList<Request>();
+	public List<Request> getRequests(){	
+		SQLiteDatabase dbase=null;
+		Cursor cursor=null;
 		try{
-		while(cursor.moveToNext()){			
-			requets.add(new Request(ApiMethods.valueOf(cursor.getString(methodIdx)), new JSONObject(cursor.getString(dataIdx))));
-		}
+			dbase=getReadableDatabase();		
+			cursor=dbase.rawQuery("SELECT * FROM requests ORDER BY add_time", null);
+			int methodIdx=cursor.getColumnIndex("method"), dataIdx=cursor.getColumnIndex("data");
+			List<Request> requets=new ArrayList<Request>();			
+			while(cursor.moveToNext()){			
+				requets.add(new Request(ApiMethods.valueOf(cursor.getString(methodIdx)), new JSONObject(cursor.getString(dataIdx))));
+			}
+			return requets;
 		}catch(Exception ex){
 			Log.e("dao", ex.toString());
 		}
 		finally{
 			cursor.close();
 			dbase.close();
-		}		
-		return requets;
+		}	
+		return null;
 	}
 	public boolean clearRequests(){		
 		SQLiteDatabase dbase=getWritableDatabase();
-		dbase.beginTransaction();
-		dbase.delete("requests", null, null);		
-		dbase.setTransactionSuccessful();
-		dbase.endTransaction();
-		dbase.close();
+		try{
+			dbase.beginTransaction();
+			dbase.delete("requests", null, null);		
+			dbase.setTransactionSuccessful();
+			dbase.endTransaction();
+		}finally{
+			dbase.close();
+		}
 		return true;
 	}
 	public int insertRequest(ApiMethods method, JSONObject data){
@@ -220,8 +254,10 @@ public class DataDao extends SQLiteOpenHelper{
 		cv.put("method", method.name());
 		cv.put("data", data.toString());		
 		SQLiteDatabase dbase=getWritableDatabase();
-		int result=(int)dbase.insert("requests", null, cv);		
-		dbase.close();
-		return result;
+		try{
+			return (int)dbase.insert("requests", null, cv);
+		}finally{
+			dbase.close();
+		}		
 	}
 }

@@ -1,101 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:padding="10dp"
-    android:orientation="vertical">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/registration_title"
+    <LinearLayout       
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="15dp"
-        android:gravity="center_horizontal" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:gravity="center_horizontal"
+        android:minWidth="300dp"
+        android:orientation="vertical"
+        android:padding="10dp" >
 
         <TextView
-            android:id="@+id/registration_text"
+            android:id="@+id/registration_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:paddingBottom="15dp"
-            android:text="@string/registration_welcome" />
+            android:paddingBottom="15dp" />
 
-        <TextView            
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sync_filters_text" />
-
-        <CheckBox
-            android:id="@+id/syncFilters"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sync_filters" />
+            android:orientation="vertical" >
 
-        <TextView            
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/registration_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingBottom="15dp"
+                android:text="@string/registration_welcome" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sync_filters_text" />
+
+            <CheckBox
+                android:id="@+id/syncFilters"                
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sync_filters" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_email_text" />
+
+            <CheckBox
+                android:id="@+id/useEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:enabled="false"
+                android:text="@string/use_email" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/your_email" />
+
+            <EditText
+                android:id="@+id/userEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:enabled="false"
+                android:inputType="textEmailAddress" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_password_text" />
+
+            <EditText
+                android:id="@+id/logsPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword" >
+
+                <requestFocus />
+            </EditText>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/send_suspicious_text" />
+
+            <CheckBox
+                android:id="@+id/sendSuspicious"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/send_suspicious" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/saveReg"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="@string/use_email_text" />
-
-        <CheckBox
-            android:id="@+id/useEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:enabled="false"
-            android:text="@string/use_email" />
-
-        <TextView            
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/your_email" />
-
-        <EditText
-            android:id="@+id/userEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:enabled="false"
-            android:inputType="textEmailAddress" />
-
-        <TextView            
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/enter_password_text" />
-
-        <EditText
-            android:id="@+id/logsPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"            
-            android:inputType="textPassword" >
-
-            <requestFocus />
-        </EditText>
-
-        <TextView            
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/send_suspicious_text" />
-
-        <CheckBox
-            android:id="@+id/sendSuspicious"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/send_suspicious" />
-        
+            android:text="@string/ok" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/saveReg"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="@string/ok" />
-
-</LinearLayout>
+</ScrollView>

@@ -87,7 +87,7 @@
     <LinearLayout
         android:id="@+id/nav_panel"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_gravity="center_horizontal"
         android:background="#fff"
         android:gravity="center_horizontal"

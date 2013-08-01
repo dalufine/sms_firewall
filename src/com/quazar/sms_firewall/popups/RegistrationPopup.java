@@ -13,14 +13,15 @@ import com.quazar.sms_firewall.Param;
 import com.quazar.sms_firewall.R;
 
 public class RegistrationPopup extends AlertDialog {
-	private CheckBox useSync, useEmail;
+	private CheckBox useSync, useEmail, sendSuspicious;
 	private EditText userEmail, logsPassword;
 	public RegistrationPopup(final Context context) {
 		super(context);
 		final View v = getLayoutInflater().inflate(R.layout.registration_popup, null);
-		setView(v);
+		setView(v);		
 		useSync=(CheckBox) v.findViewById(R.id.syncFilters);
 		useEmail=(CheckBox) v.findViewById(R.id.useEmail);		
+		sendSuspicious=(CheckBox) v.findViewById(R.id.sendSuspicious);
 		userEmail=(EditText) v.findViewById(R.id.userEmail);
 		logsPassword=(EditText) v.findViewById(R.id.logsPassword);
 		useSync.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {			
@@ -38,23 +39,32 @@ public class RegistrationPopup extends AlertDialog {
 		((Button)v.findViewById(R.id.saveReg)).setOnClickListener(new Button.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
+				boolean hasError=false;
 				if(useSync.isChecked()){
 					Param.USE_SYNC.setValue(true);
 					if(useEmail.isChecked()){
-						if(userEmail.getText().length()>3)
+						String email=userEmail.getText().toString();
+						if(email.matches("\\S*@\\w*\\.\\w{2,6}"))
 							Param.USER_EMAIL.setValue(userEmail.getText().toString());
-						else{ 
-							Toast.makeText(context, context.getResources().getString(R.string.enter_email), Toast.LENGTH_LONG).show();
-							return;
+						else{							
+							userEmail.setError(context.getResources().getString(R.string.enter_email));
+							hasError=true;
 						}
 					}
 					if(logsPassword.getText().length()>=8){
-						Param.LOGS_PASSWORD.setValue(logsPassword.getText().toString());
-					}else{
-						Toast.makeText(context, context.getResources().getString(R.string.password_length_error), Toast.LENGTH_LONG).show();
-						return;
+						if(!hasError)
+							Param.LOGS_PASSWORD.setValue(logsPassword.getText().toString());
+					}else{						
+						logsPassword.setError(context.getResources().getString(R.string.password_length_error));
+						hasError=true;
 					}
-					Param.SEND_SUSPICIOUS.setValue(((CheckBox)v.findViewById(R.id.sendSuspicious)).isChecked());
+					if(!hasError){
+						Param.SEND_SUSPICIOUS.setValue(sendSuspicious.isChecked());
+						Toast.makeText(context, context.getResources().getString(R.string.registration_thanks), Toast.LENGTH_SHORT).show();
+						RegistrationPopup.this.dismiss();
+					}else{
+						Toast.makeText(context, context.getResources().getString(R.string.have_errors), Toast.LENGTH_SHORT).show();
+					}
 				}
 			}
 		});

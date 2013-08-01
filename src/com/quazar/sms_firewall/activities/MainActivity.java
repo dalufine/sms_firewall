@@ -1,9 +1,6 @@
 package com.quazar.sms_firewall.activities;
 
-import java.util.HashMap;
-
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,12 +14,8 @@ import com.quazar.sms_firewall.StateManager;
 import com.quazar.sms_firewall.dao.DataDao;
 import com.quazar.sms_firewall.models.Filter.FilterType;
 import com.quazar.sms_firewall.network.ApiClient;
-import com.quazar.sms_firewall.popups.CallsSelectPopup;
-import com.quazar.sms_firewall.popups.EnterValuePopup;
-import com.quazar.sms_firewall.popups.SelectListener;
-import com.quazar.sms_firewall.popups.SelectSourcePopup;
-import com.quazar.sms_firewall.popups.SmsSelectPopup;
 import com.quazar.sms_firewall.utils.ContentUtils;
+import com.quazar.sms_firewall.utils.DialogUtils;
 import com.quazar.sms_firewall.utils.DictionaryUtils;
 
 public class MainActivity extends Activity{
@@ -47,51 +40,20 @@ public class MainActivity extends Activity{
 	}
 	private void updateStatisticsViews(){
 		TextView tv=(TextView)findViewById(R.id.stat_blocked);
-		tv.setText(String.format(tv.getText().toString().replaceAll("[0-9]{1,}", "%d"), (Integer)Param.BLOCKED_SMS_CNT.getValue()));
+		tv.setText(String.format(getResources().getString(R.string.stat_blocked), (Integer)Param.BLOCKED_SMS_CNT.getValue()));
 		tv=(TextView)findViewById(R.id.stat_recieved);
-		tv.setText(String.format(tv.getText().toString().replaceAll("[0-9]{1,}", "%d"), (Integer)Param.RECIEVED_SMS_CNT.getValue()));
+		tv.setText(String.format(getResources().getString(R.string.stat_recieved), (Integer)Param.RECIEVED_SMS_CNT.getValue()));
 		tv=(TextView)findViewById(R.id.stat_suspicious);
-		tv.setText(String.format(tv.getText().toString().replaceAll("[0-9]{1,}", "%d"), (Integer)Param.SUSPICIOUS_SMS_CNT.getValue()));
+		tv.setText(String.format(getResources().getString(R.string.stat_suspicious), (Integer)Param.SUSPICIOUS_SMS_CNT.getValue()));
 	}
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu){
-		// Inflate the menu; this adds items to the action bar if it is present.
+	public boolean onCreateOptionsMenu(Menu menu){		
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
 
 	public void onPhoneNumberClick(View v){
-		AlertDialog sourceSelect=new SelectSourcePopup(this, new SelectListener<Integer>(){
-			@Override
-			public void recieveSelection(Integer selection){
-				switch(selection){
-					case SelectSourcePopup.FROM_CONTACTS:
-						StateManager.getContact(MainActivity.this);
-						break;
-					case SelectSourcePopup.FROM_INBOX_SMS:
-						SmsSelectPopup smsPopup=new SmsSelectPopup(MainActivity.this, new SelectListener<HashMap<String, Object>>(){
-							@Override
-							public void recieveSelection(HashMap<String, Object> selection){
-								dataDao.insertFilter(FilterType.PHONE_NAME, (String)selection.get(ContentUtils.SMS_NUMBER));
-							}
-						});
-						smsPopup.show();
-						break;
-					case SelectSourcePopup.FROM_INCOME_CALLS:
-						CallsSelectPopup callsPopup=new CallsSelectPopup(MainActivity.this, new SelectListener<HashMap<String, Object>>(){
-							@Override
-							public void recieveSelection(HashMap<String, Object> selection){
-								dataDao.insertFilter(FilterType.PHONE_NAME, (String)selection.get(ContentUtils.CALLS_NUMBER));
-							}
-						});
-						callsPopup.show();
-						break;
-					default:
-						break;
-				}
-			}
-		});
-		sourceSelect.show();
+		DialogUtils.showSourceSelectPopup(this, null);
 	}
 	public void onShowFilters(View v){
 		StateManager.showFilters(this);
@@ -106,13 +68,7 @@ public class MainActivity extends Activity{
 		StateManager.showSettings(this);
 	}
 	public void onWordClick(View v){
-		EnterValuePopup popup=new EnterValuePopup(this, getResources().getString(R.string.enter_word), new SelectListener<String>(){
-			@Override
-			public void recieveSelection(String selection){
-				dataDao.insertFilter(FilterType.WORD, selection);
-			}
-		});
-		popup.show();		
+		DialogUtils.showEnterWordFilterPopup(this, null);		
 	}
 
 	@Override

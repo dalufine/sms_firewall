@@ -5,30 +5,43 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TabHost;
+import android.widget.Toast;
 
 import com.quazar.sms_firewall.R;
+import com.quazar.sms_firewall.StateManager;
 import com.quazar.sms_firewall.dao.DataDao;
 import com.quazar.sms_firewall.models.Filter;
 import com.quazar.sms_firewall.models.Filter.FilterType;
+import com.quazar.sms_firewall.popups.CallsSelectPopup;
 import com.quazar.sms_firewall.popups.MenuPopup;
 import com.quazar.sms_firewall.popups.SelectListener;
+import com.quazar.sms_firewall.popups.SelectSourcePopup;
+import com.quazar.sms_firewall.popups.SmsSelectPopup;
+import com.quazar.sms_firewall.utils.ContentUtils;
+import com.quazar.sms_firewall.utils.DialogUtils;
 import com.quazar.sms_firewall.utils.DictionaryUtils;
 
 public class FiltersActivity extends Activity{
 	private static DataDao dataDao;
+	private TabHost tabHost;
+	private ListView phonesList, wordsList;
+	private static int PHONE_NUMBERS_TAB=0, WORDS_TAB=1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_filters);
-		TabHost tabHost=(TabHost)findViewById(R.id.filters_tabhost);
+		tabHost=(TabHost)findViewById(R.id.filters_tabhost);
 		tabHost.setup();
 		dataDao=new DataDao(this);		
 
@@ -36,7 +49,7 @@ public class FiltersActivity extends Activity{
 		phoneFiltersTab.setIndicator(getResources().getString(R.string.numbers));
 		phoneFiltersTab.setContent(R.id.phone_filters);
 
-		ListView phonesList=(ListView)findViewById(R.id.phone_filters_list);
+		phonesList=(ListView)findViewById(R.id.phone_filters_list);
 		OnItemClickListener listener=new OnItemClickListener(){
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id){
@@ -61,13 +74,13 @@ public class FiltersActivity extends Activity{
 		TabHost.TabSpec wordFiltersTab=tabHost.newTabSpec("word filters");
 		wordFiltersTab.setIndicator(getResources().getString(R.string.words));
 		wordFiltersTab.setContent(R.id.word_filters);
-		ListView wordsList=(ListView)findViewById(R.id.word_filters_list);
+		wordsList=(ListView)findViewById(R.id.word_filters_list);
 		wordsList.setOnItemClickListener(listener);		
 		wordsList.setAdapter(getAdapter(FilterType.WORD));
 
 		tabHost.addTab(phoneFiltersTab);
 		tabHost.addTab(wordFiltersTab);
-		tabHost.setCurrentTab(0);
+		tabHost.setCurrentTab(PHONE_NUMBERS_TAB);
 	}
 	public SimpleAdapter getAdapter(FilterType type) {
 		List<Filter> filters=dataDao.getFilters();
@@ -84,5 +97,36 @@ public class FiltersActivity extends Activity{
 			}
 		}
 		return new SimpleAdapter(this, list, R.layout.filters_list_item, new String[]{"filter_value"}, new int[]{R.id.filter_value});
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data){
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode==StateManager.CONTACTS_REQUEST_ID&&resultCode==Activity.RESULT_OK){
+			String phoneNumber=ContentUtils.getPhoneNumber(this, data.getData());
+			dataDao.insertFilter(FilterType.PHONE_NAME, phoneNumber);
+			phonesList.setAdapter(getAdapter(FilterType.PHONE_NAME));
+		}
+	}
+	public void onAddFilter(View v){		
+		if(tabHost.getCurrentTab()==PHONE_NUMBERS_TAB){
+			DialogUtils.showSourceSelectPopup(this, new Handler(new Handler.Callback() {				
+				@Override
+				public boolean handleMessage(Message msg) {					
+					phonesList.setAdapter(getAdapter(FilterType.PHONE_NAME));
+					return false;
+				}
+			}));
+		}else{
+			DialogUtils.showEnterWordFilterPopup(this, new Handler(new Handler.Callback() {				
+				@Override
+				public boolean handleMessage(Message msg) {
+					wordsList.setAdapter(getAdapter(FilterType.WORD));					
+					return false;
+				}
+			}));
+		}
+	}
+	public void onClearFilters(View v){	
+		
 	}
 }
