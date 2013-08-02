@@ -67,4 +67,12 @@
     <string name="password_length_error">Password too short, min length is 8 chars</string>
     <string name="have_errors">There are some error! Please, fix them!</string>    
     <string name="registration_thanks">Big thanks for registration!</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="filter_delete_conf">Do you really want to delete this filter?</string>
+    <string name="filters_clear_conf">Do you really want to clear filters on this tab?</string>    
+    <string name="fraud_warn">The message from "%s" can be a fraud</string>
+    <string name="ask_logs_password">Please, enter password to access logs.</string>
+    <string name="logs_password_error">Password is not correct!</string> 
 </resources>

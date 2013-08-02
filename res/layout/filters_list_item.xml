@@ -2,14 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp"
-    android:orientation="vertical" >    
+    android:orientation="horizontal"
+    android:padding="5dp" >
+    
     <TextView
         android:id="@+id/filter_value"
         android:textColorHighlight="@android:color/white"
-        android:layout_width="match_parent"
+        android:layout_width="255dp"
         android:layout_height="wrap_content"        
         android:textSize="16sp"
         android:gravity="left" 
-        android:layout_marginLeft="5dp"/>    
+        android:layout_marginLeft="5dp"/>
+    <Button android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:onClick="onRemoveFilter"
+        android:text="X"
+        android:layout_gravity="right"/>    
 </LinearLayout>

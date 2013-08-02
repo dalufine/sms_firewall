@@ -2,14 +2,25 @@ package com.quazar.sms_firewall;
 
 import java.util.HashMap;
 import java.util.List;
+
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.telephony.SmsMessage;
+
+import com.quazar.sms_firewall.activities.MainActivity;
 import com.quazar.sms_firewall.dao.DataDao;
 import com.quazar.sms_firewall.models.Filter;
 import com.quazar.sms_firewall.models.SmsLogItem.LogStatus;
+import com.quazar.sms_firewall.models.TopItem;
+import com.quazar.sms_firewall.models.TopItem.TopCategory;
+import com.quazar.sms_firewall.models.TopItem.TopType;
+import com.quazar.sms_firewall.utils.DictionaryUtils;
 
 public class SmsReciever extends BroadcastReceiver {
 	private DataDao dataDao = null;
@@ -18,12 +29,13 @@ public class SmsReciever extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		if (dataDao == null)
 			dataDao = new DataDao(context);
-		if(!Param.isLoaded())
+		if (!Param.isLoaded())
 			Param.load(context);
 		Bundle extras = intent.getExtras();
 		if (extras != null) {
 			Object[] smsextras = (Object[]) extras.get("pdus");
 			List<Filter> filters = dataDao.getFilters();
+			List<TopItem> topFilters = dataDao.getAllTops();
 			HashMap<String, String> messages = new HashMap<String, String>();
 			for (int i = 0; i < smsextras.length; i++) {
 				SmsMessage smsmsg = SmsMessage
@@ -32,25 +44,55 @@ public class SmsReciever extends BroadcastReceiver {
 				if (!messages.containsKey(phoneName)) {
 					messages.put(phoneName, smsmsg.getMessageBody().toString());
 				} else {
-					messages.put(phoneName, messages.get(phoneName)+smsmsg.getMessageBody().toString());					
+					messages.put(phoneName, messages.get(phoneName)
+							+ smsmsg.getMessageBody().toString());
 				}
 			}
+			String fraudNumber="";
 			for (String phoneName : messages.keySet()) {
 				String body = messages.get(phoneName);
-				boolean normal = true;
+				boolean blocked = false;
 				for (Filter f : filters) {
 					if (!f.isValid(phoneName, body)) {
 						abortBroadcast();
-						dataDao.insertLog(phoneName, body, LogStatus.BLOCKED);
-						normal = false;
-						Param.BLOCKED_SMS_CNT.setValue((Integer)Param.BLOCKED_SMS_CNT.getValue()+1);
+						dataDao.insertLog(phoneName, body, LogStatus.BLOCKED);						
+						blocked = true;
+						Param.BLOCKED_SMS_CNT.setValue((Integer) Param.BLOCKED_SMS_CNT.getValue() + 1);
 						break;
 					}
 				}
-				if (normal){
+				if(!blocked){
+					boolean fraudDetected = false;				
+					for (TopItem ti : topFilters) {
+						if (ti.getType() == TopType.PHONE_NAME&& ti.getValue().equals(phoneName)|| 
+							ti.getType() == TopType.WORD&& body.contains(ti.getValue())) {
+							dataDao.insertLog(phoneName, body, LogStatus.SUSPICIOUS);							
+							Param.SUSPICIOUS_SMS_CNT.setValue((Integer) Param.SUSPICIOUS_SMS_CNT.getValue() + 1);
+							if (ti.getCategory() == TopCategory.FRAUD){
+								fraudDetected = true;
+								fraudNumber=phoneName;
+							}
+							break;
+						}
+					}
+					if (fraudDetected) {
+						NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+						builder.setSmallIcon(R.drawable.ic_launcher);
+						builder.setContentTitle(context.getResources().getString(R.string.warning));
+						builder.setContentText(String.format(context.getResources().getString(R.string.fraud_warn), DictionaryUtils.getInstance().getContactsName(fraudNumber)));					
+						Intent resultIntent = new Intent(context, MainActivity.class);					
+						TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);					
+						stackBuilder.addParentStack(MainActivity.class);					
+						stackBuilder.addNextIntent(resultIntent);
+						PendingIntent resultPendingIntent = stackBuilder
+								.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+						builder.setContentIntent(resultPendingIntent);
+						NotificationManager nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);					
+						nm.notify(777, builder.build());
+					}
 					dataDao.insertLog(phoneName, body, LogStatus.FILTERED);
-					Param.RECIEVED_SMS_CNT.setValue((Integer)Param.RECIEVED_SMS_CNT.getValue()+1);
-				}
+					Param.RECIEVED_SMS_CNT.setValue((Integer) Param.RECIEVED_SMS_CNT.getValue() + 1);
+				}				
 			}
 		}
 	}

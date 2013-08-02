@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TabHost;
@@ -17,14 +17,16 @@ import com.quazar.sms_firewall.models.SmsLogItem.LogStatus;
 import com.quazar.sms_firewall.utils.ContentUtils;
 import com.quazar.sms_firewall.utils.DictionaryUtils;
 
-public class LogsActivity extends Activity{
+public class LogsActivity extends BaseActivity{
 	private static DataDao dataDao;
+	private TabHost tabHost;
+	private static final int BLOCKED_TAB=0, SUSPICIOUS_TAB=1, PASSED_TAB=2; 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);		
 		setContentView(R.layout.activity_logs);
-		TabHost tabHost=(TabHost)findViewById(R.id.logs_tabhost);
+		tabHost=(TabHost)findViewById(R.id.logs_tabhost);
 		tabHost.setup();
 		dataDao=new DataDao(this);
 
@@ -64,5 +66,18 @@ public class LogsActivity extends Activity{
 		}
 		return new SimpleAdapter(this, list, R.layout.logs_list_item, new String[]{"date", "body", "contact"}, new int[]{
 				R.id.log_date, R.id.log_body, R.id.log_contact});
+	}
+	public void onShowFilterDialog(View v){
+		
+	}
+	public void onClearTabLogs(View v){
+		switch(tabHost.getCurrentTab()){
+			case BLOCKED_TAB:
+				break;
+			case SUSPICIOUS_TAB:
+				break;
+			case PASSED_TAB:
+				break;
+		}
 	}
 }

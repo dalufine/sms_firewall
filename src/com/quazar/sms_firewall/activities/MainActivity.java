@@ -1,6 +1,8 @@
 package com.quazar.sms_firewall.activities;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +14,7 @@ import com.quazar.sms_firewall.Param;
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.StateManager;
 import com.quazar.sms_firewall.dao.DataDao;
+import com.quazar.sms_firewall.dialogs.RegistrationDialog;
 import com.quazar.sms_firewall.models.Filter.FilterType;
 import com.quazar.sms_firewall.network.ApiClient;
 import com.quazar.sms_firewall.utils.ContentUtils;
@@ -32,6 +35,12 @@ public class MainActivity extends Activity{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);		
 		updateStatisticsViews();
+		NotificationManager nm = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+		nm.cancel(777);
+		if((Boolean)Param.IS_NEW.getValue()){
+			RegistrationDialog rd=new RegistrationDialog(this);
+			rd.show();
+		}
 	}
 	@Override
 	protected void onResume() {		

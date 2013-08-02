@@ -13,12 +13,13 @@ import android.os.Message;
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.StateManager;
 import com.quazar.sms_firewall.dao.DataDao;
+import com.quazar.sms_firewall.dialogs.CallsSelectDialog;
+import com.quazar.sms_firewall.dialogs.EnterValueDialog;
+import com.quazar.sms_firewall.dialogs.SelectSourceDialog;
+import com.quazar.sms_firewall.dialogs.SmsSelectDialog;
+import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
+import com.quazar.sms_firewall.dialogs.listeners.SelectListener;
 import com.quazar.sms_firewall.models.Filter.FilterType;
-import com.quazar.sms_firewall.popups.CallsSelectPopup;
-import com.quazar.sms_firewall.popups.EnterValuePopup;
-import com.quazar.sms_firewall.popups.SelectListener;
-import com.quazar.sms_firewall.popups.SelectSourcePopup;
-import com.quazar.sms_firewall.popups.SmsSelectPopup;
 
 public class DialogUtils {
 	public static void createWarningDialog(final AlertDialog dialog,
@@ -36,17 +37,17 @@ public class DialogUtils {
 	}
 
 	public static void showSourceSelectPopup(final Activity activity, final Handler handler){		
-		SelectSourcePopup sourceSelect=new SelectSourcePopup(activity, new SelectListener<Integer>(){
+		SelectSourceDialog sourceSelect=new SelectSourceDialog(activity, new SelectListener<Integer>(){
 			@Override
 			public void recieveSelection(Integer selection){
 				final DataDao dao=new DataDao(activity);
 				try{
 					switch(selection){
-						case SelectSourcePopup.FROM_CONTACTS:
+						case SelectSourceDialog.FROM_CONTACTS:
 							StateManager.getContact(activity);
 							break;
-						case SelectSourcePopup.FROM_INBOX_SMS:
-							SmsSelectPopup smsPopup=new SmsSelectPopup(activity, new SelectListener<HashMap<String, Object>>(){
+						case SelectSourceDialog.FROM_INBOX_SMS:
+							SmsSelectDialog smsPopup=new SmsSelectDialog(activity, new SelectListener<HashMap<String, Object>>(){
 								@Override
 								public void recieveSelection(HashMap<String, Object> selection){
 									dao.insertFilter(FilterType.PHONE_NAME, (String)selection.get(ContentUtils.SMS_NUMBER));
@@ -56,8 +57,8 @@ public class DialogUtils {
 							});
 							smsPopup.show();
 							break;
-						case SelectSourcePopup.FROM_INCOME_CALLS:
-							CallsSelectPopup callsPopup=new CallsSelectPopup(activity, new SelectListener<HashMap<String, Object>>(){
+						case SelectSourceDialog.FROM_INCOME_CALLS:
+							CallsSelectDialog callsPopup=new CallsSelectDialog(activity, new SelectListener<HashMap<String, Object>>(){
 								@Override
 								public void recieveSelection(HashMap<String, Object> selection){
 									dao.insertFilter(FilterType.PHONE_NAME, (String)selection.get(ContentUtils.CALLS_NUMBER));
@@ -80,7 +81,7 @@ public class DialogUtils {
 
 	public static void showEnterWordFilterPopup(final Context context,
 			final Handler handler) {
-		EnterValuePopup popup = new EnterValuePopup(context, context
+		EnterValueDialog popup = new EnterValueDialog(context, context
 				.getResources().getString(R.string.enter_word),
 				new SelectListener<String>() {
 					@Override
@@ -96,5 +97,23 @@ public class DialogUtils {
 					}
 				});
 		popup.show();
+	}
+	public static void showConfirmDialog(Context context, String title, String question, final DialogListener<Boolean> listener){
+		new AlertDialog.Builder(context)
+        .setIcon(android.R.drawable.ic_dialog_alert)
+        .setTitle(title)
+        .setMessage(question)
+        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                listener.ok(true);    
+            }
+        }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                listener.cancel();    
+            }
+        })
+        .show();
 	}
 }

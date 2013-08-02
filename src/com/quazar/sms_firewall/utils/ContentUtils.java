@@ -43,7 +43,7 @@ public class ContentUtils {
 				new String[] { "address", "body" }, null, null, null);
 		while (cursor.moveToNext()) {
 			HashMap<String, Object> sms = new HashMap<String, Object>();
-			sms.put(SMS_NUMBER, cursor.getString(0));
+			sms.put(SMS_NUMBER, DictionaryUtils.getInstance().getContactsName(cursor.getString(0)));
 			String text = cursor.getString(1);
 			if (text.length() > 40)
 				text = text.substring(0, 37) + "...";

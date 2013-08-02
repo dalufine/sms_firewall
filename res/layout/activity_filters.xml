@@ -17,9 +17,9 @@
         <FrameLayout
             android:id="@android:id/tabcontent"
             android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-            android:padding="5dp" >
+	        android:layout_height="0dip"
+	        android:layout_weight="1"
+            android:padding="5dp">
 
             <LinearLayout
                 android:id="@+id/phone_filters"
@@ -52,17 +52,22 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal"
             android:padding="5dp" >
+            
+            <Button                
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onGoBack"
+                android:padding="15dp"
+                android:text="BP" />
 
-            <Button
-                android:id="@+id/addFilterAct"
+            <Button                
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onAddFilter"
                 android:padding="15dp"
                 android:text="A" />
 
-            <Button
-                android:id="@+id/clearFiltersAct"
+            <Button                
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClearFilters"

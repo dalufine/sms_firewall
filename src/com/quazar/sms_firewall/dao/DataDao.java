@@ -114,6 +114,23 @@ public class DataDao extends SQLiteOpenHelper{
 			dbase.close();
 		}		
 	}
+	public int clearFilters(FilterType type){
+		if(filters!=null) {
+			for(int i=0;i<filters.size();i++) {
+				Filter f=filters.get(i);
+				if(f.getType()==type) {
+					filters.remove(f);
+					i--;
+				}
+			}
+		}
+		SQLiteDatabase dbase=getWritableDatabase();
+		try{
+			return dbase.delete("filters", "type=?", new String[] {String.valueOf(type.ordinal())});			
+		}finally{
+			dbase.close();
+		}		
+	}
 	// ------------------Logs-----------------------------------
 	public List<SmsLogItem> getLogs(LogStatus status){
 		if(logs!=null)
@@ -181,6 +198,25 @@ public class DataDao extends SQLiteOpenHelper{
 					sql+=" AND";
 				sql+=" category="+category.ordinal();
 			}
+			cursor=dbase.rawQuery(sql, null);
+			int idIdx=cursor.getColumnIndex("_id"), posIdx=cursor.getColumnIndex("pos"), votesIdx=cursor.getColumnIndex("votes"), valueIdx=cursor.getColumnIndex("value"), 
+					typeIdx=cursor.getColumnIndex("type"), categoryIdx=cursor.getColumnIndex("category"), exampleIdx=cursor.getColumnIndex("example");
+			while(cursor.moveToNext()){			
+				tops.add(new TopItem(cursor.getInt(idIdx), cursor.getInt(posIdx), cursor.getInt(votesIdx), cursor.getString(valueIdx), cursor.getString(exampleIdx), cursor.getInt(typeIdx), cursor.getInt(categoryIdx)));
+			}
+			return tops;
+		}finally{
+			cursor.close();
+			dbase.close();
+		}		
+	}
+	public List<TopItem> getAllTops(){
+		SQLiteDatabase dbase=null;
+		Cursor cursor=null;
+		try{
+			dbase=getReadableDatabase();
+			List<TopItem> tops=new ArrayList<TopItem>();
+			String sql="SELECT * FROM tops";			
 			cursor=dbase.rawQuery(sql, null);
 			int idIdx=cursor.getColumnIndex("_id"), posIdx=cursor.getColumnIndex("pos"), votesIdx=cursor.getColumnIndex("votes"), valueIdx=cursor.getColumnIndex("value"), 
 					typeIdx=cursor.getColumnIndex("type"), categoryIdx=cursor.getColumnIndex("category"), exampleIdx=cursor.getColumnIndex("example");
