@@ -19,7 +19,7 @@ import com.quazar.sms_firewall.utils.DeviceInfoUtil;
 public class ConnectionDialog extends AlertDialog {
 	public ConnectionDialog(final Context context) {
 		super(context);
-		View v = getLayoutInflater().inflate(R.layout.connection_popup, null);
+		View v = getLayoutInflater().inflate(R.layout.connection_dialog, null);
 		setView(v);
 		((TextView) v.findViewById(R.id.con_value_title)).setText(context
 				.getResources().getString(R.string.inet_conn_on));

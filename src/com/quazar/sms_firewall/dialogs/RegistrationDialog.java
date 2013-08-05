@@ -17,7 +17,7 @@ public class RegistrationDialog extends AlertDialog {
 	private EditText userEmail, logsPassword;
 	public RegistrationDialog(final Context context) {
 		super(context);
-		final View v = getLayoutInflater().inflate(R.layout.registration_popup, null);
+		final View v = getLayoutInflater().inflate(R.layout.registration_dialog, null);
 		setView(v);		
 		useSync=(CheckBox) v.findViewById(R.id.syncFilters);
 		useEmail=(CheckBox) v.findViewById(R.id.useEmail);		

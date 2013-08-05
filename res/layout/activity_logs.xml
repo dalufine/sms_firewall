@@ -74,6 +74,13 @@
                 android:onClick="onClearTabLogs"
                 android:padding="15dp"
                 android:text="CTL" />
+            
+            <Button                
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onCheck"
+                android:padding="15dp"
+                android:text="Chk" />
         </LinearLayout>
     </LinearLayout>
 </TabHost>

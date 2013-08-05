@@ -15,7 +15,7 @@ public class PasswordDialog extends AlertDialog{
 	public PasswordDialog(final Context context, final String etalon, DialogListener<String> listener){
 		super(context);
 		this.listener=listener;
-		View v=getLayoutInflater().inflate(R.layout.enter_password_popup, null);		
+		View v=getLayoutInflater().inflate(R.layout.enter_password_dialog, null);		
 		setView(v);
 		((TextView)v.findViewById(R.id.password_title)).setText(R.string.ask_logs_password);
 		final EditText password=((EditText)v.findViewById(R.id.password_fileld));		

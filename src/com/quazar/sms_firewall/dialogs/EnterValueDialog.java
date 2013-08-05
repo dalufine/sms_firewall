@@ -15,7 +15,7 @@ public class EnterValueDialog extends AlertDialog{
 	public EnterValueDialog(Context context, String title, SelectListener<String> listener){
 		super(context);
 		this.listener=listener;
-		View v=getLayoutInflater().inflate(R.layout.enter_value_popup, null);		
+		View v=getLayoutInflater().inflate(R.layout.enter_value_dialog, null);		
 		setView(v);
 		((TextView)v.findViewById(R.id.value_title)).setText(title);
 		((Button)v.findViewById(R.id.ok_btn)).setOnClickListener(new Button.OnClickListener(){			

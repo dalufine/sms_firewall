@@ -296,4 +296,24 @@ public class DataDao extends SQLiteOpenHelper{
 			dbase.close();
 		}		
 	}
+	public List<String> getLogSenders(){
+		SQLiteDatabase dbase=null;
+		Cursor cursor=null;
+		try{
+			dbase=getReadableDatabase();		
+			cursor=dbase.rawQuery("SELECT phone_name FROM logs", null);			
+			List<String> senders=new ArrayList<String>();			
+			while(cursor.moveToNext()){			
+				senders.add(cursor.getString(0));
+			}
+			return senders;
+		}catch(Exception ex){
+			Log.e("dao", ex.toString());
+		}
+		finally{
+			cursor.close();
+			dbase.close();
+		}	
+		return null;
+	}
 }

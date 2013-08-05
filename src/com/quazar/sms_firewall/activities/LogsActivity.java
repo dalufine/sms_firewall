@@ -12,9 +12,13 @@ import android.widget.TabHost;
 
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.dao.DataDao;
+import com.quazar.sms_firewall.dialogs.LogsFilterDialog;
+import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
+import com.quazar.sms_firewall.models.LogFilter;
 import com.quazar.sms_firewall.models.SmsLogItem;
 import com.quazar.sms_firewall.models.SmsLogItem.LogStatus;
 import com.quazar.sms_firewall.utils.ContentUtils;
+import com.quazar.sms_firewall.utils.DialogUtils;
 import com.quazar.sms_firewall.utils.DictionaryUtils;
 
 public class LogsActivity extends BaseActivity{
@@ -68,16 +72,35 @@ public class LogsActivity extends BaseActivity{
 				R.id.log_date, R.id.log_body, R.id.log_contact});
 	}
 	public void onShowFilterDialog(View v){
-		
+		LogsFilterDialog lfd=new LogsFilterDialog(this, new DialogListener<LogFilter>() {			
+			@Override
+			public void ok(LogFilter value) {				
+			}			
+			@Override
+			public void cancel() {
+			}
+		});
+		lfd.show();
 	}
 	public void onClearTabLogs(View v){
-		switch(tabHost.getCurrentTab()){
-			case BLOCKED_TAB:
-				break;
-			case SUSPICIOUS_TAB:
-				break;
-			case PASSED_TAB:
-				break;
-		}
+		DialogUtils.showConfirmDialog(this, getResources().getString(R.string.warning), getResources().getString(R.string.logs_clear_conf), new DialogListener<Boolean>() {			
+			@Override
+			public void ok(Boolean value) {
+				switch(tabHost.getCurrentTab()){
+					case BLOCKED_TAB:
+						break;
+					case SUSPICIOUS_TAB:
+						break;
+					case PASSED_TAB:
+						break;
+				}
+			}			
+			@Override
+			public void cancel() {
+			}
+		});		
+	}
+	public void onCheck(View v){
+		
 	}
 }
