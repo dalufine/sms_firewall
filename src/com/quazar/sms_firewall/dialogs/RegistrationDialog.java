@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.quazar.sms_firewall.Param;
 import com.quazar.sms_firewall.R;
+import com.quazar.sms_firewall.network.ApiClient;
 
 public class RegistrationDialog extends AlertDialog {
 	private CheckBox useSync, useEmail, sendSuspicious;
@@ -40,32 +41,35 @@ public class RegistrationDialog extends AlertDialog {
 			@Override
 			public void onClick(View v) {
 				boolean hasError=false;
+				String email=null, password=logsPassword.getText().toString().trim();
 				if(useSync.isChecked()){
 					Param.USE_SYNC.setValue(true);
 					if(useEmail.isChecked()){
-						String email=userEmail.getText().toString();
+						email=userEmail.getText().toString().trim();
 						if(email.matches("\\S*@\\w*\\.\\w{2,6}"))
-							Param.USER_EMAIL.setValue(userEmail.getText().toString());
+							Param.USER_EMAIL.setValue(email);
 						else{							
 							userEmail.setError(context.getResources().getString(R.string.enter_email));
 							hasError=true;
 						}
-					}
-					if(logsPassword.getText().length()>=8){
-						if(!hasError)
-							Param.LOGS_PASSWORD.setValue(logsPassword.getText().toString());
-					}else{						
-						logsPassword.setError(context.getResources().getString(R.string.password_length_error));
-						hasError=true;
-					}
-					if(!hasError){
-						Param.SEND_SUSPICIOUS.setValue(sendSuspicious.isChecked());
-						Toast.makeText(context, context.getResources().getString(R.string.registration_thanks), Toast.LENGTH_SHORT).show();
-						Param.IS_NEW.setValue(false);
-						RegistrationDialog.this.dismiss();
-					}else{
-						Toast.makeText(context, context.getResources().getString(R.string.have_errors), Toast.LENGTH_SHORT).show();
-					}
+					}					
+				}				
+				if(password.length()>=8){
+					if(!hasError)
+						Param.LOGS_PASSWORD.setValue(password);
+				}else{						
+					logsPassword.setError(context.getResources().getString(R.string.password_length_error));
+					hasError=true;
+				}
+				if(!hasError){
+					Param.SEND_SUSPICIOUS.setValue(sendSuspicious.isChecked());
+					Toast.makeText(context, context.getResources().getString(R.string.registration_thanks), Toast.LENGTH_SHORT).show();
+					Param.IS_NEW.setValue(false);
+					ApiClient api=new ApiClient(context);
+					api.register(email, password);
+					RegistrationDialog.this.dismiss();
+				}else{
+					Toast.makeText(context, context.getResources().getString(R.string.have_errors), Toast.LENGTH_SHORT).show();
 				}
 			}
 		});

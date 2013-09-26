@@ -17,7 +17,10 @@ import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.utils.DeviceInfoUtil;
 
 public class ConnectionDialog extends AlertDialog {
-	public ConnectionDialog(final Context context) {
+	public interface ConnectionListener{
+		void onConnectionReady();
+	}
+	public ConnectionDialog(final Context context, final ConnectionListener listener) {
 		super(context);
 		View v = getLayoutInflater().inflate(R.layout.connection_dialog, null);
 		setView(v);
@@ -36,6 +39,8 @@ public class ConnectionDialog extends AlertDialog {
 					@Override
 					public void onClick(View v) {
 						setMobileDataEnabled(context, !DeviceInfoUtil.isOnline(context));
+						if(listener!=null)
+							listener.onConnectionReady();
 						//dismiss();
 					}
 				});
@@ -46,6 +51,8 @@ public class ConnectionDialog extends AlertDialog {
 			@Override
 			public void onClick(View v) {
 				wifiManager.setWifiEnabled(!wifiManager.isWifiEnabled());
+				if(listener!=null)
+					listener.onConnectionReady();
 				// dismiss();
 			}
 		});

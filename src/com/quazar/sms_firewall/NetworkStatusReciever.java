@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.quazar.sms_firewall.dao.DataDao;
+import com.quazar.sms_firewall.network.ApiClient;
 import com.quazar.sms_firewall.utils.DeviceInfoUtil;
 
 public class NetworkStatusReciever extends BroadcastReceiver {
@@ -19,6 +20,8 @@ public class NetworkStatusReciever extends BroadcastReceiver {
 			Param.load(context);
 		if(DeviceInfoUtil.isOnline(context)){
 			Log.i("network", "network is on");
+			ApiClient api=new ApiClient(context);
+			api.sendWaitingRequests();
 		}else{
 			Log.i("network", "network is off");
 		}

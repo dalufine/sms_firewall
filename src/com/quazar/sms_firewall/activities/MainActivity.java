@@ -30,8 +30,10 @@ public class MainActivity extends Activity{
 		dataDao=new DataDao(this);
 		DictionaryUtils.createInstance(this);		
 		Param.load(this);
-		ApiClient api=new ApiClient();
-		api.sync(this);
+		if((Boolean)Param.USE_SYNC.getValue()&&(System.currentTimeMillis()-(Long)Param.LAST_SYNC.getValue())/86400000L>2){
+			ApiClient api=new ApiClient(this);
+			api.sync();
+		}
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);		
 		updateStatisticsViews();
