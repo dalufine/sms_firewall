@@ -78,9 +78,9 @@
             <Button                
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="onCheck"
+                android:onClick="onResetFilter"
                 android:padding="15dp"
-                android:text="Chk" />
+                android:text="Reset" />
         </LinearLayout>
     </LinearLayout>
 </TabHost>

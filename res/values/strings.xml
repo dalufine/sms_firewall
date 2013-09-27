@@ -31,6 +31,7 @@
     <string name="sync_on">Server sync</string>
     <string name="top_filter_on">Use all filters from top 100</string>
     <string name="reset_stats">Reset statistics</string>
+    <string name="reset">Reset</string>
     <string name="reset_logs_password">Reset logs password</string>
     <string name="clear_logs">Clear logs</string>
     <string name="blocked_counter">Show blocked SMS counter</string>
@@ -80,6 +81,5 @@
     <string name="logs_filter">Logs filter</string>
     <string name="body_contains">Body contains:</string>
     <string name="date_from">Date from:</string>
-    <string name="date_to">Date to:</string>
-    <string name="date_hint">dd/MM/yyyy</string>
+    <string name="date_to">Date to:</string>    
 </resources>

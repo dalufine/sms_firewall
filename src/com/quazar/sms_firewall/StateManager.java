@@ -8,6 +8,8 @@ import com.quazar.sms_firewall.activities.FiltersActivity;
 import com.quazar.sms_firewall.activities.LogsActivity;
 import com.quazar.sms_firewall.activities.SettingsActivity;
 import com.quazar.sms_firewall.activities.TopsActivity;
+import com.quazar.sms_firewall.dialogs.PasswordDialog;
+import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
 
 public class StateManager {
 	public static final int CONTACTS_REQUEST_ID=1;
@@ -21,7 +23,7 @@ public class StateManager {
 	}
 	public static void showLogs(final Activity activity){
 		//TODO for test time
-		/*PasswordDialog pd=new PasswordDialog(activity, (String)Param.LOGS_PASSWORD.getValue(), new DialogListener<String>() {			
+		PasswordDialog pd=new PasswordDialog(activity, (String)Param.LOGS_PASSWORD.getValue(), new DialogListener<String>() {			
 			@Override
 			public void ok(String value) {
 				Intent intent = new Intent(activity, LogsActivity.class);		
@@ -31,9 +33,7 @@ public class StateManager {
 			public void cancel() {
 			}
 		});
-		pd.show();*/
-		Intent intent = new Intent(activity, LogsActivity.class);		
-		activity.startActivity(intent);
+		pd.show();		
 	}
 	public static void showTops(Activity activity){
 		Intent intent = new Intent(activity, TopsActivity.class);		

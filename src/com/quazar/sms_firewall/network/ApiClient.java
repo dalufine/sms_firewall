@@ -37,8 +37,8 @@ import com.quazar.sms_firewall.models.TopItem.TopCategory;
 import com.quazar.sms_firewall.utils.DeviceInfoUtil;
 
 public class ApiClient {
-	//private static final String HOST = "http://xn--80ae0achg0hya.xn--p1ai/sms_firewall/services/api/";
-	private static final String HOST = "http://10.7.4.56:8080/sms_firewall/services/api/";
+	private static final String HOST = "http://xn--80ae0achg0hya.xn--p1ai/sms_firewall/services/api/";
+	//private static final String HOST = "http://10.7.4.56:8080/sms_firewall/services/api/";
 	public static enum ApiMethods {
 		register, addFilter, syncUserFilters, check, getTops, addVote, saveSms, loadSms, registerBug, pack
 	};

@@ -54,8 +54,7 @@
                 android:id="@+id/dateFrom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/date_hint"
+                android:ems="10"                
                 android:inputType="date" >
             </EditText>
 
@@ -68,8 +67,7 @@
                 android:id="@+id/dateTo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/date_hint"
+                android:ems="10"                
                 android:inputType="date" />
 
         </LinearLayout>
@@ -85,6 +83,13 @@
                 android:layout_width="54dp"
                 android:layout_height="wrap_content"
                 android:text="@string/ok" />
+            
+            <Button
+                android:id="@+id/resetLogFilterBtn"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="54dp"
+                android:layout_height="wrap_content"
+                android:text="@string/reset" />
 
             <Button
                 android:id="@+id/cancelLogFilterBtn"

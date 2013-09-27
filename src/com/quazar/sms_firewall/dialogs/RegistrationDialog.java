@@ -17,7 +17,7 @@ public class RegistrationDialog extends AlertDialog {
 	private CheckBox useSync, useEmail, sendSuspicious;
 	private EditText userEmail, logsPassword;
 	public RegistrationDialog(final Context context) {
-		super(context);
+		super(context);		
 		final View v = getLayoutInflater().inflate(R.layout.registration_dialog, null);
 		setView(v);		
 		useSync=(CheckBox) v.findViewById(R.id.syncFilters);

@@ -3,6 +3,7 @@ package com.quazar.sms_firewall.activities;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -41,6 +42,12 @@ public class MainActivity extends Activity{
 		nm.cancel(777);
 		if((Boolean)Param.IS_NEW.getValue()){
 			RegistrationDialog rd=new RegistrationDialog(this);
+			rd.setOnCancelListener(new DialogInterface.OnCancelListener() {				
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					finish();
+				}
+			});
 			rd.show();
 		}
 	}

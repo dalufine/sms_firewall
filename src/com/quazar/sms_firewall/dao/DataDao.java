@@ -2,8 +2,8 @@ package com.quazar.sms_firewall.dao;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.json.JSONObject;
@@ -17,6 +17,7 @@ import android.util.Log;
 
 import com.quazar.sms_firewall.models.Filter;
 import com.quazar.sms_firewall.models.Filter.FilterType;
+import com.quazar.sms_firewall.models.LogFilter;
 import com.quazar.sms_firewall.models.Request;
 import com.quazar.sms_firewall.models.SmsLogItem;
 import com.quazar.sms_firewall.models.SmsLogItem.LogStatus;
@@ -33,9 +34,8 @@ public class DataDao extends SQLiteOpenHelper{
 			"CREATE TABLE requests(_id INTEGER PRIMARY KEY AUTOINCREMENT, method TEXT NOT NULL, data TEXT NOT NULL, add_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"},
 			dropSql= {"DROP TABLE IF EXISTS filters","DROP TABLE IF EXISTS logs","DROP TABLE IF EXISTS tops","DROP TABLE IF EXISTS requests"};
 
-	private static final SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");	
+	private static final SimpleDateFormat sqlFromFormat=new SimpleDateFormat("yyyy-MM-dd 00:00:00", Locale.US), sqlToFormat=new SimpleDateFormat("yyyy-MM-dd 23:59:59", Locale.US);	
 	// cache
-	private static List<SmsLogItem> logs=null;
 	private static List<Filter> filters=null;	
 
 	public DataDao(Context context){
@@ -132,20 +132,31 @@ public class DataDao extends SQLiteOpenHelper{
 		}		
 	}
 	// ------------------Logs-----------------------------------
-	public List<SmsLogItem> getLogs(LogStatus status){
-		if(logs!=null)
-			return filterLogsByStatus(status);
+	public List<SmsLogItem> getLogs(LogStatus status, LogFilter filter, Integer offset, Integer limit){		
 		try{
-			logs=new ArrayList<SmsLogItem>();
+			List<SmsLogItem> logs=new ArrayList<SmsLogItem>();
 			SQLiteDatabase dbase=null;
 			Cursor cursor=null;
 			try{
 				dbase=getReadableDatabase();
-				cursor=dbase.query("logs", null, null, null, null, null, "_id DESC");
+				String where="status="+status.ordinal();				
+				if(filter!=null){
+					where=addFilter(where, "body LIKE '%%%s%%'", filter.getBodyLike());
+					where=addFilter(where, "phone_name='%s'", filter.getPhoneName());
+					where=addFilter(where, "add_time>='%s'", (filter.getFrom()==null)?null:sqlFromFormat.format(filter.getFrom()));
+					where=addFilter(where, "add_time<='%s'", (filter.getTo()==null)?null:sqlToFormat.format(filter.getTo()));					
+				}
+				if(offset==null)
+					offset=0;
+				if(limit==null)
+					limit=100;
+				cursor=dbase.rawQuery("SELECT * FROM logs WHERE "+where+" ORDER BY _id DESC LIMIT ?,?", new String[]{""+offset,""+limit});
 				int idIdx=cursor.getColumnIndex("_id"), phoneNameIdx=cursor.getColumnIndex("phone_name"), bodyIdx=cursor.getColumnIndex("body"), addTimeIdx=cursor.getColumnIndex("add_time"), statusIdx=cursor.getColumnIndex("status");
-				while(cursor.moveToNext()){				
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.US);
+				while(cursor.moveToNext()){
 					logs.add(new SmsLogItem(cursor.getInt(idIdx), cursor.getString(phoneNameIdx), cursor.getString(bodyIdx), sdf.parse(cursor.getString(addTimeIdx)), cursor.getInt(statusIdx)));
 				}
+				return logs;
 			}finally{
 				cursor.close();
 				dbase.close();
@@ -153,8 +164,17 @@ public class DataDao extends SQLiteOpenHelper{
 		}catch(Exception ex){
 			Log.e("logs loading", ex.toString());
 			return null;
+		}		
+	}
+	private static String addFilter(String where, String expression, String substitute){
+		if(substitute==null)
+			return where;
+		if(where==null||where.isEmpty()){
+			where=String.format(expression, substitute);
+		}else{
+			where+=(" AND "+String.format(expression, substitute));
 		}
-		return filterLogsByStatus(status);
+		return where;
 	}
 	public int insertLog(String phoneName, String body, LogStatus status){
 		ContentValues cv=new ContentValues();		
@@ -164,22 +184,20 @@ public class DataDao extends SQLiteOpenHelper{
 		SQLiteDatabase dbase=getWritableDatabase();
 		try{
 			int result=(int)dbase.insert("logs", null, cv);
-			if(logs==null)
-				getLogs(LogStatus.BLOCKED);
-			logs.add(new SmsLogItem(result, phoneName, body, new Date(), status.ordinal()));
 			return result;
 		}finally{
 			dbase.close();
 		}		
 	}
-	private List<SmsLogItem> filterLogsByStatus(LogStatus status){
-		List<SmsLogItem> result=new ArrayList<SmsLogItem>();
-		for(SmsLogItem li:logs){
-			if(li.getStatus()==status)
-				result.add(li);
-		}
-		return result;
-	}
+	public int clearLogs(LogStatus status){	
+		SQLiteDatabase dbase=getWritableDatabase();
+		try{
+			int result=(int)dbase.delete("logs", "status=?", new String[]{""+status.ordinal()});
+			return result;
+		}finally{
+			dbase.close();
+		}		
+	}	
 	// ------------------Tops--------------------------------
 	public List<TopItem> getTop(TopType type, TopCategory category){
 		SQLiteDatabase dbase=null;
@@ -301,7 +319,7 @@ public class DataDao extends SQLiteOpenHelper{
 		Cursor cursor=null;
 		try{
 			dbase=getReadableDatabase();		
-			cursor=dbase.rawQuery("SELECT phone_name FROM logs", null);			
+			cursor=dbase.rawQuery("SELECT DISTINCT phone_name FROM logs", null);			
 			List<String> senders=new ArrayList<String>();			
 			while(cursor.moveToNext()){			
 				senders.add(cursor.getString(0));
@@ -315,5 +333,5 @@ public class DataDao extends SQLiteOpenHelper{
 			dbase.close();
 		}	
 		return null;
-	}
+	}	
 }

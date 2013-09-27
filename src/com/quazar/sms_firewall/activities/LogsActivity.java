@@ -24,7 +24,7 @@ import com.quazar.sms_firewall.utils.DictionaryUtils;
 public class LogsActivity extends BaseActivity{
 	private static DataDao dataDao;
 	private TabHost tabHost;
-	private static final int BLOCKED_TAB=0, SUSPICIOUS_TAB=1, PASSED_TAB=2; 
+	private List<ListView> lists;	 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -38,27 +38,31 @@ public class LogsActivity extends BaseActivity{
 		blockedLogsTab.setIndicator(getResources().getString(R.string.blocked));
 		blockedLogsTab.setContent(R.id.blocked_logs);
 		ListView blockedList=(ListView)findViewById(R.id.blocked_logs_list);
-		blockedList.setAdapter(getAdapter(LogStatus.BLOCKED));
+		blockedList.setAdapter(getAdapter(LogStatus.BLOCKED, null));
 
 		TabHost.TabSpec suspiciousLogsTab=tabHost.newTabSpec("suspicious logs");
 		suspiciousLogsTab.setIndicator(getResources().getString(R.string.suspicious));
 		suspiciousLogsTab.setContent(R.id.suspicious_logs);
 		ListView suspiciousList=(ListView)findViewById(R.id.suspicious_logs_list);
-		suspiciousList.setAdapter(getAdapter(LogStatus.SUSPICIOUS));
+		suspiciousList.setAdapter(getAdapter(LogStatus.SUSPICIOUS, null));
 
 		TabHost.TabSpec filteredLogsTab=tabHost.newTabSpec("filtered logs");
 		filteredLogsTab.setIndicator(getResources().getString(R.string.filtered));
 		filteredLogsTab.setContent(R.id.filtered_logs);
 		ListView filteredList=(ListView)findViewById(R.id.filtered_logs_list);
-		filteredList.setAdapter(getAdapter(LogStatus.FILTERED));
-
-		tabHost.addTab(blockedLogsTab);
-		tabHost.addTab(suspiciousLogsTab);
+		filteredList.setAdapter(getAdapter(LogStatus.FILTERED, null));
+		
+		lists=new ArrayList<ListView>();
 		tabHost.addTab(filteredLogsTab);
-		tabHost.setCurrentTab(0);
+		lists.add(filteredList);
+		tabHost.addTab(suspiciousLogsTab);
+		lists.add(suspiciousList);
+		tabHost.addTab(blockedLogsTab);
+		lists.add(blockedList);
+		tabHost.setCurrentTab(2);
 	}
-	public SimpleAdapter getAdapter(LogStatus status){
-		List<SmsLogItem> logs=dataDao.getLogs(status);
+	public SimpleAdapter getAdapter(LogStatus status, LogFilter filter){
+		List<SmsLogItem> logs=dataDao.getLogs(status, filter, null, null);
 		List<HashMap<String, Object>> list=new ArrayList<HashMap<String, Object>>();
 		for(SmsLogItem log:logs){
 			HashMap<String, Object> map=new HashMap<String, Object>();
@@ -74,7 +78,8 @@ public class LogsActivity extends BaseActivity{
 	public void onShowFilterDialog(View v){
 		LogsFilterDialog lfd=new LogsFilterDialog(this, new DialogListener<LogFilter>() {			
 			@Override
-			public void ok(LogFilter value) {				
+			public void ok(LogFilter value) {
+				lists.get(tabHost.getCurrentTab()).setAdapter(getAdapter(LogStatus.values()[tabHost.getCurrentTab()], value));
 			}			
 			@Override
 			public void cancel() {
@@ -82,25 +87,24 @@ public class LogsActivity extends BaseActivity{
 		});
 		lfd.show();
 	}
+	public void onResetFilter(View v){
+		int tab=tabHost.getCurrentTab();
+		LogStatus status=LogStatus.values()[tab];
+		LogsFilterDialog.resetFilter();
+		lists.get(tab).setAdapter(getAdapter(status, null));
+	}
 	public void onClearTabLogs(View v){
 		DialogUtils.showConfirmDialog(this, getResources().getString(R.string.warning), getResources().getString(R.string.logs_clear_conf), new DialogListener<Boolean>() {			
 			@Override
 			public void ok(Boolean value) {
-				switch(tabHost.getCurrentTab()){
-					case BLOCKED_TAB:
-						break;
-					case SUSPICIOUS_TAB:
-						break;
-					case PASSED_TAB:
-						break;
-				}
+				int tab=tabHost.getCurrentTab();
+				LogStatus status=LogStatus.values()[tab];
+				dataDao.clearLogs(status);
+				lists.get(tab).setAdapter(getAdapter(status, null));					
 			}			
 			@Override
 			public void cancel() {
 			}
 		});		
-	}
-	public void onCheck(View v){
-		
 	}
 }
