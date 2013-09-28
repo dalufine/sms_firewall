@@ -71,7 +71,7 @@ public class MainActivity extends Activity{
 	}
 
 	public void onPhoneNumberClick(View v){
-		DialogUtils.showSourceSelectPopup(this, null);
+		DialogUtils.showSourceSelectPopup(this, null, false);
 	}
 	public void onShowFilters(View v){
 		StateManager.showFilters(this);

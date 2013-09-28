@@ -20,7 +20,7 @@ public class SelectSourceDialog extends AlertDialog {
 	public static final int FROM_CONTACTS = 0, FROM_INBOX_SMS = 1,
 			FROM_INCOME_CALLS = 2, FROM_SUSPICIOUS_SMS = 3,
 			FROM_FRAUDS_TOP = 4;	
-	public SelectSourceDialog(final Context context, final SelectListener<Integer> listener) {
+	public SelectSourceDialog(final Context context, final SelectListener<Integer> listener, boolean forCheck) {
 		super(context);
 		View v = getLayoutInflater().inflate(R.layout.source_list, null);
 		ListView listView = (ListView) v.findViewById(R.id.sources_list);
@@ -33,9 +33,14 @@ public class SelectSourceDialog extends AlertDialog {
 			}
 		});
 		List<HashMap<String, Object>> sources = new ArrayList<HashMap<String, Object>>();
-		String[] texts = context.getResources().getStringArray(R.array.sources);
+		int listId=R.array.sources;
+		if(forCheck)
+			listId=R.array.check_sources;
+		String[] texts = context.getResources().getStringArray(listId);
 		int[] icons = { R.drawable.contacts, R.drawable.inbox_sms,
 				R.drawable.call, R.drawable.warning, R.drawable.top };
+		if(forCheck)
+			icons[3]=R.drawable.contacts;
 		for (int i = 0; i < texts.length; i++) {
 			HashMap<String, Object> hm = new HashMap<String, Object>();
 			hm.put(TEXT_KEY, texts[i]);

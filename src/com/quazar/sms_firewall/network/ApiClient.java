@@ -106,8 +106,10 @@ public class ApiClient {
 			@Override
 			public void run() {
 				JSONObject result = post(method, data);
-				Message message = handler.obtainMessage(1, result);
-				handler.sendMessage(message);
+				if(handler!=null){
+					Message message = handler.obtainMessage(1, result);
+					handler.sendMessage(message);
+				}
 			}
 		};
 		thread.start();
@@ -170,7 +172,7 @@ public class ApiClient {
 				return -1;
 			}
 			if(DeviceInfoUtil.isOnline(context)){								
-				post(ApiMethods.register, data);
+				postAsync(ApiMethods.register, data, null);
 				return 1;
 			}else{
 				(new DataDao(context)).insertRequest(ApiMethods.register, data);
@@ -220,7 +222,8 @@ public class ApiClient {
 		try {
 			final JSONObject data = new JSONObject();
 			data.put("value", value);
-			data.put("locale", Locale.getDefault().getCountry());
+			//data.put("locale", Locale.getDefault().getCountry());
+			data.put("locale", "ru");
 			if(DeviceInfoUtil.isOnline(context)){
 				postAsync(ApiMethods.check, data, handler);
 				return true;
@@ -259,10 +262,12 @@ public class ApiClient {
 		return false;
 	}
 
-	public boolean addVote(String id, int filterId, final Handler handler) {
+	public boolean addVote(int filterId, final Handler handler) {
 		try {
 			final JSONObject data = new JSONObject();
-			data.put("id", id);
+			if(Param.USER_EMAIL.getValue()!=null&&!((String)Param.USER_EMAIL.getValue()).isEmpty())
+				data.put("id", Param.USER_EMAIL.getValue());
+			else data.put("id", DeviceInfoUtil.getIMEI(context));
 			data.put("filter_id", filterId);
 			if(DeviceInfoUtil.isOnline(context)){
 				postAsync(ApiMethods.addVote, data, handler);
@@ -313,7 +318,7 @@ public class ApiClient {
 					array.put(obj);
 				}
 				data.put("requests", array);				
-				post(ApiMethods.pack, data);				
+				postAsync(ApiMethods.pack, data, null);				
 			} catch (Exception ex) {
 				Log.e("api", ex.toString());
 				return false;

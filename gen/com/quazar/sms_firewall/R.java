@@ -9,7 +9,8 @@ package com.quazar.sms_firewall;
 
 public final class R {
     public static final class array {
-        public static final int languages=0x7f050001;
+        public static final int check_sources=0x7f050001;
+        public static final int languages=0x7f050002;
         public static final int sources=0x7f050000;
     }
     public static final class attr {
@@ -144,6 +145,7 @@ public final class R {
         public static final int activity_main=0x7f070000;
     }
     public static final class string {
+        public static final int add_all_from_top=0x7f040047;
         public static final int app_name=0x7f040000;
         public static final int ask_logs_password=0x7f04003f;
         public static final int blocked=0x7f040015;
@@ -158,12 +160,14 @@ public final class R {
         public static final int delete=0x7f04000f;
         public static final int enter_email=0x7f040035;
         public static final int enter_number=0x7f040013;
+        public static final int enter_number_or_name=0x7f040049;
         public static final int enter_password_text=0x7f040032;
         public static final int enter_value_warning=0x7f040014;
         public static final int enter_word=0x7f040012;
         public static final int filter_delete_conf=0x7f04003c;
         public static final int filtered=0x7f040017;
         public static final int filters=0x7f040008;
+        public static final int filters_added=0x7f040048;
         public static final int filters_clear_conf=0x7f04003d;
         public static final int fraud_warn=0x7f04003e;
         public static final int frauds=0x7f040019;

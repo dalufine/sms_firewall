@@ -44,6 +44,12 @@
         <item>Suspicious SMS</item>
         <item>Frauder\'s top</item>
     </string-array>
+    <string-array name="check_sources">
+        <item>Contacts</item>
+        <item>Inbox SMS</item>
+        <item>Income calls</item>
+        <item>Enter value</item>
+    </string-array>
     <string-array name="languages">
         <item>Русский</item>
         <item>English</item>
@@ -82,4 +88,7 @@
     <string name="body_contains">Body contains:</string>
     <string name="date_from">Date from:</string>
     <string name="date_to">Date to:</string>    
+    <string name="add_all_from_top">Do you really want to add all filters on this tab?</string>
+    <string name="filters_added">Filters added!</string>
+    <string name="enter_number_or_name">Enter phone number or name:</string>
 </resources>

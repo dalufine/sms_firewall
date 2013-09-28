@@ -89,7 +89,7 @@ public class FiltersActivity extends BaseActivity{
 					phonesList.setAdapter(getAdapter(FilterType.PHONE_NAME));
 					return false;
 				}
-			}));
+			}), false);
 		}else{
 			DialogUtils.showEnterWordFilterPopup(this, new Handler(new Handler.Callback() {				
 				@Override

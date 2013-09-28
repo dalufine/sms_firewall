@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
@@ -36,7 +37,7 @@ public class DialogUtils {
 				});
 	}
 
-	public static void showSourceSelectPopup(final Activity activity, final Handler handler){		
+	public static void showSourceSelectPopup(final Activity activity, final Handler handler, final boolean forCheck){		
 		SelectSourceDialog sourceSelect=new SelectSourceDialog(activity, new SelectListener<Integer>(){
 			@Override
 			public void recieveSelection(Integer selection){
@@ -50,9 +51,17 @@ public class DialogUtils {
 							SmsSelectDialog smsPopup=new SmsSelectDialog(activity, new SelectListener<HashMap<String, Object>>(){
 								@Override
 								public void recieveSelection(HashMap<String, Object> selection){
-									dao.insertFilter(FilterType.PHONE_NAME, (String)selection.get(ContentUtils.SMS_NUMBER));
-									if(handler!=null)
-										handler.dispatchMessage(new Message());
+									String value=(String)selection.get(ContentUtils.SMS_NUMBER);
+									if(forCheck){
+										if(handler!=null){
+											Message mes=handler.obtainMessage(1, value);											
+											handler.dispatchMessage(mes);
+										}
+									}else{
+										dao.insertFilter(FilterType.PHONE_NAME, value);
+										if(handler!=null)
+											handler.dispatchMessage(new Message());
+									}
 								}
 							});
 							smsPopup.show();
@@ -61,12 +70,34 @@ public class DialogUtils {
 							CallsSelectDialog callsPopup=new CallsSelectDialog(activity, new SelectListener<HashMap<String, Object>>(){
 								@Override
 								public void recieveSelection(HashMap<String, Object> selection){
-									dao.insertFilter(FilterType.PHONE_NAME, (String)selection.get(ContentUtils.CALLS_NUMBER));
-									if(handler!=null)
-										handler.dispatchMessage(new Message());
+									String value=(String)selection.get(ContentUtils.CALLS_NUMBER);
+									if(forCheck){
+										if(handler!=null){
+											Message mes=handler.obtainMessage(1, value);
+											handler.dispatchMessage(mes);
+										}
+									}else{
+										dao.insertFilter(FilterType.PHONE_NAME, value);
+										if(handler!=null)
+											handler.dispatchMessage(new Message());
+									}
 								}
 							});
 							callsPopup.show();
+							break;
+						case SelectSourceDialog.FROM_SUSPICIOUS_SMS:
+							if(forCheck){
+								EnterValueDialog evd=new EnterValueDialog(activity, activity.getResources().getString(R.string.enter_number_or_name), new SelectListener<String>() {									
+									@Override
+									public void recieveSelection(String selection) {
+										if(handler!=null){
+											Message mes=handler.obtainMessage(1, selection);
+											handler.dispatchMessage(mes);
+										}
+									}
+								});
+								evd.show();
+							}
 							break;
 						default:
 							break;
@@ -75,7 +106,7 @@ public class DialogUtils {
 					dao.close();
 				}
 			}
-		});
+		}, forCheck);
 		sourceSelect.show();
 	}
 
