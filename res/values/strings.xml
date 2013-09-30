@@ -8,6 +8,8 @@
     <string name="stat_last_sync">Last server sync: %s</string>
     <string name="word">Word</string>
     <string name="phone_number">Phone number</string>
+    <string name="phone_number_with_dots">Phone number:</string>
+    <string name="word_with_dots">Word:</string>
     <string name="filters">Filters</string>
     <string name="logs">Logs</string>
     <string name="select_source_popup_title">Select the source</string>
@@ -91,4 +93,8 @@
     <string name="add_all_from_top">Do you really want to add all filters on this tab?</string>
     <string name="filters_added">Filters added!</string>
     <string name="enter_number_or_name">Enter phone number or name:</string>
+    <string name="messages_examples">Messages examples:</string>
+    <string name="messages_votes">Votes:</string>
+    <string name="messages_position">Top position:</string>
+    <string name="message_example_title">Message example</string>
 </resources>

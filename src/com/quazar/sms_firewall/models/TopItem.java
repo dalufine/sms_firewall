@@ -1,5 +1,8 @@
 package com.quazar.sms_firewall.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONObject;
 
 import android.util.Log;
@@ -14,16 +17,17 @@ public class TopItem {
 	};
 
 	private int id, pos, votes;
-	private String value, example;
+	private String value;
+	private List<String> examples;
 	private TopType type;
 	private TopCategory category;
 
-	public TopItem(int id, int pos, int votes, String value, String example, int type, int category) {
+	public TopItem(int id, int pos, int votes, String value, List<String> examples, int type, int category) {
 		this.id = id;
 		this.pos = pos;
 		this.votes = votes;
 		this.value = value;
-		this.example=example;
+		this.examples=examples;
 		this.category = TopCategory.values()[category];
 		this.type = TopType.values()[type];
 	}
@@ -34,7 +38,9 @@ public class TopItem {
 			this.pos = pos;
 			this.votes = obj.getInt("votes");
 			this.value = obj.getString("value");
-			this.example = obj.getString("example");
+			this.examples = new ArrayList<String>();
+			//TODO proccess array
+			examples.add(obj.getString("example"));
 			this.category = TopCategory.values()[obj.getInt("category")];
 			this.type = TopType.values()[obj.getInt("type")];
 		} catch (Exception ex) {
@@ -58,8 +64,8 @@ public class TopItem {
 		return value;
 	}
 
-	public String getExample() {
-		return example;
+	public List<String> getExamples() {
+		return examples;
 	}
 
 	public TopType getType() {
@@ -76,7 +82,7 @@ public class TopItem {
 		int result = 1;
 		result = prime * result
 				+ ((category == null) ? 0 : category.hashCode());
-		result = prime * result + ((example == null) ? 0 : example.hashCode());
+		result = prime * result + ((examples == null) ? 0 : examples.hashCode());
 		result = prime * result + id;
 		result = prime * result + pos;
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
@@ -96,10 +102,10 @@ public class TopItem {
 		TopItem other = (TopItem) obj;
 		if (category != other.category)
 			return false;
-		if (example == null) {
-			if (other.example != null)
+		if (examples == null) {
+			if (other.examples != null)
 				return false;
-		} else if (!example.equals(other.example))
+		} else if (!examples.equals(other.examples))
 			return false;
 		if (id != other.id)
 			return false;
@@ -115,6 +121,10 @@ public class TopItem {
 		if (votes != other.votes)
 			return false;
 		return true;
+	}
+	@Override
+	public String toString() {		
+		return String.format("id:%d, position:%d, votes:%d, value:%s", id, pos, votes, value);
 	}
 	
 	

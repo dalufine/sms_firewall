@@ -3,6 +3,7 @@ package com.quazar.sms_firewall.activities;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,9 +16,9 @@ import android.widget.Toast;
 
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.dao.DataDao;
+import com.quazar.sms_firewall.dialogs.MessageExampleDialog;
 import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
 import com.quazar.sms_firewall.models.TopItem;
-import com.quazar.sms_firewall.models.Filter.FilterType;
 import com.quazar.sms_firewall.models.TopItem.TopCategory;
 import com.quazar.sms_firewall.models.TopItem.TopType;
 import com.quazar.sms_firewall.network.ApiClient;
@@ -69,6 +70,8 @@ public class TopsActivity extends BaseActivity {
 			map.put("position", item.getPos());
 			map.put("value", item.getValue());
 			map.put("votes", item.getVotes());
+			map.put("example", item.getExamples());
+			map.put("type", item.getType().ordinal());
 			list.add(map);
 		}
 		return new SimpleAdapter(this, list, R.layout.tops_list_item,
@@ -147,7 +150,25 @@ public class TopsActivity extends BaseActivity {
 				});
 	}
 
-	public void onVote(View v) {
+	public void onVote(View v) {		
+		Map<String, Object> map = getSelectedItemProperties(v, 1);
+		ApiClient api = new ApiClient(this);
+		api.addVote((Integer) map.get("id"), new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				Toast.makeText(TopsActivity.this, msg.obj.toString(),
+						Toast.LENGTH_LONG).show();
+			}
+		});
+	}
+	
+	public void onItemClick(View v){
+		Map<String, Object> map = getSelectedItemProperties(v, 1);
+		MessageExampleDialog med=new MessageExampleDialog(this, new TopItem((Integer)map.get("id"), (Integer)map.get("position"), 
+				(Integer)map.get("votes"), (String)map.get("value"), (List)map.get("example"), (Integer)map.get("type"), 0));
+		med.show();
+	}
+	private Map<String, Object> getSelectedItemProperties(View v, int level){
 		ListView list = null;
 		switch (tabHost.getCurrentTab()) {
 		case 0:
@@ -159,16 +180,11 @@ public class TopsActivity extends BaseActivity {
 		case 2:
 			list = wordsList;
 		}
-		int position = list.getPositionForView((View) v.getParent());
+		while(level-->0)
+			v=(View)v.getParent();
+		int position = list.getPositionForView(v);
 		HashMap<String, Object> map = (HashMap<String, Object>) list
 				.getAdapter().getItem(position);
-		ApiClient api = new ApiClient(this);
-		api.addVote((Integer) map.get("id"), new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				Toast.makeText(TopsActivity.this, msg.obj.toString(),
-						Toast.LENGTH_LONG).show();
-			}
-		});
+		return map;
 	}
 }

@@ -4,23 +4,28 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="5dp">
-    <TextView
-        android:id="@+id/top_place"
-        android:layout_width="30dp"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"/>
-    <TextView
-        android:id="@+id/top_value"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:textSize="12sp"/>
-    <TextView
-        android:id="@+id/top_votes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:textSize="12sp"/>  
+    <LinearLayout android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:onClick="onItemClick">
+	    <TextView
+	        android:id="@+id/top_place"
+	        android:layout_width="30dp"
+	        android:layout_height="wrap_content"
+	        android:textSize="12sp"/>
+	    <TextView
+	        android:id="@+id/top_value"
+	        android:layout_width="80dp"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="20dp"
+	        android:textSize="12sp"/>
+	    <TextView
+	        android:id="@+id/top_votes"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="10dp"
+	        android:textSize="12sp"/>
+    </LinearLayout>  
     <Button android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onVote"

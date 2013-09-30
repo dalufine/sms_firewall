@@ -285,9 +285,12 @@ public class DataDao extends SQLiteOpenHelper {
 					.getColumnIndex("category"), exampleIdx = cursor
 					.getColumnIndex("example");
 			while (cursor.moveToNext()) {
+				//TODO
+				List<String> examples=new ArrayList<String>();
+				examples.add(cursor.getString(exampleIdx));
 				tops.add(new TopItem(cursor.getInt(idIdx), cursor
 						.getInt(posIdx), cursor.getInt(votesIdx), cursor
-						.getString(valueIdx), cursor.getString(exampleIdx),
+						.getString(valueIdx), examples,
 						cursor.getInt(typeIdx), cursor.getInt(categoryIdx)));
 			}
 			return tops;
@@ -313,9 +316,12 @@ public class DataDao extends SQLiteOpenHelper {
 					.getColumnIndex("category"), exampleIdx = cursor
 					.getColumnIndex("example");
 			while (cursor.moveToNext()) {
+				//TODO
+				List<String> examples=new ArrayList<String>();
+				examples.add(cursor.getString(exampleIdx));
 				tops.add(new TopItem(cursor.getInt(idIdx), cursor
 						.getInt(posIdx), cursor.getInt(votesIdx), cursor
-						.getString(valueIdx), cursor.getString(exampleIdx),
+						.getString(valueIdx), examples,
 						cursor.getInt(typeIdx), cursor.getInt(categoryIdx)));
 			}
 			return tops;
@@ -335,7 +341,7 @@ public class DataDao extends SQLiteOpenHelper {
 				cv.put("_id", ti.getId());
 				cv.put("pos", ti.getPos());
 				cv.put("value", ti.getValue());
-				cv.put("example", ti.getExample());
+				cv.put("example", ti.getExamples().get(0));//TODO
 				cv.put("votes", ti.getVotes());
 				cv.put("type", ti.getType().ordinal());
 				cv.put("category", ti.getCategory().ordinal());
