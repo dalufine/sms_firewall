@@ -336,8 +336,12 @@ public class DataDao extends SQLiteOpenHelper {
 		try {
 			dbase.beginTransaction();
 			dbase.delete("tops", null, null);
+			List<Integer> exclude=new ArrayList<Integer>();
 			for (TopItem ti : newTop) {
 				ContentValues cv = new ContentValues();
+				if(exclude.contains(ti.getId()))
+					continue;
+				exclude.add(ti.getId());
 				cv.put("_id", ti.getId());
 				cv.put("pos", ti.getPos());
 				cv.put("value", ti.getValue());
@@ -354,6 +358,16 @@ public class DataDao extends SQLiteOpenHelper {
 		}
 	}
 
+	public void updateTopItemVotes(Integer id, Integer votes){
+		SQLiteDatabase dbase = getWritableDatabase();
+		try {
+			ContentValues cv = new ContentValues();
+			cv.put("votes", votes);
+			dbase.update("tops", cv, "_id=?", new String[]{id.toString()});
+		} finally {
+			dbase.close();
+		}
+	}
 	// -----------------Requests------------------------
 	public List<Request> getRequests() {
 		SQLiteDatabase dbase = null;
@@ -403,6 +417,27 @@ public class DataDao extends SQLiteOpenHelper {
 		} finally {
 			dbase.close();
 		}
+	}
+	
+	public int insertFilters(List<Filter> filters) {		
+		SQLiteDatabase dbase = getWritableDatabase();
+		try {
+			dbase.beginTransaction();
+			for(Filter f:filters){
+				ContentValues cv = new ContentValues();
+				cv.put("type", f.getType().ordinal());
+				cv.put("value", f.getValue());
+				dbase.insert("filters", null, cv);
+			}
+			dbase.setTransactionSuccessful();
+			dbase.endTransaction();
+			return filters.size();
+		}catch(Exception ex){
+			Log.e("insert filters error", ex.toString());
+			return 0;
+		} finally {
+			dbase.close();
+		}		
 	}
 
 	public List<String> getLogSenders() {

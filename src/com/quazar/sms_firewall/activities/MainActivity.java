@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.quazar.sms_firewall.ErrorCodes;
 import com.quazar.sms_firewall.Param;
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.StateManager;
@@ -29,12 +30,9 @@ public class MainActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		dataDao=new DataDao(this);
+		ErrorCodes.init(this);
 		DictionaryUtils.createInstance(this);		
-		Param.load(this);
-		if((Boolean)Param.USE_SYNC.getValue()&&(System.currentTimeMillis()-(Long)Param.LAST_SYNC.getValue())/86400000L>2){
-			ApiClient api=new ApiClient(this);
-			api.sync();
-		}
+		Param.load(this);		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);		
 		updateStatisticsViews();
@@ -49,6 +47,10 @@ public class MainActivity extends Activity{
 				}
 			});
 			rd.show();
+		}else if((Boolean)Param.USE_SYNC.getValue()&&(System.currentTimeMillis()-(Long)Param.LAST_SYNC.getValue())/86400000L>2){
+			ApiClient api=new ApiClient(this);
+			api.sync();
+			//Param.LAST_SYNC.setValue(System.currentTimeMillis());//TODO uncomment on prod
 		}
 	}
 	@Override

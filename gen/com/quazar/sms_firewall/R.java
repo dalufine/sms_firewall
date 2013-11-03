@@ -173,6 +173,7 @@ public final class R {
         public static final int enter_password_text=0x7f040034;
         public static final int enter_value_warning=0x7f040016;
         public static final int enter_word=0x7f040014;
+        public static final int error_dialog_title=0x7f040051;
         public static final int filter_delete_conf=0x7f04003e;
         public static final int filtered=0x7f040019;
         public static final int filters=0x7f04000a;
@@ -227,6 +228,8 @@ public final class R {
         public static final int tops=0x7f04001d;
         public static final int use_email=0x7f040032;
         public static final int use_email_text=0x7f040031;
+        public static final int vote_added=0x7f040052;
+        public static final int votes_per_day_error=0x7f040050;
         public static final int warning=0x7f040028;
         public static final int wi_fi=0x7f04002b;
         public static final int word=0x7f040006;

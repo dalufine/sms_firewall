@@ -1,16 +1,17 @@
 package com.quazar.sms_firewall.utils;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.quazar.sms_firewall.ErrorCodes;
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.StateManager;
 import com.quazar.sms_firewall.dao.DataDao;
@@ -146,5 +147,20 @@ public class DialogUtils {
             }
         })
         .show();
+	}
+	public static void showErrorDialog(Context context, int errorCode){		
+		showInfoDialog(context, context.getString(R.string.error_dialog_title), ErrorCodes.getErrorByCode(errorCode).getDescription());		
+	}
+	public static void showInfoDialog(Context context, String title, String info){
+		AlertDialog dialog=new AlertDialog.Builder(context)
+        .setIcon(android.R.drawable.ic_dialog_info)
+        .setTitle(title)
+        .setMessage(info)
+        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();    
+            }
+        }).show();
 	}
 }

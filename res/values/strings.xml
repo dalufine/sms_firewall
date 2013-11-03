@@ -97,4 +97,7 @@
     <string name="messages_votes">Votes:</string>
     <string name="messages_position">Top position:</string>
     <string name="message_example_title">Message example</string>
+    <string name="votes_per_day_error">You can not vote for this item this day</string>
+    <string name="error_dialog_title">Error occured</string>
+    <string name="vote_added">Vote successfuly added</string>
 </resources>
