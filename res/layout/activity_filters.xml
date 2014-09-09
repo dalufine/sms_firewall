@@ -53,26 +53,18 @@
             android:orientation="horizontal"
             android:padding="5dp" >
             
-            <Button                
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onGoBack"
-                android:padding="15dp"
-                android:text="BP" />
+            <ImageButton                
+                style="@style/BackButton"                                                                
+                android:onClick="onGoBack"/>
+            
+            <ImageButton                
+                style="@style/AddButton"                                                                
+                android:onClick="onAddFilter"/>
+            
+            <ImageButton                
+                style="@style/ClearButton"                                                                
+                android:onClick="onClearFilters"/>
 
-            <Button                
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onAddFilter"
-                android:padding="15dp"
-                android:text="A" />
-
-            <Button                
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onClearFilters"
-                android:padding="15dp"
-                android:text="C" />
         </LinearLayout>
     </LinearLayout>
 

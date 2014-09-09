@@ -81,49 +81,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:onClick="onWordClick"
-                android:text="@string/word"/>
+                android:text="@string/word"/>            
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/nav_panel"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_gravity="center_horizontal"
-        android:background="#fff"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:padding="5dp">
-        <Button
+        style="@style/NavPanel"
+        android:id="@+id/nav_panel">
+        <ImageButton
             android:id="@+id/filters"
-            style="@style/Button9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onShowFilters"
-            android:padding="15dp"
-            android:text="F"/>
-        <Button
+            style="@style/FiltersButton"            
+            android:onClick="onShowFilters"/>
+        <ImageButton
             android:id="@+id/logs"
-            style="@style/Button9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onShowLogs"
-            android:padding="15dp"
-            android:text="L"/>
-        <Button
+            style="@style/LogButton"            
+            android:onClick="onShowLogs"/>
+        <ImageButton
             android:id="@+id/tops"
-            style="@style/Button9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onShowTops"
-            android:padding="15dp"
-            android:text="T"/>
-        <Button
+            style="@style/TopButton"            
+            android:onClick="onShowTops"/>
+        <ImageButton
             android:id="@+id/settings"
-            style="@style/Button9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onShowSettings"
-            android:padding="15dp"
-            android:text="S"/>
+            style="@style/SettingsButton"            
+            android:onClick="onShowSettings"/>
     </LinearLayout>
 </LinearLayout>

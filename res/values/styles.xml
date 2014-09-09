@@ -1,5 +1,5 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <style name="AppTheme" parent="android:Theme"> <!-- <item name="android:background">#fff</item> -->
+    <style name="AppTheme" parent="android:Theme">
     </style>
     <style name="CodeFont" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">fill_parent</item>
@@ -13,5 +13,46 @@
     <style name="Button9">
         <item name="android:background">@drawable/button</item>
         <item name="android:textColor">@android:color/tertiary_text_light</item>
+    </style>
+    <!-- New styles -->
+    <style name="BlackButton">
+        <item name="android:background">@drawable/button</item>
+        <item name="android:layout_width">50dp</item>        
+        <item name="android:layout_height">50dp</item>        
+        <item name="android:scaleType">centerInside</item>
+    </style>
+    <style name="BottomPanelButton" parent="BlackButton">
+        <item name="android:layout_marginLeft">10dp</item>
+    </style>
+    <style name="BackButton" parent="BottomPanelButton">        
+        <item name="android:src">@drawable/back</item>
+    </style>
+    <style name="AddButton" parent="BottomPanelButton">        
+        <item name="android:src">@drawable/add</item>
+    </style>
+    <style name="ClearButton" parent="BottomPanelButton">        
+        <item name="android:src">@drawable/clear</item>
+    </style>
+    <style name="SettingsButton" parent="BottomPanelButton">        
+        <item name="android:src">@drawable/settings</item>
+    </style>
+    <style name="TopButton" parent="BottomPanelButton">        
+        <item name="android:src">@drawable/top_btn</item>
+    </style>
+    <style name="LogButton" parent="BottomPanelButton">        
+        <item name="android:src">@drawable/log</item>
+    </style>
+    <style name="FiltersButton" parent="BottomPanelButton">        
+        <item name="android:src">@drawable/filter</item>
+    </style>
+    
+    <style name="NavPanel">        
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">70dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:background">@android:color/background_light</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_horizontal</item>        
+        <item name="android:padding">5dp</item>        
     </style>
 </resources>
