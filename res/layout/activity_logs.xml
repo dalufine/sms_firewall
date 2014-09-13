@@ -46,41 +46,24 @@
             </LinearLayout>
         </FrameLayout>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_gravity="center_horizontal"
-            android:background="#fff"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:padding="5dp" >
-
-            <Button                
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onGoBack"
-                android:padding="15dp"
-                android:text="BP" />
+            style="@style/NavPanel">
             
-            <Button                
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onShowFilterDialog"
-                android:padding="15dp"
-                android:text="FD" />
-
-            <Button                
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onClearTabLogs"
-                android:padding="15dp"
-                android:text="CTL" />
+             <ImageButton                
+                style="@style/BackButton"                                                                
+                android:onClick="onGoBack"/>
             
-            <Button                
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onResetFilter"
-                android:padding="15dp"
-                android:text="Reset" />
+            <ImageButton                
+                style="@style/LogFilterButton"                                                                
+                android:onClick="onShowFilterDialog"/>
+            
+            <ImageButton                
+                style="@style/ResetButton"                                                                
+                android:onClick="onResetFilter"/>
+            
+            <ImageButton                
+                style="@style/ClearButton"                                                                
+                android:onClick="onClearTabLogs"/>
+           
         </LinearLayout>
     </LinearLayout>
 </TabHost>

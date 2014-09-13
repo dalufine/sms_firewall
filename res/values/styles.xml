@@ -1,5 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="AppTheme" parent="android:Theme">
+        <item name="android:windowBackground">@drawable/activity_background</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
     <style name="CodeFont" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">fill_parent</item>
@@ -22,16 +24,34 @@
         <item name="android:scaleType">centerInside</item>
     </style>
     <style name="BottomPanelButton" parent="BlackButton">
-        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
     </style>
     <style name="BackButton" parent="BottomPanelButton">        
         <item name="android:src">@drawable/back</item>
+        <item name="android:layout_marginLeft">0dp</item>
     </style>
     <style name="AddButton" parent="BottomPanelButton">        
         <item name="android:src">@drawable/add</item>
     </style>
+    <style name="LogFilterButton" parent="BottomPanelButton">        
+        <item name="android:src">@drawable/find_sms</item>
+    </style>
+    <style name="ResetButton" parent="BottomPanelButton">        
+        <item name="android:src">@drawable/reset</item>
+    </style>
+    <style name="CheckButton" parent="BottomPanelButton">        
+        <item name="android:src">@drawable/check_sms</item>
+        <item name="android:padding">7dp</item>
+    </style>
     <style name="ClearButton" parent="BottomPanelButton">        
         <item name="android:src">@drawable/clear</item>
+    </style>
+    <style name="ComplainButton" parent="BottomPanelButton">        
+        <item name="android:src">@drawable/complain</item>
+    </style>
+    <style name="AddAllButton" parent="BottomPanelButton">        
+        <item name="android:src">@drawable/add_all</item>
+        <item name="android:padding">7dp</item>
     </style>
     <style name="SettingsButton" parent="BottomPanelButton">        
         <item name="android:src">@drawable/settings</item>
@@ -44,15 +64,16 @@
     </style>
     <style name="FiltersButton" parent="BottomPanelButton">        
         <item name="android:src">@drawable/filter</item>
+        <item name="android:layout_marginLeft">0dp</item>
     </style>
     
     <style name="NavPanel">        
+        <item name="android:background">@drawable/bottom_panel</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">70dp</item>
-        <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:background">@android:color/background_light</item>
+        <item name="android:layout_gravity">center_horizontal</item>        
         <item name="android:orientation">horizontal</item>
         <item name="android:gravity">center_horizontal</item>        
-        <item name="android:padding">5dp</item>        
+        <item name="android:paddingTop">10dp</item>        
     </style>
 </resources>
