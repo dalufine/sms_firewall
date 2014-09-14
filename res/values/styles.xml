@@ -76,4 +76,27 @@
         <item name="android:gravity">center_horizontal</item>        
         <item name="android:paddingTop">10dp</item>        
     </style>
+    <style name="GroupPanel">        
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0px</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_marginRight">30dp</item>
+        <item name="android:background">@drawable/group_back</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+    </style>    
+    <style name="ButtonsPanel" parent="GroupPanel">        
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_height">0px</item>        
+    </style>
+    <style name="Logo">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:src">@drawable/ic_launcher</item>
+    </style>
 </resources>
