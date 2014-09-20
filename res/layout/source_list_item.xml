@@ -2,16 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:orientation="horizontal" >
+    android:background="@drawable/list_item_bg"
+    android:orientation="horizontal"
+    android:padding="5dp" >
+
     <ImageView
         android:id="@+id/item_icon"
+        android:contentDescription="@string/default_text"
         android:layout_width="45dp"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:src="@drawable/ic_launcher" />
+
     <TextView
         android:id="@+id/item_text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"        
-        android:textSize="12sp"
-        android:gravity="center_vertical" 
-        android:layout_marginLeft="10dp"/>
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/default_text"
+        android:textSize="12sp" />
+
 </LinearLayout>

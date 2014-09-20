@@ -43,19 +43,19 @@ public class TopsActivity extends BaseActivity{
 		dataDao=new DataDao(this);
 
 		TabHost.TabSpec fraudNumbersTab=tabHost.newTabSpec("fraud top");
-		fraudNumbersTab.setIndicator(getResources().getString(R.string.frauds));
+		fraudNumbersTab.setIndicator(createTabView(tabHost.getContext(), getResources().getString(R.string.frauds), R.drawable.fraud));
 		fraudNumbersTab.setContent(R.id.fraud_numbers_top);
 		fraudList=(ListView)findViewById(R.id.fraud_numbers_list);
 		fraudList.setAdapter(getAdapter(TopType.GENERIC, TopCategory.FRAUD));
 
 		TabHost.TabSpec wordsTab=tabHost.newTabSpec("words top");
-		wordsTab.setIndicator(getResources().getString(R.string.words));
+		wordsTab.setIndicator(createTabView(tabHost.getContext(), getResources().getString(R.string.words), R.drawable.word));
 		wordsTab.setContent(R.id.words_top);
 		wordsList=(ListView)findViewById(R.id.words_list);
 		wordsList.setAdapter(getAdapter(TopType.WORD, TopCategory.GENERIC));
 
 		TabHost.TabSpec spamTab=tabHost.newTabSpec("spam top");
-		spamTab.setIndicator(getResources().getString(R.string.spam));
+		spamTab.setIndicator(createTabView(tabHost.getContext(), getResources().getString(R.string.spam), R.drawable.spam));
 		spamTab.setContent(R.id.spam_numbers_top);
 		spamList=(ListView)findViewById(R.id.spam_numbers_list);
 		spamList.setAdapter(getAdapter(TopType.GENERIC, TopCategory.SPAM));

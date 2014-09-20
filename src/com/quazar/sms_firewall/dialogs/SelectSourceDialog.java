@@ -38,7 +38,7 @@ public class SelectSourceDialog extends AlertDialog {
 			listId=R.array.check_sources;
 		String[] texts = context.getResources().getStringArray(listId);
 		int[] icons = { R.drawable.contacts, R.drawable.inbox_sms,
-				R.drawable.call, R.drawable.warning, R.drawable.top };
+				R.drawable.call, R.drawable.suspicious, R.drawable.top };
 		if(forCheck)
 			icons[3]=R.drawable.contacts;
 		for (int i = 0; i < texts.length; i++) {

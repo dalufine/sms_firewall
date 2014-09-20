@@ -1,82 +1,152 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
+
     <style name="AppTheme" parent="android:Theme">
         <item name="android:windowBackground">@drawable/activity_background</item>
         <item name="android:windowNoTitle">true</item>
     </style>
-    <style name="CodeFont" parent="@android:style/TextAppearance.Medium">
+    <style name="DialogTheme" parent="android:Theme.Dialog">
+        <item name="android:windowTitleStyle">@style/DialogHeader</item>    
+        <item name="android:padding">0px</item>           
+    </style>
+    <style name="DialogHeader" parent="android:Widget.TextView">
+        <item name="android:textColor">#0f0</item>
+        <item name="android:background">@android:color/background_light</item>
+    </style>
+    <!-- Font styles -->
+    <style name="StatisticsFont">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">#00FF00</item>
-        <item name="android:typeface">monospace</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textAppearance">?android:attr/textAppearance</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:typeface">sans</item>
     </style>
-    <style name="CodeFont.Red">
-        <item name="android:textColor">#FF0000</item>
+
+    <style name="StatisticsFont.Red">
+        <item name="android:textColor">#f00</item>
     </style>
-    <style name="Button9">
-        <item name="android:background">@drawable/button</item>
-        <item name="android:textColor">@android:color/tertiary_text_light</item>
+
+    <style name="StatisticsFont.Green">
+        <item name="android:textColor">#0f0</item>
     </style>
+
+    <style name="StatisticsFont.Yellow">
+        <item name="android:textColor">#ff0</item>
+    </style>
+
+    <style name="GroupHeaderText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearance</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:typeface">sans</item>
+    </style>
+
+    <style name="ListDateFont" parent="StatisticsFont">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#BFF887</item>
+    </style>
+
+    <style name="ListContactFont" parent="StatisticsFont">
+        <item name="android:textColor">#2987FA</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="ListBodyFont" parent="StatisticsFont">
+        <item name="android:textColor">#888</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:lines">2</item>
+    </style>
+
+    <style name="FilterListItemFont" parent="ListDateFont">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_width">0px</item>
+        <item name="android:lines">1</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <!-- Font styles end -->
     <!-- New styles -->
     <style name="BlackButton">
         <item name="android:background">@drawable/button</item>
-        <item name="android:layout_width">50dp</item>        
-        <item name="android:layout_height">50dp</item>        
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
         <item name="android:scaleType">centerInside</item>
     </style>
+
     <style name="BottomPanelButton" parent="BlackButton">
         <item name="android:layout_marginLeft">20dp</item>
     </style>
-    <style name="BackButton" parent="BottomPanelButton">        
+
+    <style name="BackButton" parent="BottomPanelButton">
         <item name="android:src">@drawable/back</item>
         <item name="android:layout_marginLeft">0dp</item>
     </style>
-    <style name="AddButton" parent="BottomPanelButton">        
+
+    <style name="AddButton" parent="BottomPanelButton">
         <item name="android:src">@drawable/add</item>
     </style>
-    <style name="LogFilterButton" parent="BottomPanelButton">        
+
+    <style name="LogFilterButton" parent="BottomPanelButton">
         <item name="android:src">@drawable/find_sms</item>
     </style>
-    <style name="ResetButton" parent="BottomPanelButton">        
+
+    <style name="ResetButton" parent="BottomPanelButton">
         <item name="android:src">@drawable/reset</item>
     </style>
-    <style name="CheckButton" parent="BottomPanelButton">        
+
+    <style name="CheckButton" parent="BottomPanelButton">
         <item name="android:src">@drawable/check_sms</item>
         <item name="android:padding">7dp</item>
     </style>
-    <style name="ClearButton" parent="BottomPanelButton">        
+
+    <style name="ClearButton" parent="BottomPanelButton">
         <item name="android:src">@drawable/clear</item>
     </style>
-    <style name="ComplainButton" parent="BottomPanelButton">        
+
+    <style name="ComplainButton" parent="BottomPanelButton">
         <item name="android:src">@drawable/complain</item>
     </style>
-    <style name="AddAllButton" parent="BottomPanelButton">        
+
+    <style name="AddAllButton" parent="BottomPanelButton">
         <item name="android:src">@drawable/add_all</item>
         <item name="android:padding">7dp</item>
     </style>
-    <style name="SettingsButton" parent="BottomPanelButton">        
+
+    <style name="SettingsButton" parent="BottomPanelButton">
         <item name="android:src">@drawable/settings</item>
     </style>
-    <style name="TopButton" parent="BottomPanelButton">        
-        <item name="android:src">@drawable/top_btn</item>
+
+    <style name="TopButton" parent="BottomPanelButton">
+        <item name="android:src">@drawable/top</item>
     </style>
-    <style name="LogButton" parent="BottomPanelButton">        
+
+    <style name="LogButton" parent="BottomPanelButton">
         <item name="android:src">@drawable/log</item>
     </style>
-    <style name="FiltersButton" parent="BottomPanelButton">        
+
+    <style name="FiltersButton" parent="BottomPanelButton">
         <item name="android:src">@drawable/filter</item>
         <item name="android:layout_marginLeft">0dp</item>
     </style>
-    
-    <style name="NavPanel">        
+
+    <style name="NavPanel">
         <item name="android:background">@drawable/bottom_panel</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">70dp</item>
-        <item name="android:layout_gravity">center_horizontal</item>        
+        <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:gravity">center_horizontal</item>        
-        <item name="android:paddingTop">10dp</item>        
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingTop">10dp</item>
     </style>
-    <style name="GroupPanel">        
+
+    <style name="GroupPanel">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0px</item>
         <item name="android:layout_gravity">center</item>
@@ -86,17 +156,32 @@
         <item name="android:background">@drawable/group_back</item>
         <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
-    </style>    
-    <style name="ButtonsPanel" parent="GroupPanel">        
+    </style>
+
+    <style name="StatisticsPanel" parent="GroupPanel">
+        <item name="android:padding">20dp</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="VCenterPanel">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ButtonsPanel" parent="GroupPanel">
         <item name="android:orientation">horizontal</item>
         <item name="android:layout_margin">10dp</item>
         <item name="android:layout_marginLeft">30dp</item>
-        <item name="android:layout_height">0px</item>        
+        <item name="android:layout_height">0px</item>
     </style>
+
     <style name="Logo">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:src">@drawable/ic_launcher</item>
     </style>
+
 </resources>

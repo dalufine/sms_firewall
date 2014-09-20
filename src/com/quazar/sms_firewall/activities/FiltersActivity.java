@@ -40,14 +40,14 @@ public class FiltersActivity extends BaseActivity{
 		dataDao=new DataDao(this);		
 
 		TabHost.TabSpec phoneFiltersTab=tabHost.newTabSpec("phone filters");
-		phoneFiltersTab.setIndicator(getResources().getString(R.string.numbers));
+		phoneFiltersTab.setIndicator(createTabView(tabHost.getContext(), getResources().getString(R.string.numbers), R.drawable.phone));
 		phoneFiltersTab.setContent(R.id.phone_filters);
 
 		phonesList=(ListView)findViewById(R.id.phone_filters_list);				
 		phonesList.setAdapter(getAdapter(FilterType.PHONE_NAME));
 
 		TabHost.TabSpec wordFiltersTab=tabHost.newTabSpec("word filters");
-		wordFiltersTab.setIndicator(getResources().getString(R.string.words));
+		wordFiltersTab.setIndicator(createTabView(tabHost.getContext(), getResources().getString(R.string.words), R.drawable.word));
 		wordFiltersTab.setContent(R.id.word_filters);
 		wordsList=(ListView)findViewById(R.id.word_filters_list);		
 		wordsList.setAdapter(getAdapter(FilterType.WORD));
@@ -55,7 +55,7 @@ public class FiltersActivity extends BaseActivity{
 		tabHost.addTab(phoneFiltersTab);
 		tabHost.addTab(wordFiltersTab);
 		tabHost.setCurrentTab(PHONE_NUMBERS_TAB);
-	}
+	}	
 	public SimpleAdapter getAdapter(FilterType type) {
 		List<Filter> filters=dataDao.getFilters();
 		List<HashMap<String, Object>>list=new ArrayList<HashMap<String, Object>>();

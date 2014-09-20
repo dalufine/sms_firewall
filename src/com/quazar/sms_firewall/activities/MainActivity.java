@@ -61,7 +61,7 @@ public class MainActivity extends Activity{
 	private void updateStatisticsViews(){
 		TextView tv=(TextView)findViewById(R.id.stat_blocked);
 		tv.setText(String.format(getResources().getString(R.string.stat_blocked), (Integer)Param.BLOCKED_SMS_CNT.getValue()));
-		tv=(TextView)findViewById(R.id.stat_recieved);
+		tv=(TextView)findViewById(R.id.stat_received);
 		tv.setText(String.format(getResources().getString(R.string.stat_recieved), (Integer)Param.RECIEVED_SMS_CNT.getValue()));
 		tv=(TextView)findViewById(R.id.stat_suspicious);
 		tv.setText(String.format(getResources().getString(R.string.stat_suspicious), (Integer)Param.SUSPICIOUS_SMS_CNT.getValue()));
@@ -70,6 +70,10 @@ public class MainActivity extends Activity{
 	public boolean onCreateOptionsMenu(Menu menu){		
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
+	}
+	
+	public void onHelpClick(View v){
+		
 	}
 
 	public void onPhoneNumberClick(View v){

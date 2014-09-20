@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="default_text">default</string>
+    <string name="default_text_long">default default default default default default default default default default default default default default default default default default default default default default default default default default default default</string>
+    <string name="default_datetime_format">yyyy-MM-dd HH:mm:ss</string>
+    <string name="default_numbers">0123456789</string>
     <string name="app_name">sms_firewall</string>
     <string name="stat_blocked">Blocked SMS: %d</string>
     <string name="stat_suspicious">Suspicious SMS: %d</string>
@@ -39,6 +44,7 @@
     <string name="blocked_counter">Show blocked SMS counter</string>
     <string name="language">Language</string>
     <string name="settings">Settings</string>
+
     <string-array name="sources">
         <item>Contacts</item>
         <item>Inbox SMS</item>
@@ -56,6 +62,7 @@
         <item>Русский</item>
         <item>English</item>
     </string-array>
+
     <string name="no_sms_warn">There is no inbox sms!</string>
     <string name="warning">Warning!</string>
     <string name="no_income_calls">There is no income calls</string>
@@ -74,22 +81,22 @@
     <string name="send_suspicious">send suspicious sms</string>
     <string name="enter_email">Please, enter correct e-mail!</string>
     <string name="password_length_error">Password too short, min length is 8 chars</string>
-    <string name="have_errors">There are some error! Please, fix them!</string>    
+    <string name="have_errors">There are some error! Please, fix them!</string>
     <string name="registration_thanks">Big thanks for registration!</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="confirmation">Confirmation</string>
     <string name="filter_delete_conf">Do you really want to delete this filter?</string>
-    <string name="filters_clear_conf">Do you really want to clear filters on this tab?</string>    
+    <string name="filters_clear_conf">Do you really want to clear filters on this tab?</string>
     <string name="fraud_warn">The message from "%s" can be a fraud</string>
     <string name="ask_logs_password">Please, enter password to access logs.</string>
-    <string name="logs_password_error">Password is not correct!</string> 
+    <string name="logs_password_error">Password is not correct!</string>
     <string name="logs_clear_conf">Do you really want to clear logs on this tab?</string>
     <string name="sender">Sender:</string>
     <string name="logs_filter">Logs filter</string>
     <string name="body_contains">Body contains:</string>
     <string name="date_from">Date from:</string>
-    <string name="date_to">Date to:</string>    
+    <string name="date_to">Date to:</string>
     <string name="add_all_from_top">Do you really want to add all filters on this tab?</string>
     <string name="filters_added">Filters added!</string>
     <string name="enter_number_or_name">Enter phone number or name:</string>
@@ -100,5 +107,7 @@
     <string name="votes_per_day_error">You can not vote for this item this day</string>
     <string name="error_dialog_title">Error occurred</string>
     <string name="vote_added">Vote successfuly added</string>
-    <string name="add_new_sms_filter">Add new SMS filter:</string>
+    <string name="add_new_sms_filter">Add new SMS filter</string>
+    <string name="statistics">Statistics</string>
+
 </resources>

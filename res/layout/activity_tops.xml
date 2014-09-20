@@ -58,19 +58,23 @@
         <LinearLayout style="@style/NavPanel">
 
             <ImageButton                
-                style="@style/BackButton"                                                                
+                style="@style/BackButton"  
+                android:contentDescription="@string/default_text"                                                              
                 android:onClick="onGoBack"/>
             
             <ImageButton                
-                style="@style/CheckButton"                                                                
+                style="@style/CheckButton"   
+                android:contentDescription="@string/default_text"                                                             
                 android:onClick="onCheck"/>
             
              <ImageButton                
-                style="@style/ComplainButton"                                                                
+                style="@style/ComplainButton"  
+                android:contentDescription="@string/default_text"                                                              
                 android:onClick="onComplain"/>
              
               <ImageButton                
-                style="@style/AddAllButton"                                                                
+                style="@style/AddAllButton"  
+                android:contentDescription="@string/default_text"                                                              
                 android:onClick="onAddAll"/>
         </LinearLayout>
     </LinearLayout>

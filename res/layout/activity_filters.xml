@@ -17,9 +17,8 @@
         <FrameLayout
             android:id="@android:id/tabcontent"
             android:layout_width="match_parent"
-	        android:layout_height="0dip"
-	        android:layout_weight="1"
-            android:padding="5dp">
+            android:layout_height="0dip"
+            android:layout_weight="1" >
 
             <LinearLayout
                 android:id="@+id/phone_filters"
@@ -44,21 +43,22 @@
             </LinearLayout>
         </FrameLayout>
 
-        <LinearLayout
-           style="@style/NavPanel">
-            
-            <ImageButton                
-                style="@style/BackButton"                                                                
-                android:onClick="onGoBack"/>
-            
-            <ImageButton                
-                style="@style/AddButton"                                                                
-                android:onClick="onAddFilter"/>
-            
-            <ImageButton                
-                style="@style/ClearButton"                                                                
-                android:onClick="onClearFilters"/>
+        <LinearLayout style="@style/NavPanel" >
 
+            <ImageButton
+                style="@style/BackButton"
+                android:contentDescription="@string/default_text"
+                android:onClick="onGoBack" />
+
+            <ImageButton
+                style="@style/AddButton"
+                android:contentDescription="@string/default_text"
+                android:onClick="onAddFilter" />
+
+            <ImageButton
+                style="@style/ClearButton"
+                android:contentDescription="@string/default_text"
+                android:onClick="onClearFilters" />
         </LinearLayout>
     </LinearLayout>
 
