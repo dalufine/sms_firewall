@@ -74,10 +74,10 @@
     <!-- Font styles end -->
     <!-- New styles -->
     <style name="BlackButton">
-        <item name="android:background">@drawable/button</item>
+        <item name="android:background">@drawable/button_selector</item>
         <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">50dp</item>
-        <item name="android:scaleType">centerInside</item>
+        <item name="android:scaleType">centerInside</item>        
     </style>
 
     <style name="BottomPanelButton" parent="BlackButton">
@@ -182,6 +182,29 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:src">@drawable/ic_launcher</item>
+    </style>
+    
+    <style name="ImageButtonWithText" parent="BlackButton">
+         <item name="android:layout_width">wrap_content</item>
+         <item name="android:layout_height">40dp</item>
+         <item name="android:drawablePadding">5sp</item>
+         <item name="android:gravity">left|center_vertical</item>
+         <item name="android:padding">10dp</item>
+         <item name="android:textColor">@drawable/button_text_color</item>
+    </style>
+    
+    <style name="HelpButton">
+        <item name="android:layout_width">15dp</item>
+        <item name="android:layout_height">15dp</item>
+        <item name="android:background">@null</item>        
+        <item name="android:onClick">onHelpClick</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:src">@drawable/help</item>
+    </style>
+    
+    <style name="test">
+        <item name="android:text">#f00</item>
+         <item name="android:textSize">26sp</item>
     </style>
 
 </resources>

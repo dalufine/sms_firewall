@@ -20,27 +20,22 @@
             android:orientation="vertical" >
 
             <LinearLayout
-                android:gravity="right"
                 android:layout_width="fill_parent"
+                android:layout_height="35dp"
+                android:gravity="right"
                 android:paddingRight="10dp"
-                android:paddingTop="10dp"
-                android:layout_height="35dp">
+                android:paddingTop="10dp" >
 
                 <ImageButton
-                    android:contentDescription="@string/default_text"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:background="@null"   
-                    android:onClick="onHelpClick"                 
-                    android:scaleType="centerInside"
-                    android:src="@drawable/help" />
+                    style="@style/HelpButton" 
+                    android:contentDescription="@string/default_text"/>
             </LinearLayout>
 
             <ImageView
-                android:contentDescription="@string/default_text"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginTop="-25dp"
+                android:contentDescription="@string/default_text"
                 android:src="@drawable/text_logo" />
         </LinearLayout>
 
@@ -51,9 +46,9 @@
             android:gravity="center" >
 
             <ImageView
-                android:contentDescription="@string/default_text"
                 android:id="@+id/logo"
-                style="@style/Logo" />
+                style="@style/Logo"
+                android:contentDescription="@string/default_text" />
         </LinearLayout>
 
         <LinearLayout
@@ -72,9 +67,9 @@
                 android:orientation="horizontal" >
 
                 <ImageView
-                    android:contentDescription="@string/default_text"
                     android:layout_width="40dp"
                     android:layout_height="fill_parent"
+                    android:contentDescription="@string/default_text"
                     android:src="@drawable/traffic" />
 
                 <LinearLayout
@@ -117,30 +112,17 @@
 
                 <Button
                     android:id="@+id/fast_phone_number"
-                    style="@style/BlackButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    style="@style/ImageButtonWithText"
                     android:drawableLeft="@drawable/phone_number_type"
-                    android:drawablePadding="5sp"
-                    android:gravity="left|center_vertical"
                     android:onClick="onPhoneNumberClick"
-                    android:padding="10dp"
-                    android:text="@string/phone_number"
-                    android:textColor="#fff" />
+                    android:text="@string/phone_number" />
 
                 <Button
                     android:id="@+id/fast_word"
-                    style="@style/BlackButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
+                    style="@style/ImageButtonWithText"
                     android:drawableLeft="@drawable/word_type"
-                    android:drawablePadding="5sp"
-                    android:gravity="left|center_vertical"
                     android:onClick="onWordClick"
-                    android:padding="5dp"
-                    android:text="@string/word"
-                    android:textColor="#fff" />
+                    android:text="@string/word" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -151,26 +133,26 @@
 
         <ImageButton
             android:id="@+id/filters"
-            android:contentDescription="@string/default_text"
             style="@style/FiltersButton"
+            android:contentDescription="@string/default_text"
             android:onClick="onShowFilters" />
 
         <ImageButton
             android:id="@+id/logs"
-            android:contentDescription="@string/default_text"
             style="@style/LogButton"
+            android:contentDescription="@string/default_text"
             android:onClick="onShowLogs" />
 
         <ImageButton
             android:id="@+id/tops"
-            android:contentDescription="@string/default_text"
             style="@style/TopButton"
+            android:contentDescription="@string/default_text"
             android:onClick="onShowTops" />
 
         <ImageButton
             android:id="@+id/settings"
-            android:contentDescription="@string/default_text"
             style="@style/SettingsButton"
+            android:contentDescription="@string/default_text"
             android:onClick="onShowSettings" />
     </LinearLayout>
 
