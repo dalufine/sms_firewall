@@ -22,7 +22,7 @@ import com.quazar.sms_firewall.models.LogFilter;
 public class LogsFilterDialog extends AlertDialog{
 	private DialogListener<LogFilter> listener;
 	private View view;
-	private static LogFilter filter=new LogFilter();
+	private LogFilter filter=new LogFilter();
 	public LogsFilterDialog(final Context context, DialogListener<LogFilter> listener){
 		super(context);
 		this.listener=listener;		
@@ -88,18 +88,18 @@ public class LogsFilterDialog extends AlertDialog{
 					   dateFrom=dateFromField.getText().toString().trim(),					   
 					   dateTo=dateToField.getText().toString().trim(),
 					   bodyLike=bodyField.getText().toString().trim();
-					   LogsFilterDialog.filter.setBodyLike(bodyLike.isEmpty()?null:bodyLike);
-					   LogsFilterDialog.filter.setPhoneName(phoneName.isEmpty()?null:phoneName);
-					   LogsFilterDialog.filter.setFrom(dateFrom.isEmpty()?null:dateFrom);
-					   LogsFilterDialog.filter.setTo(dateTo.isEmpty()?null:dateTo);
-					   LogsFilterDialog.this.listener.ok(LogsFilterDialog.filter);
+					   LogsFilterDialog.this.filter.setBodyLike(bodyLike.length()==0?null:bodyLike);
+					   LogsFilterDialog.this.filter.setPhoneName(phoneName.length()==0?null:phoneName);
+					   LogsFilterDialog.this.filter.setFrom(dateFrom.length()==0?null:dateFrom);
+					   LogsFilterDialog.this.filter.setTo(dateTo.length()==0?null:dateTo);
+					   LogsFilterDialog.this.listener.ok(LogsFilterDialog.this.filter);
 					   dismiss();
 			}
 		});
 		((Button)view.findViewById(R.id.resetLogFilterBtn)).setOnClickListener(new Button.OnClickListener(){			
 			@Override
 			public void onClick(View v){
-				LogsFilterDialog.resetFilter();
+				resetFilter();
 				senderSelect.setSelection(0);
 				dateFromField.setText(null);					   
 				dateToField.setText(null);
@@ -117,7 +117,7 @@ public class LogsFilterDialog extends AlertDialog{
 	public void setDateToEditText(Context context, final EditText edit){
 		final Calendar cal=Calendar.getInstance();		
 		String val=edit.getText().toString().trim();
-		if(!val.isEmpty()){
+		if(val.length()>0){
 			try{								
 				cal.setTime(SimpleDateFormat.getDateInstance().parse(val));								
 			}catch(Exception ex){				
@@ -134,7 +134,11 @@ public class LogsFilterDialog extends AlertDialog{
 		}, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
 		dpd.show();
 	}
-	public static void resetFilter(){
+	
+	public LogFilter getFilter() {
+		return filter;
+	}
+	public void resetFilter(){
 		filter=new LogFilter();
 	}
 }
