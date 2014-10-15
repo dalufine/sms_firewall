@@ -113,14 +113,15 @@
                 <Button
                     android:id="@+id/fast_phone_number"
                     style="@style/ImageButtonWithText"
-                    android:drawableLeft="@drawable/phone_number_type"
+                    android:drawableLeft="@drawable/phone_number_type_selector"
                     android:onClick="onPhoneNumberClick"
                     android:text="@string/phone_number" />
 
                 <Button
                     android:id="@+id/fast_word"
                     style="@style/ImageButtonWithText"
-                    android:drawableLeft="@drawable/word_type"
+                    android:layout_marginLeft="10dp"
+                    android:drawableLeft="@drawable/word_type_selector"
                     android:onClick="onWordClick"
                     android:text="@string/word" />
             </LinearLayout>

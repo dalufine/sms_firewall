@@ -3,6 +3,7 @@ import com.quazar.sms_firewall.R;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.StateListDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,7 +19,7 @@ public class BaseActivity extends Activity {
 				null);
 		TextView tv = (TextView) view.findViewById(R.id.tab_text);
 		tv.setText(text);
-		ImageView im = (ImageView) view.findViewById(R.id.tab_img);
+		ImageView im = (ImageView) view.findViewById(R.id.tab_img);		
 		im.setImageDrawable(getResources().getDrawable(drawableId));
 		return view;
 

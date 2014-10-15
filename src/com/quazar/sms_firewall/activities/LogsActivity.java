@@ -37,7 +37,7 @@ public class LogsActivity extends BaseActivity {
 		TabHost.TabSpec blockedLogsTab = tabHost.newTabSpec("blocked logs");
 		blockedLogsTab.setIndicator(createTabView(tabHost.getContext(),
 				getResources().getString(R.string.blocked),
-				R.drawable.blocked));
+				R.drawable.blocked_selector));
 		blockedLogsTab.setContent(R.id.blocked_logs);
 		ListView blockedList = (ListView) findViewById(R.id.blocked_logs_list);
 		blockedList.setAdapter(getAdapter(LogStatus.BLOCKED, null));
@@ -46,7 +46,7 @@ public class LogsActivity extends BaseActivity {
 				.newTabSpec("suspicious logs");
 		suspiciousLogsTab.setIndicator(createTabView(tabHost.getContext(),
 				getResources().getString(R.string.suspicious),
-				R.drawable.suspicious));
+				R.drawable.suspicious_selector));
 		suspiciousLogsTab.setContent(R.id.suspicious_logs);
 		ListView suspiciousList = (ListView) findViewById(R.id.suspicious_logs_list);
 		suspiciousList.setAdapter(getAdapter(LogStatus.SUSPICIOUS, null));
@@ -54,7 +54,7 @@ public class LogsActivity extends BaseActivity {
 		TabHost.TabSpec filteredLogsTab = tabHost.newTabSpec("filtered logs");
 		filteredLogsTab.setIndicator(createTabView(tabHost.getContext(),
 				getResources().getString(R.string.filtered),
-				R.drawable.passed));
+				R.drawable.passed_selector));
 		filteredLogsTab.setContent(R.id.filtered_logs);
 		ListView filteredList = (ListView) findViewById(R.id.filtered_logs_list);
 		filteredList.setAdapter(getAdapter(LogStatus.FILTERED, null));

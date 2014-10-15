@@ -85,54 +85,54 @@
     </style>
 
     <style name="BackButton" parent="BottomPanelButton">
-        <item name="android:src">@drawable/back</item>
+        <item name="android:src">@drawable/back_selector</item>
         <item name="android:layout_marginLeft">0dp</item>
     </style>
 
     <style name="AddButton" parent="BottomPanelButton">
-        <item name="android:src">@drawable/add</item>
+        <item name="android:src">@drawable/add_selector</item>
     </style>
 
     <style name="LogFilterButton" parent="BottomPanelButton">
-        <item name="android:src">@drawable/find_sms</item>
+        <item name="android:src">@drawable/find_sms_selector</item>
     </style>
 
     <style name="ResetButton" parent="BottomPanelButton">
-        <item name="android:src">@drawable/reset</item>
+        <item name="android:src">@drawable/reset_selector</item>
     </style>
 
     <style name="CheckButton" parent="BottomPanelButton">
-        <item name="android:src">@drawable/check_sms</item>
+        <item name="android:src">@drawable/check_sms_selector</item>
         <item name="android:padding">7dp</item>
     </style>
 
     <style name="ClearButton" parent="BottomPanelButton">
-        <item name="android:src">@drawable/clear</item>
+        <item name="android:src">@drawable/clear_selector</item>
     </style>
 
     <style name="ComplainButton" parent="BottomPanelButton">
-        <item name="android:src">@drawable/complain</item>
+        <item name="android:src">@drawable/complain_selector</item>
     </style>
 
     <style name="AddAllButton" parent="BottomPanelButton">
-        <item name="android:src">@drawable/add_all</item>
+        <item name="android:src">@drawable/add_all_selector</item>
         <item name="android:padding">7dp</item>
     </style>
 
     <style name="SettingsButton" parent="BottomPanelButton">
-        <item name="android:src">@drawable/settings</item>
+        <item name="android:src">@drawable/settings_selector</item>
     </style>
 
     <style name="TopButton" parent="BottomPanelButton">
-        <item name="android:src">@drawable/top</item>
+        <item name="android:src">@drawable/top_selector</item>
     </style>
 
     <style name="LogButton" parent="BottomPanelButton">
-        <item name="android:src">@drawable/log</item>
+        <item name="android:src">@drawable/log_selector</item>
     </style>
 
     <style name="FiltersButton" parent="BottomPanelButton">
-        <item name="android:src">@drawable/filter</item>
+        <item name="android:src">@drawable/filter_selector</item>
         <item name="android:layout_marginLeft">0dp</item>
     </style>
 
@@ -199,7 +199,7 @@
         <item name="android:background">@null</item>        
         <item name="android:onClick">onHelpClick</item>
         <item name="android:scaleType">centerInside</item>
-        <item name="android:src">@drawable/help</item>
+        <item name="android:src">@drawable/help_selector</item>
     </style>
     
     <style name="test">

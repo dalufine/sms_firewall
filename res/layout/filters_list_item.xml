@@ -14,7 +14,7 @@
     <ImageButton        
         android:layout_height="fill_parent"
         android:layout_width="40dp"   
-        android:src="@drawable/delete"
+        android:src="@drawable/delete_selector"
         android:scaleType="fitCenter"
         android:background="@null"
         android:contentDescription="@string/default_text"     
