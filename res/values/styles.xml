@@ -77,7 +77,10 @@
         <item name="android:background">@drawable/button_selector</item>
         <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">50dp</item>
-        <item name="android:scaleType">centerInside</item>        
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:paddingLeft">10dp</item>     
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:textColor">@drawable/button_text_color</item>   
     </style>
 
     <style name="BottomPanelButton" parent="BlackButton">
@@ -103,6 +106,11 @@
 
     <style name="CheckButton" parent="BottomPanelButton">
         <item name="android:src">@drawable/check_sms</item>
+        <item name="android:padding">7dp</item>
+    </style>
+    
+    <style name="OkButton" parent="BottomPanelButton">
+        <item name="android:src">@drawable/passed</item>
         <item name="android:padding">7dp</item>
     </style>
 
@@ -172,8 +180,7 @@
 
     <style name="ButtonsPanel" parent="GroupPanel">
         <item name="android:orientation">horizontal</item>
-        <item name="android:layout_margin">10dp</item>
-        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_margin">10dp</item>        
         <item name="android:layout_height">0px</item>
     </style>
 
@@ -189,8 +196,7 @@
          <item name="android:layout_height">40dp</item>
          <item name="android:drawablePadding">5sp</item>
          <item name="android:gravity">left|center_vertical</item>
-         <item name="android:padding">10dp</item>
-         <item name="android:textColor">@drawable/button_text_color</item>
+         <item name="android:padding">10dp</item>         
     </style>
     
     <style name="HelpButton">

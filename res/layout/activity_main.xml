@@ -120,6 +120,7 @@
                 <Button
                     android:id="@+id/fast_word"
                     style="@style/ImageButtonWithText"
+                    android:layout_marginLeft="15dp"
                     android:drawableLeft="@drawable/word_type"
                     android:onClick="onWordClick"
                     android:text="@string/word" />
