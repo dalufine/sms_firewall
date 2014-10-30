@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,13 +15,13 @@ import android.widget.SimpleAdapter;
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.dialogs.listeners.SelectListener;
 
-public class SelectSourceDialog extends AlertDialog {
+public class SelectSourceDialog extends Dialog {
 	private final String TEXT_KEY = "text", ICON_KEY = "icon";
 	public static final int FROM_CONTACTS = 0, FROM_INBOX_SMS = 1,
 			FROM_INCOME_CALLS = 2, FROM_SUSPICIOUS_SMS = 3,
 			FROM_FRAUDS_TOP = 4;	
 	public SelectSourceDialog(final Context context, final SelectListener<Integer> listener, boolean forCheck) {
-		super(context);
+		super(context, R.style.Dialog);
 		View v = getLayoutInflater().inflate(R.layout.source_list, null);
 		ListView listView = (ListView) v.findViewById(R.id.sources_list);
 		listView.setOnItemClickListener(new OnItemClickListener() {
@@ -52,6 +52,6 @@ public class SelectSourceDialog extends AlertDialog {
 				new int[] { R.id.item_text, R.id.item_icon });
 		listView.setAdapter(adapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		setView(v);
+		setContentView(v);		
 	}	
 }

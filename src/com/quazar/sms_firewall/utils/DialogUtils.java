@@ -1,7 +1,7 @@
 package com.quazar.sms_firewall.utils;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -24,90 +24,139 @@ import com.quazar.sms_firewall.dialogs.listeners.SelectListener;
 import com.quazar.sms_firewall.models.Filter.FilterType;
 
 public class DialogUtils {
-	public static void createWarningDialog(final AlertDialog dialog,
-			String title, String message, String buttonTitle) {
-		dialog.setTitle(title);
-		dialog.setMessage(message);
-		dialog.setCancelable(true);
-		dialog.setButton(AlertDialog.BUTTON_POSITIVE, buttonTitle,
-				new OnClickListener() {
+	public static void createWarningDialog(final Context context, String title,
+			String message, String buttonTitle) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle(title).setMessage(message).setCancelable(true)
+				.setPositiveButton(buttonTitle, new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.dismiss();
 					}
-				});
+				}).show();
 	}
 
-	public static void showSourceSelectPopup(final Activity activity, final Handler handler, final boolean forCheck){		
-		SelectSourceDialog sourceSelect=new SelectSourceDialog(activity, new SelectListener<Integer>(){
-			@Override
-			public void recieveSelection(Integer selection){
-				final DataDao dao=new DataDao(activity);
-				try{
-					switch(selection){
-						case SelectSourceDialog.FROM_CONTACTS:
-							StateManager.getContact(activity);
-							break;
-						case SelectSourceDialog.FROM_INBOX_SMS:
-							SmsSelectDialog smsPopup=new SmsSelectDialog(activity, new SelectListener<HashMap<String, Object>>(){
-								@Override
-								public void recieveSelection(HashMap<String, Object> selection){
-									String value=(String)selection.get(ContentUtils.SMS_NUMBER);
-									if(forCheck){
-										if(handler!=null){
-											Message mes=handler.obtainMessage(1, value);											
-											handler.dispatchMessage(mes);
-										}
-									}else{
-										dao.insertFilter(FilterType.PHONE_NAME, value);
-										if(handler!=null)
-											handler.dispatchMessage(new Message());
-									}
+	public static void showSourceSelectPopup(final Activity activity,
+			final Handler handler, final boolean forCheck) {
+		SelectSourceDialog sourceSelect = new SelectSourceDialog(activity,
+				new SelectListener<Integer>() {
+					@Override
+					public void recieveSelection(Integer selection) {
+						final DataDao dao = new DataDao(activity);
+						try {
+							switch (selection) {
+							case SelectSourceDialog.FROM_CONTACTS:
+								StateManager.getContact(activity);
+								break;
+							case SelectSourceDialog.FROM_INBOX_SMS:
+								final List<HashMap<String, Object>> sms = ContentUtils
+										.getInboxSms(activity);
+								if (!sms.isEmpty()) {
+									SmsSelectDialog smsPopup = new SmsSelectDialog(
+											activity,
+											new SelectListener<HashMap<String, Object>>() {
+												@Override
+												public void recieveSelection(
+														HashMap<String, Object> selection) {
+													String value = (String) selection
+															.get(ContentUtils.SMS_NUMBER);
+													if (forCheck) {
+														if (handler != null) {
+															Message mes = handler
+																	.obtainMessage(
+																			1,
+																			value);
+															handler.dispatchMessage(mes);
+														}
+													} else {
+														dao.insertFilter(
+																FilterType.PHONE_NAME,
+																value);
+														if (handler != null)
+															handler.dispatchMessage(new Message());
+													}
+												}
+											}, sms);
+									smsPopup.show();
+								} else {
+									DialogUtils.createWarningDialog(
+											activity,
+											activity.getResources().getString(
+													R.string.warning),
+											activity.getResources().getString(
+													R.string.no_sms_warn),
+											activity.getResources().getString(
+													R.string.ok));
 								}
-							});
-							smsPopup.show();
-							break;
-						case SelectSourceDialog.FROM_INCOME_CALLS:
-							CallsSelectDialog callsPopup=new CallsSelectDialog(activity, new SelectListener<HashMap<String, Object>>(){
-								@Override
-								public void recieveSelection(HashMap<String, Object> selection){
-									String value=(String)selection.get(ContentUtils.CALLS_NUMBER);
-									if(forCheck){
-										if(handler!=null){
-											Message mes=handler.obtainMessage(1, value);
-											handler.dispatchMessage(mes);
-										}
-									}else{
-										dao.insertFilter(FilterType.PHONE_NAME, value);
-										if(handler!=null)
-											handler.dispatchMessage(new Message());
-									}
+								break;
+							case SelectSourceDialog.FROM_INCOME_CALLS:
+								final List<HashMap<String, Object>> sources = ContentUtils
+										.getIncomeCalls(activity);
+								if (!sources.isEmpty()) {
+									CallsSelectDialog callsPopup = new CallsSelectDialog(
+											activity,
+											new SelectListener<HashMap<String, Object>>() {
+												@Override
+												public void recieveSelection(
+														HashMap<String, Object> selection) {
+													String value = (String) selection
+															.get(ContentUtils.CALLS_NUMBER);
+													if (forCheck) {
+														if (handler != null) {
+															Message mes = handler
+																	.obtainMessage(
+																			1,
+																			value);
+															handler.dispatchMessage(mes);
+														}
+													} else {
+														dao.insertFilter(
+																FilterType.PHONE_NAME,
+																value);
+														if (handler != null)
+															handler.dispatchMessage(new Message());
+													}
+												}
+											}, sources);
+									callsPopup.show();
+								} else {
+									DialogUtils.createWarningDialog(activity, activity.getResources()
+											.getString(R.string.warning), activity.getResources()
+											.getString(R.string.no_income_calls), activity.getResources()
+											.getString(R.string.ok));
 								}
-							});
-							callsPopup.show();
-							break;
-						case SelectSourceDialog.FROM_SUSPICIOUS_SMS:
-							if(forCheck){
-								EnterValueDialog evd=new EnterValueDialog(activity, activity.getResources().getString(R.string.enter_number_or_name), new SelectListener<String>() {									
-									@Override
-									public void recieveSelection(String selection) {
-										if(handler!=null){
-											Message mes=handler.obtainMessage(1, selection);
-											handler.dispatchMessage(mes);
-										}
-									}
-								});
-								evd.show();
+								break;
+							case SelectSourceDialog.FROM_SUSPICIOUS_SMS:
+								if (forCheck) {
+									EnterValueDialog evd = new EnterValueDialog(
+											activity,
+											activity.getResources()
+													.getString(
+															R.string.enter_number_or_name),
+											new SelectListener<String>() {
+												@Override
+												public void recieveSelection(
+														String selection) {
+													if (handler != null) {
+														Message mes = handler
+																.obtainMessage(
+																		1,
+																		selection);
+														handler.dispatchMessage(mes);
+													}
+												}
+											});
+									evd.show();
+								}
+								break;
+							default:
+								break;
 							}
-							break;
-						default:
-							break;
+						} finally {
+							dao.close();
+						}
 					}
-				}finally{
-					dao.close();
-				}
-			}
-		}, forCheck);
+				}, forCheck);
 		sourceSelect.show();
 	}
 
@@ -119,48 +168,59 @@ public class DialogUtils {
 					@Override
 					public void recieveSelection(String selection) {
 						DataDao dao = new DataDao(context);
-						try{
+						try {
 							dao.insertFilter(FilterType.WORD, selection);
 							if (handler != null)
 								handler.dispatchMessage(new Message());
-						}finally{
+						} finally {
 							dao.close();
 						}
 					}
 				});
 		popup.show();
 	}
-	public static void showConfirmDialog(Context context, String title, String question, final DialogListener<Boolean> listener){
+
+	public static void showConfirmDialog(Context context, String title,
+			String question, final DialogListener<Boolean> listener) {
 		new AlertDialog.Builder(context)
-        .setIcon(android.R.drawable.ic_dialog_alert)
-        .setTitle(title)
-        .setMessage(question)
-        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                listener.ok(true);    
-            }
-        }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                listener.cancel();    
-            }
-        })
-        .show();
+				.setIcon(android.R.drawable.ic_dialog_alert)
+				.setTitle(title)
+				.setMessage(question)
+				.setPositiveButton(R.string.yes,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								listener.ok(true);
+							}
+						})
+				.setNegativeButton(R.string.no,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								listener.cancel();
+							}
+						}).show();
 	}
-	public static void showErrorDialog(Context context, int errorCode){		
-		showInfoDialog(context, context.getString(R.string.error_dialog_title), ErrorCodes.getErrorByCode(errorCode).getDescription());		
+
+	public static void showErrorDialog(Context context, int errorCode) {
+		showInfoDialog(context, context.getString(R.string.error_dialog_title),
+				ErrorCodes.getErrorByCode(errorCode).getDescription());
 	}
-	public static void showInfoDialog(Context context, String title, String info){
-		AlertDialog dialog=new AlertDialog.Builder(context)
-        .setIcon(android.R.drawable.ic_dialog_info)
-        .setTitle(title)
-        .setMessage(info)
-        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();    
-            }
-        }).show();
+
+	public static void showInfoDialog(Context context, String title, String info) {
+		AlertDialog dialog = new AlertDialog.Builder(context)
+				.setIcon(android.R.drawable.ic_dialog_info)
+				.setTitle(title)
+				.setMessage(info)
+				.setPositiveButton(R.string.yes,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.dismiss();
+							}
+						}).show();
 	}
 }

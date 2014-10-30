@@ -14,7 +14,7 @@ import android.provider.CallLog;
 import android.provider.ContactsContract;
 
 public class ContentUtils {
-	public static final String SMS_NUMBER = "sms_number",
+	public static final String SMS_NUMBER = "sms_number", SMS_DATE="sms_date",
 			SMS_TEXT = "sms_text", CALLS_NUMBER = "number",
 			CALLS_DATE = "date", CALLS_DURATION = "duration",
 			CALLS_NAME = "name";
@@ -40,14 +40,16 @@ public class ContentUtils {
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		Cursor cursor = context.getContentResolver().query(
 				Uri.parse("content://sms/inbox"),
-				new String[] { "address", "body" }, null, null, null);
+				new String[] { "address", "body", "date" }, null, null, null);
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		while (cursor.moveToNext()) {
 			HashMap<String, Object> sms = new HashMap<String, Object>();
-			sms.put(SMS_NUMBER, DictionaryUtils.getInstance().getContactsName(cursor.getString(0)));
-			String text = cursor.getString(1);
-			if (text.length() > 40)
-				text = text.substring(0, 37) + "...";
-			sms.put(SMS_TEXT, text);
+			String contact=cursor.getString(0);
+			String contactName=DictionaryUtils.getInstance().getContactsName(contact);
+			sms.put(SMS_NUMBER, contactName.equals(contact)?contact:(contactName+" / "+ contact));						
+			sms.put(SMS_TEXT, cursor.getString(1));
+			Long dateTime=cursor.getLong(2);
+			sms.put(SMS_DATE, sdf.format(new Date(dateTime)));
 			list.add(sms);
 		}
 		return list;

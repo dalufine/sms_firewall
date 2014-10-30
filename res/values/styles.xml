@@ -4,14 +4,7 @@
         <item name="android:windowBackground">@drawable/activity_background</item>
         <item name="android:windowNoTitle">true</item>
     </style>
-    <style name="DialogTheme" parent="android:Theme.Dialog">
-        <item name="android:windowTitleStyle">@style/DialogHeader</item>    
-        <item name="android:padding">0px</item>           
-    </style>
-    <style name="DialogHeader" parent="android:Widget.TextView">
-        <item name="android:textColor">#0f0</item>
-        <item name="android:background">@android:color/background_light</item>
-    </style>
+   
     <!-- Font styles -->
     <style name="StatisticsFont">
         <item name="android:layout_width">fill_parent</item>
@@ -42,6 +35,17 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:typeface">sans</item>
+    </style>
+    
+    <style name="DialogHeaderText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textAppearance">?android:attr/textAppearance</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
     <style name="ListDateFont" parent="StatisticsFont">
@@ -75,16 +79,17 @@
     <!-- New styles -->
     <style name="BlackButton">
         <item name="android:background">@drawable/button_selector</item>
-        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">50dp</item>
         <item name="android:scaleType">centerInside</item>
-        <item name="android:paddingLeft">10dp</item>     
+        <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>
-        <item name="android:textColor">@drawable/button_text_color</item>   
+        <item name="android:textColor">@drawable/button_text_color</item>
     </style>
 
     <style name="BottomPanelButton" parent="BlackButton">
         <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_width">50dp</item>
     </style>
 
     <style name="BackButton" parent="BottomPanelButton">
@@ -108,7 +113,7 @@
         <item name="android:src">@drawable/check_sms_selector</item>
         <item name="android:padding">7dp</item>
     </style>
-    
+
     <style name="OkButton" parent="BottomPanelButton">
         <item name="android:src">@drawable/passed</item>
         <item name="android:padding">7dp</item>
@@ -180,7 +185,7 @@
 
     <style name="ButtonsPanel" parent="GroupPanel">
         <item name="android:orientation">horizontal</item>
-        <item name="android:layout_margin">10dp</item>        
+        <item name="android:layout_margin">10dp</item>
         <item name="android:layout_height">0px</item>
     </style>
 
@@ -190,27 +195,48 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:src">@drawable/ic_launcher</item>
     </style>
-    
+
     <style name="ImageButtonWithText" parent="BlackButton">
-         <item name="android:layout_width">wrap_content</item>
-         <item name="android:layout_height">40dp</item>
-         <item name="android:drawablePadding">5sp</item>
-         <item name="android:gravity">left|center_vertical</item>
-         <item name="android:padding">10dp</item>         
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:drawablePadding">5sp</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:padding">10dp</item>
     </style>
-    
+
     <style name="HelpButton">
         <item name="android:layout_width">15dp</item>
         <item name="android:layout_height">15dp</item>
-        <item name="android:background">@null</item>        
+        <item name="android:background">@null</item>
         <item name="android:onClick">onHelpClick</item>
         <item name="android:scaleType">centerInside</item>
         <item name="android:src">@drawable/help_selector</item>
     </style>
     
+    <style name="EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/edit_text_background</item>
+        <item name="android:inputType">text</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
+    <style name="Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:background">@android:color/transparent</item>     
+    </style>
+
     <style name="test">
         <item name="android:text">#f00</item>
-         <item name="android:textSize">26sp</item>
+        <item name="android:textSize">26sp</item>
     </style>
 
 </resources>

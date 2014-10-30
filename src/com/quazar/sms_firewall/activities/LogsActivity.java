@@ -186,7 +186,11 @@ public class LogsActivity extends BaseActivity implements OnScrollListener {
 		if (!loading
 				&& (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
 
-			loadPage(currentPage + 1, filterDialog.getFilter());
+			LogFilter filter = null;
+			if (filterDialog != null) {
+				filter = filterDialog.getFilter();
+			}
+			loadPage(currentPage + 1, filter);
 			loading = true;
 		}
 	}
