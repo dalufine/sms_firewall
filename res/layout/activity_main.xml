@@ -113,7 +113,7 @@
                 <Button
                     android:id="@+id/fast_phone_number"
                     style="@style/ImageButtonWithText"
-                    android:drawableLeft="@drawable/phone_number_type"
+                    android:drawableLeft="@drawable/phone_number_type_selector"
                     android:onClick="onPhoneNumberClick"
                     android:text="@string/phone_number" />
 

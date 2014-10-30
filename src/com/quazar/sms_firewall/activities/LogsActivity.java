@@ -48,10 +48,9 @@ public class LogsActivity extends BaseActivity implements OnScrollListener {
 		listViews = new ArrayList<ListView>();
 
 		TabHost.TabSpec blockedLogsTab = tabHost.newTabSpec("blocked logs");
-		blockedLogsTab
-				.setIndicator(createTabView(tabHost.getContext(),
-						getResources().getString(R.string.blocked),
-						R.drawable.blocked));
+		blockedLogsTab.setIndicator(createTabView(tabHost.getContext(),
+				getResources().getString(R.string.blocked),
+				R.drawable.blocked_selector));
 		blockedLogsTab.setContent(R.id.blocked_logs);
 		ListView blockedList = (ListView) findViewById(R.id.blocked_logs_list);
 		blockedList.setId(3);
@@ -61,17 +60,16 @@ public class LogsActivity extends BaseActivity implements OnScrollListener {
 				.newTabSpec("suspicious logs");
 		suspiciousLogsTab.setIndicator(createTabView(tabHost.getContext(),
 				getResources().getString(R.string.suspicious),
-				R.drawable.suspicious));
+				R.drawable.suspicious_selector));
 		suspiciousLogsTab.setContent(R.id.suspicious_logs);
 		ListView suspiciousList = (ListView) findViewById(R.id.suspicious_logs_list);
 		suspiciousList.setId(2);
 		suspiciousList.setAdapter(getAdapter(2, LogStatus.SUSPICIOUS, null));
 
 		TabHost.TabSpec filteredLogsTab = tabHost.newTabSpec("filtered logs");
-		filteredLogsTab
-				.setIndicator(createTabView(tabHost.getContext(),
-						getResources().getString(R.string.filtered),
-						R.drawable.passed));
+		filteredLogsTab.setIndicator(createTabView(tabHost.getContext(),
+				getResources().getString(R.string.filtered),
+				R.drawable.passed_selector));
 		filteredLogsTab.setContent(R.id.filtered_logs);
 		ListView filteredList = (ListView) findViewById(R.id.filtered_logs_list);
 		filteredList.setId(1);

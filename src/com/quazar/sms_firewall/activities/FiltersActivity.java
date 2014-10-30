@@ -40,14 +40,14 @@ public class FiltersActivity extends BaseActivity{
 		dataDao=new DataDao(this);		
 
 		TabHost.TabSpec phoneFiltersTab=tabHost.newTabSpec("phone filters");
-		phoneFiltersTab.setIndicator(createTabView(tabHost.getContext(), getResources().getString(R.string.numbers), R.drawable.phone));
+		phoneFiltersTab.setIndicator(createTabView(tabHost.getContext(), getResources().getString(R.string.numbers), R.drawable.phone_selector));
 		phoneFiltersTab.setContent(R.id.phone_filters);
 
 		phonesList=(ListView)findViewById(R.id.phone_filters_list);				
 		phonesList.setAdapter(getAdapter(FilterType.PHONE_NAME));
 
 		TabHost.TabSpec wordFiltersTab=tabHost.newTabSpec("word filters");
-		wordFiltersTab.setIndicator(createTabView(tabHost.getContext(), getResources().getString(R.string.words), R.drawable.word));
+		wordFiltersTab.setIndicator(createTabView(tabHost.getContext(), getResources().getString(R.string.words), R.drawable.word_selector));
 		wordFiltersTab.setContent(R.id.word_filters);
 		wordsList=(ListView)findViewById(R.id.word_filters_list);		
 		wordsList.setAdapter(getAdapter(FilterType.WORD));
