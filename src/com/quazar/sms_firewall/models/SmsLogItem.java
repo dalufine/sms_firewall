@@ -13,12 +13,12 @@ public class SmsLogItem {
 		FILTERED, SUSPICIOUS, BLOCKED
 	};
 
-	private int id;
+	private long id;
 	private String phoneName, body;
 	private Date date;
 	private LogStatus status;
 
-	public SmsLogItem(int id, String phoneName, String body, Date date, int status) {
+	public SmsLogItem(long id, String phoneName, String body, Date date, int status) {
 		super();
 		this.id = id;
 		this.phoneName = phoneName;
@@ -27,7 +27,7 @@ public class SmsLogItem {
 		this.status=LogStatus.values()[status];		
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

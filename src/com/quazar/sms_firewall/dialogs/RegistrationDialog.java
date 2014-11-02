@@ -2,7 +2,7 @@ package com.quazar.sms_firewall.dialogs;
 
 import org.json.JSONObject;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -14,19 +14,19 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.quazar.sms_firewall.ErrorCodes;
 import com.quazar.sms_firewall.Param;
 import com.quazar.sms_firewall.R;
-import com.quazar.sms_firewall.network.ApiClient;
+import com.quazar.sms_firewall.ResponseCodes;
+import com.quazar.sms_firewall.network.ApiService;
 
-public class RegistrationDialog extends AlertDialog{
+public class RegistrationDialog extends Dialog{
 	private CheckBox useSync, useEmail, sendSuspicious;
 	private EditText userEmail, logsPassword;
 
 	public RegistrationDialog(final Context context){
-		super(context);
+		super(context, R.style.Dialog);
 		final View v=getLayoutInflater().inflate(R.layout.registration_dialog, null);
-		setView(v);
+		setContentView(v);
 		useSync=(CheckBox)v.findViewById(R.id.syncFilters);
 		useEmail=(CheckBox)v.findViewById(R.id.useEmail);
 		sendSuspicious=(CheckBox)v.findViewById(R.id.sendSuspicious);
@@ -69,26 +69,32 @@ public class RegistrationDialog extends AlertDialog{
 					hasError=true;
 				}
 				if(!hasError){
-					Param.SEND_SUSPICIOUS.setValue(sendSuspicious.isChecked());
 					Toast.makeText(context, context.getResources().getString(R.string.registration_thanks), Toast.LENGTH_SHORT).show();
-					Param.IS_NEW.setValue(false);
-					final ApiClient api=new ApiClient(context);
-					api.register(email, password, new Handler(){
-						@Override
-						public void handleMessage(Message msg){
-							JSONObject data=(JSONObject)msg.obj;
-							if(data.has("error")){
-								try{
-									Integer errorCode=data.getJSONObject("error").getInt("code");
-									if(ErrorCodes.getErrorByCode(errorCode)==ErrorCodes.USER_ALREADY_REGISTERED){
-										api.loadFilters();
+					Param.SEND_SUSPICIOUS.setValue(sendSuspicious.isChecked());
+					Param.IS_NEW.setValue(false);										
+					final ApiService api=new ApiService(context);
+					try{
+						api.register(new Handler(){
+							@Override
+							public void handleMessage(Message msg){
+								JSONObject data=(JSONObject)msg.obj;
+								if(data.has("code")){
+									try{
+										int errorCode=data.getInt("code");
+										if(errorCode==ResponseCodes.USER_ALREADY_REGISTERED.getCode()){
+											api.loadUserFilters();											
+										}
+										api.loadTops();
+									}catch(Exception ex){
+										Log.e("json error", ex.toString());
 									}
-								}catch(Exception ex){
-									Log.e("json error", ex.toString());
 								}
 							}
-						}
-					});
+						});
+					}catch(Exception e){						
+						Log.e("registration", e.toString());
+						e.printStackTrace();
+					}
 					RegistrationDialog.this.dismiss();
 				}else{
 					Toast.makeText(context, context.getResources().getString(R.string.have_errors), Toast.LENGTH_SHORT).show();

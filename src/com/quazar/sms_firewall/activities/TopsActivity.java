@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
@@ -18,15 +20,17 @@ import android.widget.SimpleAdapter;
 import android.widget.TabHost;
 import android.widget.Toast;
 
-import com.quazar.sms_firewall.ErrorCodes;
 import com.quazar.sms_firewall.R;
+import com.quazar.sms_firewall.ResponseCodes;
 import com.quazar.sms_firewall.dao.DataDao;
 import com.quazar.sms_firewall.dialogs.MessageExampleDialog;
+import com.quazar.sms_firewall.dialogs.SelectSourceDialog;
 import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
-import com.quazar.sms_firewall.models.TopItem;
-import com.quazar.sms_firewall.models.TopItem.TopCategory;
-import com.quazar.sms_firewall.models.TopItem.TopType;
-import com.quazar.sms_firewall.network.ApiClient;
+import com.quazar.sms_firewall.models.TopFilter;
+import com.quazar.sms_firewall.models.TopFilter.TopCategory;
+import com.quazar.sms_firewall.models.TopFilter.TopType;
+import com.quazar.sms_firewall.network.ApiService;
+import com.quazar.sms_firewall.utils.ContentUtils;
 import com.quazar.sms_firewall.utils.DialogUtils;
 
 public class TopsActivity extends BaseActivity{
@@ -73,15 +77,14 @@ public class TopsActivity extends BaseActivity{
 	}
 
 	public SimpleAdapter getAdapter(TopType type, TopCategory category){
-		List<TopItem> topItems=dataDao.getTop(type, category);
+		List<TopFilter> topItems=dataDao.getTopFilters(type, category);
 		List<HashMap<String, Object>> list=new ArrayList<HashMap<String, Object>>();
-		for(TopItem item:topItems){
+		for(TopFilter item:topItems){
 			HashMap<String, Object> map=new HashMap<String, Object>();
 			map.put("id", item.getId());
 			map.put("position", item.getPos());
 			map.put("value", item.getValue());
 			map.put("votes", item.getVotes());
-			map.put("example", item.getExamples());
 			map.put("type", item.getType().ordinal());
 			list.add(map);
 		}
@@ -93,62 +96,59 @@ public class TopsActivity extends BaseActivity{
 	}
 
 	public void onCheck(View v){
-		DialogUtils.showSourceSelectPopup(this, new Handler(){
+		DialogUtils.showSourceSelectPopup(this, Arrays.asList(SelectSourceDialog.FROM_FRAUDS_TOP, SelectSourceDialog.FROM_SUSPICIOUS_SMS), new Handler(){
 			@Override
 			public void handleMessage(Message msg){
-				ApiClient api=new ApiClient(TopsActivity.this);
-				api.check(msg.obj.toString(), new Handler(){
-					@Override
-					public void handleMessage(Message msg){
-						JSONObject data=(JSONObject)msg.obj;
-						if(data.has("error")){
-							try{
-								Integer errorCode=Integer.valueOf(data.getJSONObject("error").get("code").toString());
-								Toast.makeText(TopsActivity.this, ErrorCodes.getErrorByCode(errorCode).getDescription(), Toast.LENGTH_LONG).show();
-							}catch(Exception ex){
-								Log.e("json error", ex.toString());
-							}
-						}else{
-							try{
-								MessageExampleDialog med=
-										new MessageExampleDialog(TopsActivity.this, new TopItem((Integer)data.get("id"), (Integer)data.get("position"), (Integer)data.get("votes"), (String)data.get("value"), Arrays
-												.asList((String)data.get("example")), (Integer)data.get("type"), (Integer)data.get("category")));
-								med.show();
-								Toast.makeText(TopsActivity.this, msg.obj.toString(), Toast.LENGTH_LONG).show();
-							}catch(Exception ex){
-								Log.e("json error", ex.toString());
+				ApiService api=new ApiService(TopsActivity.this);				
+				try{
+					Map<String, Object> map=(Map)msg.obj;
+					api.check((String)map.get(ContentUtils.NUMBER), new Handler(){
+						@Override
+						public void handleMessage(Message msg){
+							JSONObject data=(JSONObject)msg.obj;
+							if(data.has("code")){
+								try{									
+									Toast.makeText(TopsActivity.this, ResponseCodes.getErrorByCode(data.getInt("code")).getDescription(), Toast.LENGTH_LONG).show();
+								}catch(Exception ex){
+									Log.e("json error", ex.toString());
+								}
+							}else{
+								try{
+									MessageExampleDialog med=
+											new MessageExampleDialog(TopsActivity.this, new TopFilter((Integer)data.get("id"), (Integer)data.get("position"), (Integer)data.get("votes"), (String)data.get("value"),
+													(Integer)data.get("type"), (Integer)data.get("category")), jsonArrayToStringList(data.getJSONArray("examples")));
+									med.show();
+									Toast.makeText(TopsActivity.this, msg.obj.toString(), Toast.LENGTH_LONG).show();
+								}catch(Exception ex){
+									Log.e("json error", ex.toString());
+								}
 							}
 						}
-					}
-				});
+					});
+				}catch(Exception ex){
+					Log.e("check", ex.toString());
+					ex.printStackTrace();
+				}
 			}
-		}, true);
+		});
+	}
+
+	private List<String> jsonArrayToStringList(JSONArray array) throws JSONException{
+		List<String> list=new ArrayList<String>();
+		for(int i=0;i<array.length();i++){
+			list.add(array.getString(i));
+		}
+		return list;
 	}
 
 	public void onComplain(View v){
-		DialogUtils.showSourceSelectPopup(this, new Handler(){
+		DialogUtils.showSourceSelectPopup(this, Arrays.asList(SelectSourceDialog.FROM_FRAUDS_TOP, SelectSourceDialog.FROM_SUSPICIOUS_SMS), new Handler(){
 			@Override
 			public void handleMessage(Message msg){
-				ApiClient api=new ApiClient(TopsActivity.this);
+				ApiService api=new ApiService(TopsActivity.this);
 				// TODO replace call to complain
-				api.check(msg.obj.toString(), new Handler(){
-					@Override
-					public void handleMessage(Message msg){
-						JSONObject data=(JSONObject)msg.obj;
-						if(data.has("error")){
-							try{
-								Integer errorCode=Integer.valueOf(data.getJSONObject("error").get("code").toString());
-								Toast.makeText(TopsActivity.this, ErrorCodes.getErrorByCode(errorCode).getDescription(), Toast.LENGTH_LONG).show();
-							}catch(Exception ex){
-								Log.e("json error", ex.toString());
-							}
-						}else{
-							Toast.makeText(TopsActivity.this, msg.obj.toString(), Toast.LENGTH_LONG).show();
-						}
-					}
-				});
 			}
-		}, true);
+		});
 	}
 
 	public void onAddAll(View v){
@@ -166,7 +166,7 @@ public class TopsActivity extends BaseActivity{
 						category=TopCategory.GENERIC;
 						break;
 				}
-				dataDao.addAllToFilters(type, category);
+				dataDao.addAllToUserFilters(type, category);
 				Toast.makeText(TopsActivity.this, getResources().getString(R.string.filters_added), Toast.LENGTH_SHORT).show();
 			}
 
@@ -177,39 +177,44 @@ public class TopsActivity extends BaseActivity{
 
 	public void onVote(View v){
 		Map<String, Object> map=getSelectedItemProperties(v, 1);
-		ApiClient api=new ApiClient(this);
+		ApiService api=new ApiService(this);
 		final Integer filterId=(Integer)map.get("id");
-		api.addVote(filterId, new Handler(){
-			@Override
-			public void handleMessage(Message msg){
-				JSONObject data=(JSONObject)msg.obj;
-				if(data.has("error")){
-					try{
-						Integer errorCode=Integer.valueOf(data.getJSONObject("error").get("code").toString());
-						Toast.makeText(TopsActivity.this, ErrorCodes.getErrorByCode(errorCode).getDescription(), Toast.LENGTH_LONG).show();
-					}catch(Exception ex){
-						Log.e("json error", ex.toString());
-					}
-				}else{
-					if(data.has("votes")){
+		try{
+			api.addVote(filterId, new Handler(){
+				@Override
+				public void handleMessage(Message msg){
+					JSONObject data=(JSONObject)msg.obj;
+					if(data.has("error")){
 						try{
-							dataDao.updateTopItemVotes(filterId, Integer.valueOf(data.get("votes").toString()));
-							refreshLists();
+							Integer errorCode=Integer.valueOf(data.getJSONObject("error").get("code").toString());
+							Toast.makeText(TopsActivity.this, ResponseCodes.getErrorByCode(errorCode).getDescription(), Toast.LENGTH_LONG).show();
 						}catch(Exception ex){
 							Log.e("json error", ex.toString());
 						}
+					}else{
+						if(data.has("votes")){
+							try{
+								dataDao.updateTopFilterVotes(filterId, Integer.valueOf(data.get("votes").toString()));
+								refreshLists();
+							}catch(Exception ex){
+								Log.e("json error", ex.toString());
+							}
+						}
+						Toast.makeText(TopsActivity.this, TopsActivity.this.getString(R.string.vote_added), Toast.LENGTH_LONG).show();
 					}
-					Toast.makeText(TopsActivity.this, TopsActivity.this.getString(R.string.vote_added), Toast.LENGTH_LONG).show();
 				}
-			}
-		});
+			});
+		}catch(Exception e){
+			Log.e("vote", e.toString());
+			e.printStackTrace();
+		}
 	}
 
 	public void onItemClick(View v){
 		Map<String, Object> map=getSelectedItemProperties(v, 1);
-		MessageExampleDialog med=
-				new MessageExampleDialog(this,
-						new TopItem((Integer)map.get("id"), (Integer)map.get("position"), (Integer)map.get("votes"), (String)map.get("value"), (List)map.get("example"), (Integer)map.get("type"), 0));
+		Long id=(Long)map.get("id");
+		MessageExampleDialog med=new MessageExampleDialog(this, new TopFilter(id, (Integer)map.get("position"), (Integer)map.get("votes"), (String)map.get("value"), (Integer)map.get("type"), 0),
+				new DataDao(this).getTopFilterExamples(id));
 		med.show();
 	}
 

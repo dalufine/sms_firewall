@@ -25,8 +25,8 @@
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
-    <string name="enter_word">Enter the word</string>
-    <string name="enter_number">Enter phone number/name</string>
+    <string name="enter_word">Enter word</string>
+    <string name="enter_phone_number">Enter phone number</string>
     <string name="enter_value_warning">Enter value, please!</string>
     <string name="blocked">Blocked</string>
     <string name="suspicious">Suspicious</string>
@@ -51,8 +51,10 @@
         <item>Income calls</item>
         <item>Suspicious SMS</item>
         <item>Frauder\'s top</item>
+        <item>Enter word</item>
+        <item>Enter phone number</item>
     </string-array>
-    <string-array name="check_sources">
+    <string-array name="top_sources">
         <item>Contacts</item>
         <item>Inbox SMS</item>
         <item>Income calls</item>
@@ -76,7 +78,7 @@
     <string name="use_email_text">Check this option to sync by e-mail on other devices:</string>
     <string name="use_email">use e-mail</string>
     <string name="your_email">Your e-mail:</string>
-    <string name="enter_password_text">Enter password for secure store of your sms logs:</string>
+    <string name="enter_password_text">Enter password for secure store of your sms logs and your filters on server:</string>
     <string name="send_suspicious_text">Give us oppotunity to improve Sms Firewall:</string>
     <string name="send_suspicious">send suspicious sms</string>
     <string name="enter_email">Please, enter correct e-mail!</string>
@@ -99,7 +101,6 @@
     <string name="date_to">Date to:</string>
     <string name="add_all_from_top">Do you really want to add all filters on this tab?</string>
     <string name="filters_added">Filters added!</string>
-    <string name="enter_number_or_name">Enter phone number or name:</string>
     <string name="messages_examples">Messages examples:</string>
     <string name="messages_votes">Votes:</string>
     <string name="messages_position">Top position:</string>

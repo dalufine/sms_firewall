@@ -33,8 +33,8 @@ public class CallsSelectDialog extends Dialog {
 		});
 		SimpleAdapter adapter = new SimpleAdapter(context, sources,
 				R.layout.calls_list_item, new String[] {
-						ContentUtils.CALLS_NAME, ContentUtils.CALLS_DURATION,
-						ContentUtils.CALLS_DATE }, new int[] { R.id.call_name,
+						ContentUtils.NAME, ContentUtils.CALLS_DURATION,
+						ContentUtils.DATE }, new int[] { R.id.call_name,
 						R.id.call_duration, R.id.call_date });
 		listView.setAdapter(adapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);

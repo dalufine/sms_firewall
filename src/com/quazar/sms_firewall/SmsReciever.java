@@ -15,11 +15,11 @@ import android.telephony.SmsMessage;
 
 import com.quazar.sms_firewall.activities.MainActivity;
 import com.quazar.sms_firewall.dao.DataDao;
-import com.quazar.sms_firewall.models.Filter;
+import com.quazar.sms_firewall.models.UserFilter;
 import com.quazar.sms_firewall.models.SmsLogItem.LogStatus;
-import com.quazar.sms_firewall.models.TopItem;
-import com.quazar.sms_firewall.models.TopItem.TopCategory;
-import com.quazar.sms_firewall.models.TopItem.TopType;
+import com.quazar.sms_firewall.models.TopFilter;
+import com.quazar.sms_firewall.models.TopFilter.TopCategory;
+import com.quazar.sms_firewall.models.TopFilter.TopType;
 import com.quazar.sms_firewall.utils.DictionaryUtils;
 
 public class SmsReciever extends BroadcastReceiver {
@@ -34,8 +34,8 @@ public class SmsReciever extends BroadcastReceiver {
 		Bundle extras = intent.getExtras();
 		if (extras != null) {
 			Object[] smsextras = (Object[]) extras.get("pdus");
-			List<Filter> filters = dataDao.getFilters();
-			List<TopItem> topFilters = dataDao.getAllTops();
+			List<UserFilter> filters = dataDao.getUserFilters();
+			List<TopFilter> topFilters = dataDao.getAllTopFilters();
 			HashMap<String, String> messages = new HashMap<String, String>();
 			for (int i = 0; i < smsextras.length; i++) {
 				SmsMessage smsmsg = SmsMessage
@@ -52,7 +52,7 @@ public class SmsReciever extends BroadcastReceiver {
 			for (String phoneName : messages.keySet()) {
 				String body = messages.get(phoneName);
 				boolean blocked = false;
-				for (Filter f : filters) {
+				for (UserFilter f : filters) {
 					if (!f.isValid(phoneName, body)) {
 						abortBroadcast();
 						dataDao.insertLog(phoneName, body, LogStatus.BLOCKED);						
@@ -63,7 +63,7 @@ public class SmsReciever extends BroadcastReceiver {
 				}
 				if(!blocked){
 					boolean fraudDetected = false;				
-					for (TopItem ti : topFilters) {
+					for (TopFilter ti : topFilters) {
 						if (ti.getType() == TopType.PHONE_NAME&& ti.getValue().equals(phoneName)|| 
 							ti.getType() == TopType.WORD&& body.contains(ti.getValue())) {
 							dataDao.insertLog(phoneName, body, LogStatus.SUSPICIOUS);							

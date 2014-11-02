@@ -14,10 +14,8 @@ import android.provider.CallLog;
 import android.provider.ContactsContract;
 
 public class ContentUtils {
-	public static final String SMS_NUMBER = "sms_number", SMS_DATE="sms_date",
-			SMS_TEXT = "sms_text", CALLS_NUMBER = "number",
-			CALLS_DATE = "date", CALLS_DURATION = "duration",
-			CALLS_NAME = "name";
+	public static final String NUMBER = "number", DATE="date",
+			SMS_TEXT = "sms_text", CALLS_DURATION = "duration", NAME = "name";
 
 	public static String getPhoneNumber(Context activity, Uri contentUri) {
 		ContentResolver cr = activity.getContentResolver();
@@ -46,10 +44,10 @@ public class ContentUtils {
 			HashMap<String, Object> sms = new HashMap<String, Object>();
 			String contact=cursor.getString(0);
 			String contactName=DictionaryUtils.getInstance().getContactsName(contact);
-			sms.put(SMS_NUMBER, contactName.equals(contact)?contact:(contactName+" / "+ contact));						
+			sms.put(NUMBER, contactName.equals(contact)?contact:(contactName+" / "+ contact));						
 			sms.put(SMS_TEXT, cursor.getString(1));
 			Long dateTime=cursor.getLong(2);
-			sms.put(SMS_DATE, sdf.format(new Date(dateTime)));
+			sms.put(DATE, sdf.format(new Date(dateTime)));
 			list.add(sms);
 		}
 		return list;
@@ -81,9 +79,9 @@ public class ContentUtils {
 		while (cursor.moveToNext()) {
 			HashMap<String, Object> calls = new HashMap<String, Object>();
 			String name = cursor.getString(0), number = cursor.getString(1);
-			calls.put(CALLS_NAME, name == null ? number : name);
-			calls.put(CALLS_NUMBER, number);
-			calls.put(CALLS_DATE, getDateFormater().format(new Date(cursor.getLong(2))));
+			calls.put(NAME, name == null ? number : name);
+			calls.put(NUMBER, number);
+			calls.put(DATE, getDateFormater().format(new Date(cursor.getLong(2))));
 			calls.put(CALLS_DURATION, secondsToTime(cursor.getInt(3)));
 			list.add(calls);
 		}

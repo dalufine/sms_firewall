@@ -1,13 +1,11 @@
 package com.quazar.sms_firewall.models;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONObject;
 
 import android.util.Log;
 
-public class TopItem {
+
+public class TopFilter {
 	public enum TopCategory {
 		GENERIC, SPAM, FRAUD
 	};
@@ -16,31 +14,27 @@ public class TopItem {
 		PHONE_NAME, WORD, GENERIC
 	};
 
-	private int id, pos, votes;
+	private long id; 
+	private int pos, votes;
 	private String value;
-	private List<String> examples;
 	private TopType type;
 	private TopCategory category;
 
-	public TopItem(int id, int pos, int votes, String value, List<String> examples, int type, int category) {
+	public TopFilter(long id, int pos, int votes, String value, int type, int category) {
 		this.id = id;
 		this.pos = pos;
 		this.votes = votes;
 		this.value = value;
-		this.examples=examples;
 		this.category = TopCategory.values()[category];
 		this.type = TopType.values()[type];
 	}
 
-	public TopItem(int pos, JSONObject obj) {
+	public TopFilter(int pos, JSONObject obj) {
 		try {
 			this.id = obj.getInt("id");
 			this.pos = pos;
 			this.votes = obj.getInt("votes");
-			this.value = obj.getString("value");
-			this.examples = new ArrayList<String>();
-			//TODO proccess array
-			examples.add(obj.getString("example"));
+			this.value = obj.getString("value");			
 			this.category = TopCategory.values()[obj.getInt("category")];
 			this.type = TopType.values()[obj.getInt("type")];
 		} catch (Exception ex) {
@@ -48,7 +42,7 @@ public class TopItem {
 		}
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -64,9 +58,6 @@ public class TopItem {
 		return value;
 	}
 
-	public List<String> getExamples() {
-		return examples;
-	}
 
 	public TopType getType() {
 		return type;
@@ -82,8 +73,7 @@ public class TopItem {
 		int result = 1;
 		result = prime * result
 				+ ((category == null) ? 0 : category.hashCode());
-		result = prime * result + ((examples == null) ? 0 : examples.hashCode());
-		result = prime * result + id;
+		result = prime * result + (int)id;
 		result = prime * result + pos;
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
@@ -99,13 +89,8 @@ public class TopItem {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TopItem other = (TopItem) obj;
+		TopFilter other = (TopFilter) obj;
 		if (category != other.category)
-			return false;
-		if (examples == null) {
-			if (other.examples != null)
-				return false;
-		} else if (!examples.equals(other.examples))
 			return false;
 		if (id != other.id)
 			return false;

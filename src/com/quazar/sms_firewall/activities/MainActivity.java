@@ -1,24 +1,31 @@
 package com.quazar.sms_firewall.activities;
 
+import java.util.Arrays;
+import java.util.HashMap;
+
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
-import com.quazar.sms_firewall.ErrorCodes;
 import com.quazar.sms_firewall.Param;
 import com.quazar.sms_firewall.R;
+import com.quazar.sms_firewall.ResponseCodes;
 import com.quazar.sms_firewall.StateManager;
 import com.quazar.sms_firewall.dao.DataDao;
 import com.quazar.sms_firewall.dialogs.RegistrationDialog;
-import com.quazar.sms_firewall.models.Filter.FilterType;
-import com.quazar.sms_firewall.network.ApiClient;
+import com.quazar.sms_firewall.dialogs.SelectSourceDialog;
+import com.quazar.sms_firewall.models.UserFilter.FilterType;
+import com.quazar.sms_firewall.network.ApiService;
 import com.quazar.sms_firewall.utils.ContentUtils;
 import com.quazar.sms_firewall.utils.DialogUtils;
 import com.quazar.sms_firewall.utils.DictionaryUtils;
@@ -30,31 +37,36 @@ public class MainActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		dataDao=new DataDao(this);
-		ErrorCodes.init(this);
-		DictionaryUtils.createInstance(this);		
-		Param.load(this);		
+		ResponseCodes.init(this);
+		DictionaryUtils.createInstance(this);
+		Param.load(this);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.activity_main);		
+		setContentView(R.layout.activity_main);
 		updateStatisticsViews();
-		NotificationManager nm = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+		NotificationManager nm=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 		nm.cancel(777);
 		if((Boolean)Param.IS_NEW.getValue()){
 			RegistrationDialog rd=new RegistrationDialog(this);
-			rd.setOnCancelListener(new DialogInterface.OnCancelListener() {				
+			rd.setOnCancelListener(new DialogInterface.OnCancelListener(){
 				@Override
-				public void onCancel(DialogInterface dialog) {
+				public void onCancel(DialogInterface dialog){
 					finish();
 				}
 			});
 			rd.show();
 		}else if((Boolean)Param.USE_SYNC.getValue()&&(System.currentTimeMillis()-(Long)Param.LAST_SYNC.getValue())/86400000L>2){
-			ApiClient api=new ApiClient(this);
-			api.sync();
+			ApiService api=new ApiService(this);
+			try{
+				api.sync();
+			}catch(Exception e){
+				Log.e("registration", e.toString());
+				e.printStackTrace();
+			}
 			//Param.LAST_SYNC.setValue(System.currentTimeMillis());//TODO uncomment on prod
 		}
 	}
 	@Override
-	protected void onResume() {		
+	protected void onResume(){
 		super.onResume();
 		updateStatisticsViews();
 	}
@@ -67,17 +79,26 @@ public class MainActivity extends Activity{
 		tv.setText(String.format(getResources().getString(R.string.stat_suspicious), (Integer)Param.SUSPICIOUS_SMS_CNT.getValue()));
 	}
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu){		
+	public boolean onCreateOptionsMenu(Menu menu){
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
-	
+
 	public void onHelpClick(View v){
-		
+
 	}
 
 	public void onPhoneNumberClick(View v){
-		DialogUtils.showSourceSelectPopup(this, null, false);
+		DialogUtils.showSourceSelectPopup(this, Arrays.asList(SelectSourceDialog.FROM_ENTER_WORD), new Handler(){
+			@Override
+			public void handleMessage(Message msg){
+				HashMap<String, Object> map=(HashMap<String, Object>)msg.obj;
+				Object value=map.get(ContentUtils.NUMBER);				
+				if(value!=null){
+					dataDao.insertUserFilter(FilterType.PHONE_NAME, (String)value);
+				}
+			}
+		});
 	}
 	public void onShowFilters(View v){
 		StateManager.showFilters(this);
@@ -92,7 +113,7 @@ public class MainActivity extends Activity{
 		StateManager.showSettings(this);
 	}
 	public void onWordClick(View v){
-		DialogUtils.showEnterWordFilterPopup(this, null);		
+		DialogUtils.showEnterWordFilterPopup(this, null);
 	}
 
 	@Override
@@ -100,7 +121,7 @@ public class MainActivity extends Activity{
 		super.onActivityResult(requestCode, resultCode, data);
 		if(requestCode==StateManager.CONTACTS_REQUEST_ID&&resultCode==Activity.RESULT_OK){
 			String phoneNumber=ContentUtils.getPhoneNumber(this, data.getData());
-			dataDao.insertFilter(FilterType.PHONE_NAME, phoneNumber);
+			dataDao.insertUserFilter(FilterType.PHONE_NAME, phoneNumber);
 		}
 	}
 

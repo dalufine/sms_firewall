@@ -6,22 +6,29 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.quazar.sms_firewall.dao.DataDao;
-import com.quazar.sms_firewall.network.ApiClient;
+import com.quazar.sms_firewall.network.ApiService;
 import com.quazar.sms_firewall.utils.DeviceInfoUtil;
 
-public class NetworkStatusReciever extends BroadcastReceiver {
-	private DataDao dataDao = null;
+public class NetworkStatusReciever extends BroadcastReceiver{
+	private DataDao dataDao;
+	private ApiService api;
 
 	@Override
-	public void onReceive(Context context, Intent intent) {
-		if (dataDao == null)
-			dataDao = new DataDao(context);
+	public void onReceive(Context context, Intent intent){
+		if(dataDao==null)
+			dataDao=new DataDao(context);
+		if(api==null)
+			api=new ApiService(context);
 		if(!Param.isLoaded())
 			Param.load(context);
 		if(DeviceInfoUtil.isOnline(context)){
 			Log.i("network", "network is on");
-			ApiClient api=new ApiClient(context);
-			api.sendWaitingRequests();
+			try{
+				api.sendWaitingRequests();
+			}catch(Exception ex){
+				Log.e("waiting request", ex.toString());
+				ex.printStackTrace();
+			}
 		}else{
 			Log.i("network", "network is off");
 		}

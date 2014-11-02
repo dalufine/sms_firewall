@@ -4,23 +4,23 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-public class Filter {
+public class UserFilter {
 	public enum FilterType {
 		PHONE_NAME, WORD, REGEXP
 	};
 
-	private int id;
+	private long id;
 	private String value;
 	private FilterType type;
 
-	public Filter(int id, String value, int type) {
+	public UserFilter(long id, String value, int type) {
 		super();
 		this.id = id;
 		this.value = value;
 		this.type=FilterType.values()[type];		
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

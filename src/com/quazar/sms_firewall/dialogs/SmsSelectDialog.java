@@ -14,7 +14,6 @@ import android.widget.SimpleAdapter;
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.dialogs.listeners.SelectListener;
 import com.quazar.sms_firewall.utils.ContentUtils;
-import com.quazar.sms_firewall.utils.DialogUtils;
 
 public class SmsSelectDialog extends Dialog {
 	public SmsSelectDialog(final Context context,
@@ -33,8 +32,8 @@ public class SmsSelectDialog extends Dialog {
 			}
 		});
 		SimpleAdapter adapter = new SimpleAdapter(context, sms,
-				R.layout.sms_list_item, new String[] { ContentUtils.SMS_NUMBER,
-						ContentUtils.SMS_TEXT, ContentUtils.SMS_DATE },
+				R.layout.sms_list_item, new String[] { ContentUtils.NUMBER,
+						ContentUtils.SMS_TEXT, ContentUtils.DATE },
 				new int[] { R.id.sms_number, R.id.sms_text, R.id.sms_date });
 		listView.setAdapter(adapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
