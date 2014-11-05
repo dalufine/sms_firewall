@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,13 +24,16 @@ import android.widget.Toast;
 
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.ResponseCodes;
+import com.quazar.sms_firewall.StateManager;
 import com.quazar.sms_firewall.dao.DataDao;
+import com.quazar.sms_firewall.dialogs.ComplainDialog;
 import com.quazar.sms_firewall.dialogs.MessageExampleDialog;
 import com.quazar.sms_firewall.dialogs.SelectSourceDialog;
 import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
 import com.quazar.sms_firewall.models.TopFilter;
 import com.quazar.sms_firewall.models.TopFilter.TopCategory;
 import com.quazar.sms_firewall.models.TopFilter.TopType;
+import com.quazar.sms_firewall.models.UserFilter.FilterType;
 import com.quazar.sms_firewall.network.ApiService;
 import com.quazar.sms_firewall.utils.ContentUtils;
 import com.quazar.sms_firewall.utils.DialogUtils;
@@ -37,6 +42,7 @@ public class TopsActivity extends BaseActivity{
 	private static DataDao dataDao;
 	private TabHost tabHost;
 	private ListView fraudList, wordsList, spamList;
+	private boolean complain=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -95,36 +101,61 @@ public class TopsActivity extends BaseActivity{
 
 	}
 
-	public void onCheck(View v){
-		DialogUtils.showSourceSelectPopup(this, Arrays.asList(SelectSourceDialog.FROM_FRAUDS_TOP, SelectSourceDialog.FROM_SUSPICIOUS_SMS), new Handler(){
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data){
+		if(requestCode==StateManager.CONTACTS_REQUEST_ID&&resultCode==Activity.RESULT_OK){
+			if(complain){
+				try{
+					sendAndProcessComplain(ContentUtils.getPhoneNumber(this, data.getData()), null);
+				}catch(Exception e){
+					Log.e("complain", e.toString());
+					e.printStackTrace();
+				}
+			}else{
+				try{
+					sendAndProccessCheck(ContentUtils.getPhoneNumber(this, data.getData()));
+				}catch(Exception e){
+					Log.e("check", e.toString());
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	private void sendAndProccessCheck(final String value) throws Exception{
+		new ApiService(TopsActivity.this).check(value, new Handler(){
 			@Override
 			public void handleMessage(Message msg){
-				ApiService api=new ApiService(TopsActivity.this);				
+				JSONObject data=(JSONObject)msg.obj;
+				try{
+					JSONArray filters=data.getJSONArray("filters");
+					if(filters==null||filters.length()==0){
+						Toast.makeText(TopsActivity.this, String.format(getResources().getString(R.string.no_filters_found), value), Toast.LENGTH_LONG).show();
+					}else{
+						MessageExampleDialog med=
+								new MessageExampleDialog(TopsActivity.this, new TopFilter((Integer)data.get("id"), (Integer)data.get("position"), (Integer)data.get("votes"), (String)data.get("value"), (Integer)data
+										.get("type"), (Integer)data.get("category")), jsonArrayToStringList(data.getJSONArray("examples")));
+						med.show();
+					}
+				}catch(Exception ex){
+					Log.e("json error", ex.toString());
+				}
+			}
+		});
+	}
+
+	private void sendAndProcessComplain(String value, String example) throws Exception{
+		(new ComplainDialog(this, value, example, example!=null?FilterType.PHONE_NAME:FilterType.WORD)).show();
+	}
+
+	public void onCheck(View v){
+		complain=false;
+		DialogUtils.showSourceSelectPopup(this, getResources().getString(R.string.select_source_to_check), Arrays.asList(SelectSourceDialog.FROM_FRAUDS_TOP, SelectSourceDialog.FROM_SUSPICIOUS_SMS), new Handler(){
+			@Override
+			public void handleMessage(Message msg){
 				try{
 					Map<String, Object> map=(Map)msg.obj;
-					api.check((String)map.get(ContentUtils.NUMBER), new Handler(){
-						@Override
-						public void handleMessage(Message msg){
-							JSONObject data=(JSONObject)msg.obj;
-							if(data.has("code")){
-								try{									
-									Toast.makeText(TopsActivity.this, ResponseCodes.getErrorByCode(data.getInt("code")).getDescription(), Toast.LENGTH_LONG).show();
-								}catch(Exception ex){
-									Log.e("json error", ex.toString());
-								}
-							}else{
-								try{
-									MessageExampleDialog med=
-											new MessageExampleDialog(TopsActivity.this, new TopFilter((Integer)data.get("id"), (Integer)data.get("position"), (Integer)data.get("votes"), (String)data.get("value"),
-													(Integer)data.get("type"), (Integer)data.get("category")), jsonArrayToStringList(data.getJSONArray("examples")));
-									med.show();
-									Toast.makeText(TopsActivity.this, msg.obj.toString(), Toast.LENGTH_LONG).show();
-								}catch(Exception ex){
-									Log.e("json error", ex.toString());
-								}
-							}
-						}
-					});
+					sendAndProccessCheck((String)map.get(ContentUtils.NUMBER));
 				}catch(Exception ex){
 					Log.e("check", ex.toString());
 					ex.printStackTrace();
@@ -142,11 +173,17 @@ public class TopsActivity extends BaseActivity{
 	}
 
 	public void onComplain(View v){
-		DialogUtils.showSourceSelectPopup(this, Arrays.asList(SelectSourceDialog.FROM_FRAUDS_TOP, SelectSourceDialog.FROM_SUSPICIOUS_SMS), new Handler(){
+		complain=true;
+		DialogUtils.showSourceSelectPopup(this, getResources().getString(R.string.select_source_to_complain), Arrays.asList(SelectSourceDialog.FROM_FRAUDS_TOP, SelectSourceDialog.FROM_SUSPICIOUS_SMS), new Handler(){
 			@Override
-			public void handleMessage(Message msg){
-				ApiService api=new ApiService(TopsActivity.this);
-				// TODO replace call to complain
+			public void handleMessage(Message msg){				
+				try{
+					Map<String, Object> map=(Map)msg.obj;
+					sendAndProcessComplain((String)map.get(ContentUtils.NUMBER), (String)map.get(ContentUtils.TEXT));
+				}catch(Exception e){
+					Log.e("complain", e.toString());
+					e.printStackTrace();
+				}
 			}
 		});
 	}
@@ -213,8 +250,9 @@ public class TopsActivity extends BaseActivity{
 	public void onItemClick(View v){
 		Map<String, Object> map=getSelectedItemProperties(v, 1);
 		Long id=(Long)map.get("id");
-		MessageExampleDialog med=new MessageExampleDialog(this, new TopFilter(id, (Integer)map.get("position"), (Integer)map.get("votes"), (String)map.get("value"), (Integer)map.get("type"), 0),
-				new DataDao(this).getTopFilterExamples(id));
+		MessageExampleDialog med=
+				new MessageExampleDialog(this, new TopFilter(id, (Integer)map.get("position"), (Integer)map.get("votes"), (String)map.get("value"), (Integer)map.get("type"), 0), new DataDao(this)
+						.getTopFilterExamples(id));
 		med.show();
 	}
 

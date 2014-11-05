@@ -1,17 +1,17 @@
 package com.quazar.sms_firewall.dialogs;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
 import com.quazar.sms_firewall.R;
 
-public class HelpDialog extends AlertDialog {
+public class HelpDialog extends Dialog {
 	public HelpDialog(final Context context, String title, String text) {
-		super(context);
+		super(context, R.style.Dialog);
 		View v = getLayoutInflater().inflate(R.layout.help_dialog, null);
-		setView(v);
+		setContentView(v);
 		v.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {

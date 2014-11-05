@@ -2,73 +2,78 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:minWidth="250dp"
     android:orientation="vertical"
-    android:padding="5dp">
-    <TextView        
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="@string/message_example_title"/>
-    
-    <TextView        
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/messages_position"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+    android:padding="5dp" >
 
     <TextView
-        android:id="@+id/message_position"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    
-    <TextView        
+        style="@style/DialogHeaderText"
+        android:text="@string/filter_info_title" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/messages_votes"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/message_votes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    
-    <TextView        
-        android:id="@+id/header_ex"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/phone_number_with_dots"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/messages_position"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/phone_number_ex"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/message_position"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <TextView        
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/messages_examples"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/messages_votes"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/message_votes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/header_ex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/phone_number_with_dots"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/phone_number_ex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/message_examples"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/messages_ex"
         android:layout_width="match_parent"
         android:layout_height="0dip"
-	    android:layout_weight="1">
+        android:layout_weight="2" >
     </ListView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp" 
-        android:gravity="center">
+        android:layout_height="0dip"
+        android:layout_weight="0.5"
+        android:gravity="center_horizontal" >
 
         <Button
             android:id="@+id/close_btn"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"            
+            style="@style/BlackButton"
+            android:layout_marginTop="10dp"
             android:text="@string/close" />
-
     </LinearLayout>
 
 </LinearLayout>

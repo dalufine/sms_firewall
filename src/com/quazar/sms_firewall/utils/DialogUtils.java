@@ -11,15 +11,15 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Handler;
 import android.os.Message;
+import android.text.InputType;
 
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.ResponseCodes;
 import com.quazar.sms_firewall.StateManager;
 import com.quazar.sms_firewall.dao.DataDao;
-import com.quazar.sms_firewall.dialogs.CallsSelectDialog;
 import com.quazar.sms_firewall.dialogs.EnterValueDialog;
+import com.quazar.sms_firewall.dialogs.SelectListItemDialog;
 import com.quazar.sms_firewall.dialogs.SelectSourceDialog;
-import com.quazar.sms_firewall.dialogs.SmsSelectDialog;
 import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
 import com.quazar.sms_firewall.dialogs.listeners.SelectListener;
 import com.quazar.sms_firewall.models.UserFilter.FilterType;
@@ -34,9 +34,12 @@ public class DialogUtils{
 			}
 		}).show();
 	}
-
 	public static void showSourceSelectPopup(final Activity activity, List<Integer> exclude, final Handler handler){
-		SelectSourceDialog sourceSelect=new SelectSourceDialog(activity, new SelectListener<Integer>(){
+		showSourceSelectPopup(activity, null, exclude, handler);
+	}
+
+	public static void showSourceSelectPopup(final Activity activity, String title, List<Integer> exclude, final Handler handler){
+		SelectSourceDialog sourceSelect=new SelectSourceDialog(activity, title, new SelectListener<Integer>(){
 			@Override
 			public void recieveSelection(Integer selection){
 				final DataDao dao=new DataDao(activity);
@@ -48,7 +51,7 @@ public class DialogUtils{
 						case SelectSourceDialog.FROM_INBOX_SMS:{
 							final List<HashMap<String, Object>> sms=ContentUtils.getInboxSms(activity);
 							if(!sms.isEmpty()){
-								SmsSelectDialog smsPopup=new SmsSelectDialog(activity, new SelectListener<HashMap<String, Object>>(){
+								SelectListItemDialog smsPopup=new SelectListItemDialog(activity, activity.getResources().getString(R.string.inbox_sms), sms, new SelectListener<HashMap<String, Object>>(){
 									@Override
 									public void recieveSelection(HashMap<String, Object> selection){
 										if(handler!=null){
@@ -56,7 +59,7 @@ public class DialogUtils{
 											handler.dispatchMessage(mes);
 										}
 									}
-								}, sms);
+								});
 								smsPopup.show();
 							}else{
 								DialogUtils.createWarningDialog(activity, activity.getResources().getString(R.string.warning), activity.getResources().getString(R.string.no_sms_warn), activity.getResources().getString(
@@ -67,7 +70,7 @@ public class DialogUtils{
 						case SelectSourceDialog.FROM_INCOME_CALLS:
 							final List<HashMap<String, Object>> sources=ContentUtils.getIncomeCalls(activity);
 							if(!sources.isEmpty()){
-								CallsSelectDialog callsPopup=new CallsSelectDialog(activity, new SelectListener<HashMap<String, Object>>(){
+								SelectListItemDialog callsPopup=new SelectListItemDialog(activity, activity.getResources().getString(R.string.income_calls), sources, new SelectListener<HashMap<String, Object>>(){
 									@Override
 									public void recieveSelection(HashMap<String, Object> selection){
 										if(handler!=null){
@@ -75,7 +78,7 @@ public class DialogUtils{
 											handler.dispatchMessage(mes);
 										}
 									}
-								}, sources);
+								});
 								callsPopup.show();
 							}else{
 								DialogUtils.createWarningDialog(activity, activity.getResources().getString(R.string.warning), activity.getResources().getString(R.string.no_income_calls), activity.getResources()
@@ -86,31 +89,37 @@ public class DialogUtils{
 						case SelectSourceDialog.FROM_FRAUDS_TOP:
 							break;
 						case SelectSourceDialog.FROM_ENTER_PHONE:{
-							EnterValueDialog evd=new EnterValueDialog(activity, activity.getResources().getString(R.string.enter_phone_number), true, new SelectListener<String>(){
+							EnterValueDialog evd=new EnterValueDialog(activity, activity.getResources().getString(R.string.enter_phone_number), InputType.TYPE_CLASS_PHONE, new DialogListener<String>(){
 								@Override
-								public void recieveSelection(String selection){
+								public void ok(String value){
 									if(handler!=null){
 										Map<String, Object> data=new HashMap<String, Object>();
-										data.put(ContentUtils.NUMBER, selection);
+										data.put(ContentUtils.NUMBER, value);
 										Message mes=handler.obtainMessage(1, data);
 										handler.dispatchMessage(mes);
 									}
 								}
+								@Override
+								public void cancel(){}
+
 							});
 							evd.show();
 							break;
 						}
 						case SelectSourceDialog.FROM_ENTER_WORD:{
-							EnterValueDialog evd=new EnterValueDialog(activity, activity.getResources().getString(R.string.enter_word), false, new SelectListener<String>(){
+							EnterValueDialog evd=new EnterValueDialog(activity, activity.getResources().getString(R.string.enter_word), InputType.TYPE_CLASS_TEXT, new DialogListener<String>(){
 								@Override
-								public void recieveSelection(String selection){
+								public void ok(String value){
 									if(handler!=null){
 										Map<String, Object> data=new HashMap<String, Object>();
-										data.put(ContentUtils.NUMBER, selection);
+										data.put(ContentUtils.NUMBER, value);
 										Message mes=handler.obtainMessage(1, data);
 										handler.dispatchMessage(mes);
 									}
 								}
+								@Override
+								public void cancel(){}
+
 							});
 							evd.show();
 							break;
@@ -127,18 +136,21 @@ public class DialogUtils{
 	}
 
 	public static void showEnterWordFilterPopup(final Context context, final Handler handler){
-		EnterValueDialog popup=new EnterValueDialog(context, context.getResources().getString(R.string.enter_word), false, new SelectListener<String>(){
+		EnterValueDialog popup=new EnterValueDialog(context, context.getResources().getString(R.string.enter_word), InputType.TYPE_CLASS_TEXT, new DialogListener<String>(){
 			@Override
-			public void recieveSelection(String selection){
+			public void ok(String value){
 				DataDao dao=new DataDao(context);
 				try{
-					dao.insertUserFilter(FilterType.WORD, selection);
+					dao.insertUserFilter(FilterType.WORD, value);
 					if(handler!=null)
 						handler.dispatchMessage(new Message());
 				}finally{
 					dao.close();
 				}
 			}
+			@Override
+			public void cancel(){}
+
 		});
 		popup.show();
 	}

@@ -14,10 +14,14 @@
     <string name="word">Word</string>
     <string name="phone_number">Phone number</string>
     <string name="phone_number_with_dots">Phone number:</string>
+    <string name="filter_category">Filter category:</string>
+    <string name="filter_type">Filter type:</string>
     <string name="word_with_dots">Word:</string>
     <string name="filters">Filters</string>
     <string name="logs">Logs</string>
     <string name="select_source_popup_title">Select the source</string>
+    <string name="select_source_to_check">Select the source of message to check</string>
+    <string name="select_source_to_complain">Select the source of message to complain</string>
     <string name="inbox_sms">Inbox SMS</string>
     <string name="income_calls">Income calls</string>
     <string name="numbers">Phone numbers</string>
@@ -39,6 +43,7 @@
     <string name="top_filter_on">Use all filters from top 100</string>
     <string name="reset_stats">Reset statistics</string>
     <string name="reset">Reset</string>
+    <string name="filter_reseted">Filter reseted</string>
     <string name="reset_logs_password">Reset logs password</string>
     <string name="clear_logs">Clear logs</string>
     <string name="blocked_counter">Show blocked SMS counter</string>
@@ -64,14 +69,26 @@
         <item>Русский</item>
         <item>English</item>
     </string-array>
+    
+    <string-array name="filter_categories">
+        <item>Generic</item>
+        <item>Spam</item>
+        <item>Fraud</item>
+    </string-array>
+    
+    <string-array name="filter_types">
+        <item>Phone number/name</item>
+        <item>Word</item>        
+    </string-array>
 
+    <string name="no_filters_found">There are no filters for input "%s"!</string>
     <string name="no_sms_warn">There is no inbox sms!</string>
     <string name="warning">Warning!</string>
     <string name="no_income_calls">There is no income calls</string>
     <string name="mobile_internet">Mobile Internet</string>
     <string name="wi_fi">Wi-fi</string>
     <string name="close">Close</string>
-    <string name="inet_conn_on">Turn on Internet connection!</string>
+    <string name="inet_conn_on">Please, turn on Internet connection:</string>
     <string name="registration_welcome">Registartion welcome</string>
     <string name="sync_filters_text">Check this option to sync your filters:</string>
     <string name="sync_filters">sync filters</string>
@@ -81,6 +98,7 @@
     <string name="enter_password_text">Enter password for secure store of your sms logs and your filters on server:</string>
     <string name="send_suspicious_text">Give us oppotunity to improve Sms Firewall:</string>
     <string name="send_suspicious">send suspicious sms</string>
+    <string name="send">Send</string>
     <string name="enter_email">Please, enter correct e-mail!</string>
     <string name="password_length_error">Password too short, min length is 8 chars</string>
     <string name="have_errors">There are some error! Please, fix them!</string>
@@ -101,10 +119,12 @@
     <string name="date_to">Date to:</string>
     <string name="add_all_from_top">Do you really want to add all filters on this tab?</string>
     <string name="filters_added">Filters added!</string>
-    <string name="messages_examples">Messages examples:</string>
+    <string name="message_examples">Message examples:</string>
+    <string name="message_example">Message example:</string>
     <string name="messages_votes">Votes:</string>
     <string name="messages_position">Top position:</string>
-    <string name="message_example_title">Message example</string>
+    <string name="filter_info_title">Filter information and examples</string>
+    <string name="complain_info_title">Complain information</string>
     <string name="votes_per_day_error">You can not vote for this item this day</string>
     <string name="error_dialog_title">Error occurred</string>
     <string name="vote_added">Vote successfuly added</string>

@@ -297,13 +297,14 @@ public class DataDao extends SQLiteOpenHelper{
 				cv.put("votes", ti.getVotes());
 				cv.put("type", ti.getType().ordinal());
 				cv.put("category", ti.getCategory().ordinal());
-				dbase.insert("tops", null, cv);
+				dbase.insert("top_filters", null, cv);
 				List<String> examplesList=examples.get(ti.getId());
 				if(examplesList!=null&&!examplesList.isEmpty()){
 					for(String example:examplesList){
 						cv=new ContentValues();
 						cv.put("filter_id", ti.getId());
 						cv.put("example", example);
+						dbase.insert("top_filter_examples", null, cv);
 					}
 				}
 			}
@@ -388,13 +389,13 @@ public class DataDao extends SQLiteOpenHelper{
 				ContentValues cv=new ContentValues();
 				cv.put("type", f.getType().ordinal());
 				cv.put("value", f.getValue());
-				dbase.insert("filters", null, cv);
+				dbase.insert("user_filters", null, cv);
 			}
 			dbase.setTransactionSuccessful();
 			dbase.endTransaction();
 			return filters.size();
 		}catch(Exception ex){
-			Log.e("insert filters error", ex.toString());
+			Log.e("insert user_filters error", ex.toString());
 			return 0;
 		}finally{
 			dbase.close();

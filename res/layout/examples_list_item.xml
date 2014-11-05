@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="2dp">    
+    android:background="@drawable/list_item_bg"
+    android:padding="5dp">    
     <TextView
+        style="@style/ListBodyFont"
         android:id="@+id/example_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:textSize="12sp"/>
+        android:text="@string/default_text_long"       
+        android:lines="4"/>
 </LinearLayout>

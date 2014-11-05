@@ -74,21 +74,14 @@ public class ApiService extends JSONClient{
 	}
 	//------------------Common functions----------------
 	//use at tops
-	public boolean addFilter(FilterType type, TopCategory category, String value, List<String> examples, Handler handler) throws Exception{
+	public boolean addFilter(FilterType type, TopCategory category, String value, String example, Handler handler) throws Exception{
 		JSONObject data=new JSONObject();
 		data.put("user_id", getUserId());
-		JSONObject filter=new JSONObject();
-		data.put("filter", filter);
-		filter.put("type", type.name());
-		filter.put("category", category.name());
-		filter.put("value", value);
-		filter.put("locale", getLocale());
-		JSONArray examplesArray=new JSONArray();
-		for(String s:examples){
-			examplesArray.put(s);
-		}
-		data.put("examples", examplesArray);
-
+		data.put("type", type.name());
+		data.put("category", category.name());
+		data.put("value", value);
+		data.put("example", example);
+		data.put("locale", getLocale());
 		return sendOrRequestConnection("/service/filters/add", data, handler);
 	}
 	//use at tops
@@ -149,6 +142,7 @@ public class ApiService extends JSONClient{
 			}
 		});
 	}
+
 	private void parseTopFilters(Set<TopFilter> list, Map<Long, List<String>> examples, JSONArray array) throws JSONException{
 		TopFilter tf=null;
 		List<String> examplesList=null;
@@ -209,7 +203,7 @@ public class ApiService extends JSONClient{
 			JSONArray array=data.getJSONArray("filters");
 			for(int i=0;i<array.length();i++){
 				JSONObject obj=array.getJSONObject(i);
-				filters.add(new UserFilter(0, obj.getString("value"), obj.getInt("type")));
+				filters.add(new UserFilter(obj.getLong("id"), obj.getString("value"), obj.getInt("type")));
 			}
 		}catch(Exception ex){
 			Log.e("json parse error", ex.toString());

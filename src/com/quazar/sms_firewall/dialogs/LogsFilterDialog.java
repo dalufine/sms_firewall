@@ -4,8 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,15 +19,15 @@ import com.quazar.sms_firewall.dao.DataDao;
 import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
 import com.quazar.sms_firewall.models.LogFilter;
 
-public class LogsFilterDialog extends AlertDialog{
+public class LogsFilterDialog extends Dialog{
 	private DialogListener<LogFilter> listener;
 	private View view;
 	private LogFilter filter=new LogFilter();
 	public LogsFilterDialog(final Context context, DialogListener<LogFilter> listener){
-		super(context);
+		super(context, R.style.Dialog);
 		this.listener=listener;		
 		view=getLayoutInflater().inflate(R.layout.logs_filter_dialog, null);		
-		setView(view);	
+		setContentView(view);	
 		final Spinner senderSelect=(Spinner)view.findViewById(R.id.sender);
 		List<String> senders=new DataDao(context).getLogSenders();
 		senders.add(0, "");

@@ -7,7 +7,7 @@
     android:padding="5dp" >
     
     <TextView
-            android:id="@+id/sms_date"
+            android:id="@+id/item_date"
             style="@style/ListDateFont"
             android:layout_width="70dp"
             android:layout_height="match_parent"
@@ -19,14 +19,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/sms_number"
+            android:id="@+id/item_number"
             style="@style/ListContactFont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/default_numbers" />
 
         <TextView
-            android:id="@+id/sms_text"
+            android:id="@+id/item_text"
             style="@style/ListBodyFont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -15,7 +15,7 @@ import android.provider.ContactsContract;
 
 public class ContentUtils {
 	public static final String NUMBER = "number", DATE="date",
-			SMS_TEXT = "sms_text", CALLS_DURATION = "duration", NAME = "name";
+			TEXT = "text", NAME = "name";
 
 	public static String getPhoneNumber(Context activity, Uri contentUri) {
 		ContentResolver cr = activity.getContentResolver();
@@ -45,7 +45,7 @@ public class ContentUtils {
 			String contact=cursor.getString(0);
 			String contactName=DictionaryUtils.getInstance().getContactsName(contact);
 			sms.put(NUMBER, contactName.equals(contact)?contact:(contactName+" / "+ contact));						
-			sms.put(SMS_TEXT, cursor.getString(1));
+			sms.put(TEXT, cursor.getString(1));
 			Long dateTime=cursor.getLong(2);
 			sms.put(DATE, sdf.format(new Date(dateTime)));
 			list.add(sms);
@@ -82,7 +82,7 @@ public class ContentUtils {
 			calls.put(NAME, name == null ? number : name);
 			calls.put(NUMBER, number);
 			calls.put(DATE, getDateFormater().format(new Date(cursor.getLong(2))));
-			calls.put(CALLS_DURATION, secondsToTime(cursor.getInt(3)));
+			calls.put(TEXT, secondsToTime(cursor.getInt(3)));
 			list.add(calls);
 		}
 		cursor.close();

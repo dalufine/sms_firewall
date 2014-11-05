@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -20,10 +21,13 @@ public class SelectSourceDialog extends Dialog{
 	private final String TEXT_KEY="text", ICON_KEY="icon";
 	public static final int FROM_CONTACTS=0, FROM_INBOX_SMS=1, FROM_INCOME_CALLS=2, FROM_SUSPICIOUS_SMS=3, FROM_FRAUDS_TOP=4, FROM_ENTER_WORD=5, FROM_ENTER_PHONE=6;
 
-	public SelectSourceDialog(final Context context, final SelectListener<Integer> listener, final List<Integer> exclude){
+	public SelectSourceDialog(final Context context, String title, final SelectListener<Integer> listener, final List<Integer> exclude){
 		super(context, R.style.Dialog);
 		Collections.sort(exclude);
 		View v=getLayoutInflater().inflate(R.layout.source_list, null);
+		if(title!=null){
+			((TextView)v.findViewById(R.id.select_source_popup_title)).setText(title);
+		}
 		ListView listView=(ListView)v.findViewById(R.id.sources_list);
 		listView.setOnItemClickListener(new OnItemClickListener(){
 			@Override
@@ -53,5 +57,9 @@ public class SelectSourceDialog extends Dialog{
 		listView.setAdapter(adapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		setContentView(v);
+	}
+	
+	public SelectSourceDialog(final Context context, final SelectListener<Integer> listener, final List<Integer> exclude){
+		this(context, null, listener, exclude);
 	}
 }

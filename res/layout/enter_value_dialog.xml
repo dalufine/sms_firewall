@@ -6,6 +6,7 @@
     android:minWidth="250dp">
     <TextView
         style="@style/DialogHeaderText"
+        android:text="@string/default_text"
         android:id="@+id/value_title"/>
     <EditText
         style="@style/EditText"

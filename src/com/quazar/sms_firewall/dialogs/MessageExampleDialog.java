@@ -2,7 +2,7 @@ package com.quazar.sms_firewall.dialogs;
 
 import java.util.List;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,11 +14,11 @@ import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.models.TopFilter;
 import com.quazar.sms_firewall.models.TopFilter.TopType;
 
-public class MessageExampleDialog extends AlertDialog{	
+public class MessageExampleDialog extends Dialog{	
 	public MessageExampleDialog(final Context context, TopFilter item, List<String> examples){
-		super(context);		
+		super(context, R.style.Dialog);		
 		View v=getLayoutInflater().inflate(R.layout.message_example_dialog, null);	
-		setView(v);
+		setContentView(v);
 		if(item.getType()==TopType.WORD){
 			((TextView)v.findViewById(R.id.header_ex)).setText(R.string.word_with_dots);
 		}

@@ -6,6 +6,7 @@
     android:minWidth="250dp">
 
     <TextView
+        android:id="@+id/select_source_popup_title"
         style="@style/DialogHeaderText"        
         android:text="@string/select_source_popup_title" >
     </TextView>
