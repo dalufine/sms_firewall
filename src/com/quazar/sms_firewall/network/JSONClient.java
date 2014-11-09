@@ -3,6 +3,8 @@ package com.quazar.sms_firewall.network;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 
 import org.apache.http.HttpEntity;
@@ -22,6 +24,36 @@ import android.util.Log;
 public class JSONClient{
 	private static final String HOST="malyanov.ddns.net:8080";
 	private static final String PROTOCOL="http";
+
+	public void ping(final int timeout, final Handler handler){
+		Thread thread=new Thread(){
+			@Override
+			public void run(){
+				long start=System.currentTimeMillis();
+				while(true&&System.currentTimeMillis()-start<timeout){
+					try{
+						HttpURLConnection connection=(HttpURLConnection)new URL(PROTOCOL+"://"+HOST).openConnection();
+						connection.setConnectTimeout(timeout);
+						connection.setReadTimeout(timeout);
+						connection.setRequestMethod("HEAD");
+						connection.getResponseCode();
+						Message message=handler.obtainMessage(1, true);
+						handler.dispatchMessage(message);
+						return;
+					}catch(Exception e){
+						Log.i("ping", "ping error");
+						try{
+							Thread.sleep(1000);
+						}catch(Exception ex){
+						}
+					}
+				}
+				Message message=handler.obtainMessage(1, false);
+				handler.dispatchMessage(message);
+			}
+		};
+		thread.start();
+	}
 
 	protected JSONObject get(String serviceUrl){
 		try{
@@ -44,7 +76,7 @@ public class JSONClient{
 
 	protected JSONObject post(String serviceUrl, JSONObject data){
 		try{
-			HttpClient httpclient=new DefaultHttpClient();			
+			HttpClient httpclient=new DefaultHttpClient();
 			String url=PROTOCOL+"://"+HOST+serviceUrl;
 			HttpPost httpPost=new HttpPost(url);
 			httpPost.setEntity(new StringEntity(data.toString(), "UTF-8"));

@@ -3,11 +3,12 @@
     a:layout_width="match_parent"
     a:layout_height="wrap_content"
     a:orientation="vertical"
-    a:background="@drawable/list_item_bg"
+    a:background="@drawable/list_item_bg"    
     a:padding="5dp">    
     <TextView
-        style="@style/ListBodyFont"
+        style="@style/PropertyValueFont"
+        a:layout_height="wrap_content"        
         a:id="@+id/example_message"
-        a:text="@string/default_text_long"       
-        a:lines="4"/>
+        a:textSize="12sp"        
+        a:text="@string/default_text_long"/>
 </LinearLayout>

@@ -33,7 +33,7 @@ import com.quazar.sms_firewall.utils.DialogUtils;
 import com.quazar.sms_firewall.utils.DictionaryUtils;
 
 public class MainActivity extends Activity{
-	private static DataDao dataDao;
+	private DataDao dataDao;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -68,6 +68,13 @@ public class MainActivity extends Activity{
 		}
 	}
 	@Override
+	protected void onDestroy(){		
+		if(dataDao!=null){
+			dataDao.close();
+		}
+		super.onDestroy();
+	}
+	@Override
 	protected void onResume(){
 		super.onResume();
 		updateStatisticsViews();
@@ -95,7 +102,7 @@ public class MainActivity extends Activity{
 			@Override
 			public void handleMessage(Message msg){
 				HashMap<String, Object> map=(HashMap<String, Object>)msg.obj;
-				Object value=map.get(ContentUtils.NUMBER);				
+				Object value=map.get(ContentUtils.NUMBER);
 				if(value!=null){
 					dataDao.insertUserFilter(FilterType.PHONE_NAME, (String)value);
 				}
@@ -119,9 +126,7 @@ public class MainActivity extends Activity{
 			@Override
 			public boolean handleMessage(Message msg){
 				Map<String, Object> map=(Map)msg.obj;
-				DataDao dao=new DataDao(MainActivity.this);
-				dao.insertUserFilter(FilterType.WORD, (String)map.get(ContentUtils.NUMBER));
-				dao.close();				
+				dataDao.insertUserFilter(FilterType.WORD, (String)map.get(ContentUtils.NUMBER));				
 				return false;
 			}
 		}));

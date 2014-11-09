@@ -33,4 +33,10 @@ public class NetworkStatusReciever extends BroadcastReceiver{
 			Log.i("network", "network is off");
 		}
 	}
+	@Override
+	protected void finalize() throws Throwable{
+		if(dataDao!=null){
+			dataDao.close();
+		}
+	}
 }

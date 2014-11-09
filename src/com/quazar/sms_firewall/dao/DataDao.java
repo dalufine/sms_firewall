@@ -25,7 +25,6 @@ import com.quazar.sms_firewall.models.TopFilter.TopCategory;
 import com.quazar.sms_firewall.models.TopFilter.TopType;
 import com.quazar.sms_firewall.models.UserFilter;
 import com.quazar.sms_firewall.models.UserFilter.FilterType;
-import com.quazar.sms_firewall.utils.ContentUtils;
 import com.quazar.sms_firewall.utils.DictionaryUtils;
 
 public class DataDao extends SQLiteOpenHelper{
@@ -236,6 +235,7 @@ public class DataDao extends SQLiteOpenHelper{
 					sql+=" AND";
 				sql+=" category="+category.ordinal();
 			}
+			sql+=" ORDER BY votes DESC";
 			cursor=dbase.rawQuery(sql, null);
 			int idIdx=cursor.getColumnIndex("_id"), posIdx=cursor.getColumnIndex("pos"), votesIdx=cursor.getColumnIndex("votes"), valueIdx=cursor.getColumnIndex("value"), typeIdx=cursor.getColumnIndex("type"), categoryIdx=
 					cursor.getColumnIndex("category");

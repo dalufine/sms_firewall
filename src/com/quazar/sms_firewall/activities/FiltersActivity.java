@@ -29,7 +29,7 @@ import com.quazar.sms_firewall.utils.DialogUtils;
 import com.quazar.sms_firewall.utils.DictionaryUtils;
 
 public class FiltersActivity extends BaseActivity{
-	private static DataDao dataDao;
+	private DataDao dataDao;
 	private TabHost tabHost;
 	private ListView phonesList, wordsList;
 	private static int PHONE_NUMBERS_TAB=0;//WORDS_TAB=1
@@ -58,6 +58,13 @@ public class FiltersActivity extends BaseActivity{
 		tabHost.addTab(phoneFiltersTab);
 		tabHost.addTab(wordFiltersTab);
 		tabHost.setCurrentTab(PHONE_NUMBERS_TAB);
+	}
+	@Override
+	protected void onDestroy(){
+		if(dataDao!=null){
+			dataDao.close();
+		}
+		super.onDestroy();
 	}
 	public SimpleAdapter getAdapter(FilterType type){
 		List<UserFilter> filters=dataDao.getUserFilters();
@@ -102,10 +109,8 @@ public class FiltersActivity extends BaseActivity{
 			DialogUtils.showEnterValueDialog(this, R.string.enter_word, InputType.TYPE_CLASS_TEXT, new Handler(new Handler.Callback(){
 				@Override
 				public boolean handleMessage(Message msg){
-					Map<String, Object> map=(Map)msg.obj;
-					DataDao dao=new DataDao(FiltersActivity.this);
-					dao.insertUserFilter(FilterType.WORD, (String)map.get(ContentUtils.NUMBER));
-					dao.close();
+					Map<String, Object> map=(Map)msg.obj;					
+					dataDao.insertUserFilter(FilterType.WORD, (String)map.get(ContentUtils.NUMBER));					
 					wordsList.setAdapter(getAdapter(FilterType.WORD));
 					return false;
 				}

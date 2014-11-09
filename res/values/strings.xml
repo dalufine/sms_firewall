@@ -120,6 +120,9 @@
     <string name="date_to">Date to:</string>
     <string name="add_all_from_top">Do you really want to add all filters on this tab?</string>
     <string name="filters_added">Filters added!</string>
+    <string name="filter_added">Filter added!</string>
+    <string name="example_added">We have such filter. Your example have been added!</string>
+    <string name="have_such_filter_and_example">We have such filter and example.</string>
     <string name="message_examples">Message examples:</string>
     <string name="message_example">Message example:</string>
     <string name="messages_votes">Votes:</string>

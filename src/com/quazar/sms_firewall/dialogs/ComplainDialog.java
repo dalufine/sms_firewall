@@ -1,7 +1,5 @@
 package com.quazar.sms_firewall.dialogs;
 
-import org.json.JSONObject;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
@@ -11,16 +9,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.quazar.sms_firewall.R;
+import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
 import com.quazar.sms_firewall.models.TopFilter.TopCategory;
 import com.quazar.sms_firewall.models.UserFilter.FilterType;
 import com.quazar.sms_firewall.network.ApiService;
 
 public class ComplainDialog extends Dialog{
 
-	public ComplainDialog(final Context context, final String value, final String example, final FilterType filterType){
+	public ComplainDialog(final Context context, final String value, final String example, final FilterType filterType, final DialogListener<Object> listener){
 		super(context, R.style.Dialog);
 		final View content=getLayoutInflater().inflate(R.layout.dialog_complain, null);
 		setContentView(content);
@@ -35,9 +33,8 @@ public class ComplainDialog extends Dialog{
 					new ApiService(context).addFilter(filterType, TopCategory.values()[position], value, example, new Handler(){
 						@Override
 						public void handleMessage(Message msg){
-							try{
-								JSONObject json=(JSONObject)msg.obj;
-								Toast.makeText(context, json.getString("message"), Toast.LENGTH_LONG).show();
+							try{								
+								listener.ok(msg.obj);								
 							}catch(Exception ex){
 								Log.e("add_filter", ex.toString());
 								ex.printStackTrace();
@@ -54,6 +51,7 @@ public class ComplainDialog extends Dialog{
 		((Button)content.findViewById(R.id.close_btn)).setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
+				listener.cancel();
 				dismiss();
 			}
 		});

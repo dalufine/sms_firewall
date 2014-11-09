@@ -3,10 +3,13 @@ package com.quazar.sms_firewall.dialogs;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.quazar.sms_firewall.R;
+import com.quazar.sms_firewall.network.ApiService;
 import com.quazar.sms_firewall.utils.DeviceInfoUtil;
 
 public class ConnectionDialog extends Dialog{
@@ -21,8 +25,8 @@ public class ConnectionDialog extends Dialog{
 		void onConnectionReady();
 	}
 
-	public ConnectionDialog(final Context context, final ConnectionListener listener){
-		super(context, R.style.Dialog);
+	public ConnectionDialog(final Activity activity, final ConnectionListener listener){
+		super(activity, R.style.Dialog);
 		View v=getLayoutInflater().inflate(R.layout.dialog_connection, null);
 		setContentView(v);
 		((Button)v.findViewById(R.id.closeConnPopup)).setOnClickListener(new Button.OnClickListener(){
@@ -32,38 +36,42 @@ public class ConnectionDialog extends Dialog{
 			}
 		});
 		ToggleButton mobBtn=((ToggleButton)v.findViewById(R.id.MobNetBtn));
-		mobBtn.setChecked(DeviceInfoUtil.isOnline(context));
+		mobBtn.setChecked(DeviceInfoUtil.isOnline(activity));
 		mobBtn.setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
-				setMobileDataEnabled(context, !DeviceInfoUtil.isOnline(context));
+				setMobileDataEnabled(activity, !DeviceInfoUtil.isOnline(activity));
 				if(listener!=null)
 					listener.onConnectionReady();
 				dismiss();
 			}
 		});
-		final WifiManager wifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+		final WifiManager wifiManager=(WifiManager)activity.getSystemService(Context.WIFI_SERVICE);
 		ToggleButton wifiBtn=((ToggleButton)v.findViewById(R.id.wifiBtn));
 		wifiBtn.setChecked(wifiManager.isWifiEnabled());
 		wifiBtn.setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
 				wifiManager.setWifiEnabled(!wifiManager.isWifiEnabled());
-				long start=System.currentTimeMillis();
-				while(wifiManager.getWifiState()!=WifiManager.WIFI_STATE_ENABLED){
-					if((System.currentTimeMillis()-start)/1000>10){
-						Toast.makeText(context, context.getResources().getString(R.string.wifi_connect_error), Toast.LENGTH_LONG).show();
-						return;
+				new ApiService(activity).ping(10000, new Handler(){
+					@Override
+					public void handleMessage(Message msg){
+						final Boolean result=(Boolean)msg.obj;
+						activity.runOnUiThread(new Runnable(){
+							@Override
+							public void run(){
+								if(result){
+									if(listener!=null)
+										listener.onConnectionReady();
+									dismiss();
+								}else{
+									Toast.makeText(activity, activity.getResources().getString(R.string.wifi_connect_error), Toast.LENGTH_LONG).show();
+								}
+							}
+						});
+
 					}
-					try{
-						Thread.sleep(1000);
-					}catch(Exception ex){
-						Log.e("thread", "thread sleep error");
-					}
-				}
-				if(listener!=null)
-					listener.onConnectionReady();
-				dismiss();
+				});
 			}
 		});
 	}

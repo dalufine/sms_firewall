@@ -23,50 +23,58 @@ public class LogsFilterDialog extends Dialog{
 	private DialogListener<LogFilter> listener;
 	private View view;
 	private LogFilter filter=new LogFilter();
+
 	public LogsFilterDialog(final Context context, DialogListener<LogFilter> listener){
 		super(context, R.style.Dialog);
-		this.listener=listener;		
-		view=getLayoutInflater().inflate(R.layout.dialog_logs_filter, null);		
-		setContentView(view);	
+		this.listener=listener;
+		view=getLayoutInflater().inflate(R.layout.dialog_logs_filter, null);
+		setContentView(view);
 		final Spinner senderSelect=(Spinner)view.findViewById(R.id.sender);
-		List<String> senders=new DataDao(context).getLogSenders();
+		DataDao dao=new DataDao(context);
+		List<String> senders=null;
+		try{
+			senders=dao.getLogSenders();
+		}finally{
+			if(dao!=null){
+				dao.close();
+			}
+		}
 		senders.add(0, "");
 		senderSelect.setAdapter(new ArrayAdapter<String>(context, R.layout.item_spinner, R.id.spinner_list_value, senders));
-		final EditText dateFromField=(EditText)view.findViewById(R.id.dateFrom), 
-				dateToField=(EditText)view.findViewById(R.id.dateTo), bodyField=((EditText)view.findViewById(R.id.bodyContains));
+		final EditText dateFromField=(EditText)view.findViewById(R.id.dateFrom), dateToField=(EditText)view.findViewById(R.id.dateTo), bodyField=((EditText)view.findViewById(R.id.bodyContains));
 		String localSdf=((SimpleDateFormat)SimpleDateFormat.getDateInstance()).toLocalizedPattern();
 		dateFromField.setHint(localSdf);
 		dateToField.setHint(localSdf);
-		dateFromField.setOnClickListener(new View.OnClickListener() {			
+		dateFromField.setOnClickListener(new View.OnClickListener(){
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v){
 				if(v.hasFocus()){
 					setDateToEditText(context, dateFromField);
 				}
 			}
 		});
-		dateFromField.setOnFocusChangeListener(new View.OnFocusChangeListener() {			
+		dateFromField.setOnFocusChangeListener(new View.OnFocusChangeListener(){
 			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
+			public void onFocusChange(View v, boolean hasFocus){
 				if(hasFocus){
 					setDateToEditText(context, dateFromField);
-				}				
+				}
 			}
 		});
-		dateToField.setOnClickListener(new View.OnClickListener() {			
+		dateToField.setOnClickListener(new View.OnClickListener(){
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v){
 				if(v.hasFocus()){
 					setDateToEditText(context, dateToField);
 				}
 			}
 		});
-		dateToField.setOnFocusChangeListener(new View.OnFocusChangeListener() {			
+		dateToField.setOnFocusChangeListener(new View.OnFocusChangeListener(){
 			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
+			public void onFocusChange(View v, boolean hasFocus){
 				if(hasFocus){
 					setDateToEditText(context, dateToField);
-				}				
+				}
 			}
 		});
 		if(filter.getBodyLike()!=null){
@@ -75,57 +83,54 @@ public class LogsFilterDialog extends Dialog{
 		if(filter.getPhoneName()!=null){
 			senderSelect.setSelection(senders.indexOf(filter.getPhoneName()));
 		}
-		if(filter.getFrom()!=null){			
+		if(filter.getFrom()!=null){
 			dateFromField.setText(SimpleDateFormat.getDateInstance().format(filter.getFrom()));
 		}
-		if(filter.getTo()!=null){			
+		if(filter.getTo()!=null){
 			dateToField.setText(SimpleDateFormat.getDateInstance().format(filter.getTo()));
 		}
-		((Button)view.findViewById(R.id.okLogFilterBtn)).setOnClickListener(new Button.OnClickListener(){			
+		((Button)view.findViewById(R.id.okLogFilterBtn)).setOnClickListener(new Button.OnClickListener(){
 			@Override
-			public void onClick(View v){				
-				String phoneName=senderSelect.getSelectedItem().toString().trim(),
-					   dateFrom=dateFromField.getText().toString().trim(),					   
-					   dateTo=dateToField.getText().toString().trim(),
-					   bodyLike=bodyField.getText().toString().trim();
-					   LogsFilterDialog.this.filter.setBodyLike(bodyLike.length()==0?null:bodyLike);
-					   LogsFilterDialog.this.filter.setPhoneName(phoneName.length()==0?null:phoneName);
-					   LogsFilterDialog.this.filter.setFrom(dateFrom.length()==0?null:dateFrom);
-					   LogsFilterDialog.this.filter.setTo(dateTo.length()==0?null:dateTo);
-					   LogsFilterDialog.this.listener.ok(LogsFilterDialog.this.filter);
-					   dismiss();
+			public void onClick(View v){
+				String phoneName=senderSelect.getSelectedItem().toString().trim(), dateFrom=dateFromField.getText().toString().trim(), dateTo=dateToField.getText().toString().trim(), bodyLike=
+						bodyField.getText().toString().trim();
+				LogsFilterDialog.this.filter.setBodyLike(bodyLike.length()==0?null:bodyLike);
+				LogsFilterDialog.this.filter.setPhoneName(phoneName.length()==0?null:phoneName);
+				LogsFilterDialog.this.filter.setFrom(dateFrom.length()==0?null:dateFrom);
+				LogsFilterDialog.this.filter.setTo(dateTo.length()==0?null:dateTo);
+				LogsFilterDialog.this.listener.ok(LogsFilterDialog.this.filter);
+				dismiss();
 			}
 		});
-		((Button)view.findViewById(R.id.resetLogFilterBtn)).setOnClickListener(new Button.OnClickListener(){			
+		((Button)view.findViewById(R.id.resetLogFilterBtn)).setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
 				resetFilter();
 				senderSelect.setSelection(0);
-				dateFromField.setText(null);					   
+				dateFromField.setText(null);
 				dateToField.setText(null);
 				bodyField.setText(null);
 			}
 		});
-		((Button)view.findViewById(R.id.cancelLogFilterBtn)).setOnClickListener(new Button.OnClickListener(){			
+		((Button)view.findViewById(R.id.cancelLogFilterBtn)).setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
 				cancel();
-				dismiss();				
+				dismiss();
 			}
-		});		
+		});
 	}
 	public void setDateToEditText(Context context, final EditText edit){
-		final Calendar cal=Calendar.getInstance();		
+		final Calendar cal=Calendar.getInstance();
 		String val=edit.getText().toString().trim();
 		if(val.length()>0){
-			try{								
-				cal.setTime(SimpleDateFormat.getDateInstance().parse(val));								
-			}catch(Exception ex){				
-			}
-		}		
-		DatePickerDialog dpd=new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {					
+			try{
+				cal.setTime(SimpleDateFormat.getDateInstance().parse(val));
+			}catch(Exception ex){}
+		}
+		DatePickerDialog dpd=new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener(){
 			@Override
-			public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+			public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
 				cal.set(Calendar.YEAR, year);
 				cal.set(Calendar.MONTH, monthOfYear);
 				cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -134,8 +139,8 @@ public class LogsFilterDialog extends Dialog{
 		}, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
 		dpd.show();
 	}
-	
-	public LogFilter getFilter() {
+
+	public LogFilter getFilter(){
 		return filter;
 	}
 	public void resetFilter(){

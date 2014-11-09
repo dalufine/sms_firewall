@@ -39,7 +39,7 @@ import com.quazar.sms_firewall.utils.ContentUtils;
 import com.quazar.sms_firewall.utils.DialogUtils;
 
 public class TopsActivity extends BaseActivity{
-	private static DataDao dataDao;
+	private DataDao dataDao;
 	private TabHost tabHost;
 	private ListView fraudList, wordsList, spamList;
 
@@ -73,6 +73,13 @@ public class TopsActivity extends BaseActivity{
 		tabHost.addTab(spamTab);
 		tabHost.addTab(wordsTab);
 		tabHost.setCurrentTab(0);
+	}
+	@Override
+	protected void onDestroy(){
+		if(dataDao!=null){
+			dataDao.close();
+		}
+		super.onDestroy();
 	}
 
 	public void refreshLists(){
@@ -131,7 +138,32 @@ public class TopsActivity extends BaseActivity{
 	}
 
 	private void sendAndProcessComplain(String value, String example) throws Exception{
-		(new ComplainDialog(this, value, example, example!=null?FilterType.PHONE_NAME:FilterType.WORD)).show();
+		(new ComplainDialog(this, value, example, example!=null?FilterType.PHONE_NAME:FilterType.WORD, new DialogListener<Object>(){
+			@Override
+			public void ok(Object value){
+				try{
+					JSONObject json=(JSONObject)value;
+					ResponseCodes response=ResponseCodes.getErrorByCode(json.getInt("code"));
+					switch(response){
+						case OK:
+							reloadTops(R.string.filter_added);
+							break;
+						case EXAMPLE_ADDED:
+							reloadTops(R.string.example_added);
+							break;
+						case VOTE_ADDED:
+							reloadTops(R.string.vote_added);
+							break;
+						case VOTED_TODAY:
+						case ALREADY_HAS_EXAMPLE:
+							reloadTops(R.string.have_such_filter_and_example);
+							break;
+					}
+				}catch(Exception ex){}
+			}
+			@Override
+			public void cancel(){}
+		})).show();
 	}
 
 	public void onCheck(View v){
@@ -174,8 +206,20 @@ public class TopsActivity extends BaseActivity{
 		});
 	}
 
+	private void reloadTops(final Integer messageStringId) throws Exception{
+		new ApiService(TopsActivity.this).loadTops(new Handler(){
+			@Override
+			public void handleMessage(Message msg){
+				if(messageStringId!=null){
+					Toast.makeText(TopsActivity.this, getString(messageStringId), Toast.LENGTH_LONG).show();
+				}
+				refreshLists();
+			}
+		});
+	}
+
 	public void onAddAll(View v){
-		DialogUtils.showConfirmDialog(this, getResources().getString(R.string.warning), getResources().getString(R.string.add_all_from_top), new DialogListener<Boolean>(){
+		DialogUtils.showConfirmDialog(this, getResources().getString(R.string.confirmation), getResources().getString(R.string.add_all_from_top), new DialogListener<Boolean>(){
 			@Override
 			public void ok(Boolean value){
 				TopType type=TopType.GENERIC;
@@ -215,15 +259,9 @@ public class TopsActivity extends BaseActivity{
 								break;
 							case VOTED_TODAY:
 								Toast.makeText(TopsActivity.this, TopsActivity.this.getResources().getString(R.string.voted_today_error), Toast.LENGTH_LONG).show();
-								break;			
+								break;
 							default:
-								new ApiService(TopsActivity.this).loadTops(new Handler(){
-									@Override
-									public void handleMessage(Message msg){
-										Toast.makeText(TopsActivity.this, TopsActivity.this.getString(R.string.vote_added), Toast.LENGTH_LONG).show();
-										refreshLists();
-									}
-								});
+								reloadTops(R.string.vote_added);
 								break;
 						}
 					}catch(Exception ex){

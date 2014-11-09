@@ -17,6 +17,7 @@ import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.ResponseCodes;
 import com.quazar.sms_firewall.StateManager;
 import com.quazar.sms_firewall.dao.DataDao;
+import com.quazar.sms_firewall.dialogs.ConfirmDialog;
 import com.quazar.sms_firewall.dialogs.EnterValueDialog;
 import com.quazar.sms_firewall.dialogs.SelectListItemDialog;
 import com.quazar.sms_firewall.dialogs.SelectSourceDialog;
@@ -34,6 +35,7 @@ public class DialogUtils{
 			}
 		}).show();
 	}
+
 	public static void showSourceSelectPopup(final Activity activity, List<Integer> exclude, final Handler handler){
 		showSourceSelectPopup(activity, null, exclude, handler);
 	}
@@ -124,7 +126,9 @@ public class DialogUtils{
 							break;
 					}
 				}finally{
-					dao.close();
+					if(dao!=null){
+						dao.close();
+					}
 				}
 			}
 		}, exclude);
@@ -132,17 +136,7 @@ public class DialogUtils{
 	}
 
 	public static void showConfirmDialog(Context context, String title, String question, final DialogListener<Boolean> listener){
-		new AlertDialog.Builder(context).setIcon(android.R.drawable.ic_dialog_alert).setTitle(title).setMessage(question).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener(){
-			@Override
-			public void onClick(DialogInterface dialog, int which){
-				listener.ok(true);
-			}
-		}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener(){
-			@Override
-			public void onClick(DialogInterface dialog, int which){
-				listener.cancel();
-			}
-		}).show();
+		new ConfirmDialog(context, title, question, listener).show();
 	}
 
 	public static void showErrorDialog(Context context, int errorCode){

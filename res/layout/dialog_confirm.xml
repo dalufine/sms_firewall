@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    a:layout_width="match_parent"
+    a:layout_height="match_parent"
+    a:orientation="vertical"
+    a:minWidth="250dp">
+    <TextView
+        style="@style/DialogHeaderText"
+        a:text="@string/default_text"
+        a:id="@+id/title"/>
+    <TextView
+        style="@style/PropertyValueFont"
+        a:text="@string/default_text_long"
+        a:id="@+id/question"/>
+    <LinearLayout
+        a:layout_width="wrap_content"
+        a:layout_height="wrap_content"
+        a:layout_marginTop="10dp"
+        a:layout_gravity="right">
+        <Button
+            style="@style/BlackButton"           
+            a:id="@+id/ok_btn"
+            a:text="@string/ok"/>
+        <Button
+            style="@style/BlackButton"
+            a:id="@+id/cancel_btn"            
+            a:layout_marginLeft="15dp"            
+            a:text="@string/cancel"/>
+    </LinearLayout>
+</LinearLayout>

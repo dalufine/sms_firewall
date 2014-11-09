@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -72,7 +73,7 @@ public class ApiService extends JSONClient{
 
 		return sendOrRequestConnection("/service/users/sync_filters", data, handler);
 	}
-	//------------------Common functions----------------
+	//------------------Common functions----------------	
 	//use at tops
 	public boolean addFilter(FilterType type, TopCategory category, String value, String example, Handler handler) throws Exception{
 		JSONObject data=new JSONObject();
@@ -111,13 +112,19 @@ public class ApiService extends JSONClient{
 
 	public boolean sendWaitingRequests() throws Exception{
 		DataDao dao=new DataDao(context);
-		List<Request> requests=dao.getRequests();
-		if(!requests.isEmpty()){
-			for(Request r:requests){
-				JSONObject response=post(r.getMethod(), r.getData());
-				if(response!=null&&response.getInt("code")!=ResponseCodes.SYSTEM_ERROR.getCode()){
-					dao.deleteRequest(r.getId());
+		try{
+			List<Request> requests=dao.getRequests();
+			if(!requests.isEmpty()){
+				for(Request r:requests){
+					JSONObject response=post(r.getMethod(), r.getData());
+					if(response!=null&&response.getInt("code")!=ResponseCodes.SYSTEM_ERROR.getCode()){
+						dao.deleteRequest(r.getId());
+					}
 				}
+			}
+		}finally{
+			if(dao!=null){
+				dao.close();
 			}
 		}
 		return true;
@@ -135,7 +142,12 @@ public class ApiService extends JSONClient{
 					parseTopFilters(items, examples, obj.getJSONArray("words"));
 					parseTopFilters(items, examples, obj.getJSONArray("spam"));
 					parseTopFilters(items, examples, obj.getJSONArray("fraud"));
-					new DataDao(context).updateTopFilters(items, examples);
+					DataDao dao=new DataDao(context);
+					try{
+						dao.updateTopFilters(items, examples);
+					}finally{
+						dao.close();
+					}
 					if(handler!=null){
 						handler.dispatchMessage(new Message());
 					}
@@ -156,7 +168,7 @@ public class ApiService extends JSONClient{
 			examples.put(tf.getId(), examplesList);
 			JSONArray exArray=json.getJSONArray("examples");
 			for(int j=0;j<exArray.length();j++){
-				examplesList.add(exArray.getString(j));
+				examplesList.add(exArray.getJSONObject(j).getString("value"));
 			}
 			list.add(tf);
 		}
@@ -169,11 +181,17 @@ public class ApiService extends JSONClient{
 			else getAsync(serviceUrl, handler);
 			return true;
 		}else{
-			(new DataDao(context)).insertRequest(serviceUrl, data);
+			DataDao dao=new DataDao(context);
+			try{
+				dao.insertRequest(serviceUrl, data);
+			}finally{
+				if(dao!=null){
+					dao.close();
+				}
+			}
 		}
 		return false;
 	}
-
 	private boolean sendOrRequestConnection(final String serviceUrl, final JSONObject data, final Handler handler){
 		if(DeviceInfoUtil.isOnline(context)){
 			if(data!=null)
@@ -181,7 +199,7 @@ public class ApiService extends JSONClient{
 			else getAsync(serviceUrl, handler);
 			return true;
 		}else{
-			(new ConnectionDialog(context, new ConnectionDialog.ConnectionListener(){
+			(new ConnectionDialog((Activity)context, new ConnectionDialog.ConnectionListener(){
 				@Override
 				public void onConnectionReady(){
 					if(data!=null)
@@ -213,7 +231,13 @@ public class ApiService extends JSONClient{
 		}
 		if(!filters.isEmpty()){
 			DataDao dao=new DataDao(context);
-			dao.insertUserFilters(filters);
+			try{
+				dao.insertUserFilters(filters);
+			}finally{
+				if(dao!=null){
+					dao.close();
+				}
+			}
 		}
 	}
 
@@ -237,7 +261,14 @@ public class ApiService extends JSONClient{
 	public boolean sync() throws Exception{
 		if(DeviceInfoUtil.isOnline(context)){
 			loadTops(null);
-			saveUserFiltersToServer(new DataDao(context).getUserFilters(), null);
+			DataDao dao=new DataDao(context);
+			try{
+				saveUserFiltersToServer(dao.getUserFilters(), null);
+			}finally{
+				if(dao!=null){
+					dao.close();
+				}
+			}
 			return true;
 		}
 		return false;

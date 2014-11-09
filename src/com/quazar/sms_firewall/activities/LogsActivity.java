@@ -25,7 +25,7 @@ import com.quazar.sms_firewall.utils.ContentUtils;
 import com.quazar.sms_firewall.utils.DialogUtils;
 
 public class LogsActivity extends BaseActivity implements OnScrollListener{
-	private static DataDao dataDao;
+	private DataDao dataDao;
 	private static final int PAGE_SIZE=30;
 	private TabHost tabHost;
 	private SparseArray<List<HashMap<String, Object>>> lists;
@@ -76,23 +76,30 @@ public class LogsActivity extends BaseActivity implements OnScrollListener{
 		filteredList.setId(1);
 		filteredList.setAdapter(getAdapter(1, LogStatus.FILTERED, null));
 
-		tabHost.addTab(filteredLogsTab);		
+		tabHost.addTab(filteredLogsTab);
 		listViews.add(filteredList);
-		tabHost.addTab(suspiciousLogsTab);		
+		tabHost.addTab(suspiciousLogsTab);
 		listViews.add(suspiciousList);
-		tabHost.addTab(blockedLogsTab);		
+		tabHost.addTab(blockedLogsTab);
 		listViews.add(blockedList);
 		tabHost.setCurrentTab(2);
-		
+
 		blockedList.setOnScrollListener(this);
 		suspiciousList.setOnScrollListener(this);
 		filteredList.setOnScrollListener(this);
+	}
+	@Override
+	protected void onDestroy(){
+		if(dataDao!=null){
+			dataDao.close();
+		}
+		super.onDestroy();
 	}
 
 	public SimpleAdapter getAdapter(int viewId, LogStatus status, LogFilter filter){
 		List<SmsLogItem> logs=dataDao.getLogs(status, filter, 0, PAGE_SIZE);
 		lists.put(viewId, addItems(logs, new ArrayList<HashMap<String, Object>>()));
-		return new SimpleAdapter(this, lists.get(viewId), R.layout.item_common, new String[] { "date", "body", "name", "number" }, new int[] { R.id.item_date, R.id.item_text, R.id.item_name, R.id.item_number});
+		return new SimpleAdapter(this, lists.get(viewId), R.layout.item_common, new String[] { "date", "body", "name", "number" }, new int[] { R.id.item_date, R.id.item_text, R.id.item_name, R.id.item_number });
 	}
 
 	private void loadPage(int page, LogFilter filter){
