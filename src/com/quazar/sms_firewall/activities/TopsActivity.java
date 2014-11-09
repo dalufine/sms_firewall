@@ -42,7 +42,6 @@ public class TopsActivity extends BaseActivity{
 	private static DataDao dataDao;
 	private TabHost tabHost;
 	private ListView fraudList, wordsList, spamList;
-	private boolean complain=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -94,30 +93,17 @@ public class TopsActivity extends BaseActivity{
 			map.put("type", item.getType().ordinal());
 			list.add(map);
 		}
-		return new SimpleAdapter(this, list, R.layout.tops_list_item, new String[] { "position", "value", "votes" }, new int[] { R.id.top_place, R.id.top_value, R.id.top_votes });
-	}
-
-	public void onRefresh(View v){
-
+		return new SimpleAdapter(this, list, R.layout.item_tops, new String[] { "position", "value", "votes" }, new int[] { R.id.top_place, R.id.top_value, R.id.top_votes });
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
 		if(requestCode==StateManager.CONTACTS_REQUEST_ID&&resultCode==Activity.RESULT_OK){
-			if(complain){
-				try{
-					sendAndProcessComplain(ContentUtils.getPhoneNumber(this, data.getData()), null);
-				}catch(Exception e){
-					Log.e("complain", e.toString());
-					e.printStackTrace();
-				}
-			}else{
-				try{
-					sendAndProccessCheck(ContentUtils.getPhoneNumber(this, data.getData()));
-				}catch(Exception e){
-					Log.e("check", e.toString());
-					e.printStackTrace();
-				}
+			try{
+				sendAndProccessCheck(ContentUtils.getPhoneNumber(this, data.getData()));
+			}catch(Exception e){
+				Log.e("check", e.toString());
+				e.printStackTrace();
 			}
 		}
 	}
@@ -149,13 +135,12 @@ public class TopsActivity extends BaseActivity{
 	}
 
 	public void onCheck(View v){
-		complain=false;
 		DialogUtils.showSourceSelectPopup(this, getResources().getString(R.string.select_source_to_check), Arrays.asList(SelectSourceDialog.FROM_FRAUDS_TOP, SelectSourceDialog.FROM_SUSPICIOUS_SMS), new Handler(){
 			@Override
 			public void handleMessage(Message msg){
 				try{
 					Map<String, Object> map=(Map)msg.obj;
-					sendAndProccessCheck((String)map.get(ContentUtils.NUMBER));
+					sendAndProccessCheck((String)map.get(ContentUtils.NAME));
 				}catch(Exception ex){
 					Log.e("check", ex.toString());
 					ex.printStackTrace();
@@ -173,13 +158,14 @@ public class TopsActivity extends BaseActivity{
 	}
 
 	public void onComplain(View v){
-		complain=true;
-		DialogUtils.showSourceSelectPopup(this, getResources().getString(R.string.select_source_to_complain), Arrays.asList(SelectSourceDialog.FROM_FRAUDS_TOP, SelectSourceDialog.FROM_SUSPICIOUS_SMS), new Handler(){
+		DialogUtils.showSmsSelectDialog(this, R.string.select_sms_to_complain, new Handler(){
 			@Override
-			public void handleMessage(Message msg){				
+			public void handleMessage(Message msg){
 				try{
 					Map<String, Object> map=(Map)msg.obj;
-					sendAndProcessComplain((String)map.get(ContentUtils.NUMBER), (String)map.get(ContentUtils.TEXT));
+					String number=(String)map.get(ContentUtils.NUMBER);
+					String name=(String)map.get(ContentUtils.NAME);
+					sendAndProcessComplain(name==null?"":name+(" "+number), (String)map.get(ContentUtils.TEXT));
 				}catch(Exception e){
 					Log.e("complain", e.toString());
 					e.printStackTrace();
@@ -215,29 +201,33 @@ public class TopsActivity extends BaseActivity{
 	public void onVote(View v){
 		Map<String, Object> map=getSelectedItemProperties(v, 1);
 		ApiService api=new ApiService(this);
-		final Integer filterId=(Integer)map.get("id");
+		final Long filterId=(Long)map.get("id");
 		try{
 			api.addVote(filterId, new Handler(){
 				@Override
 				public void handleMessage(Message msg){
-					JSONObject data=(JSONObject)msg.obj;
-					if(data.has("error")){
-						try{
-							Integer errorCode=Integer.valueOf(data.getJSONObject("error").get("code").toString());
-							Toast.makeText(TopsActivity.this, ResponseCodes.getErrorByCode(errorCode).getDescription(), Toast.LENGTH_LONG).show();
-						}catch(Exception ex){
-							Log.e("json error", ex.toString());
+					try{
+						JSONObject data=(JSONObject)msg.obj;
+						ResponseCodes responseCode=ResponseCodes.getErrorByCode(data.getInt("code"));
+						switch(responseCode){
+							case SYSTEM_ERROR:
+								Toast.makeText(TopsActivity.this, TopsActivity.this.getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+								break;
+							case VOTED_TODAY:
+								Toast.makeText(TopsActivity.this, TopsActivity.this.getResources().getString(R.string.voted_today_error), Toast.LENGTH_LONG).show();
+								break;			
+							default:
+								new ApiService(TopsActivity.this).loadTops(new Handler(){
+									@Override
+									public void handleMessage(Message msg){
+										Toast.makeText(TopsActivity.this, TopsActivity.this.getString(R.string.vote_added), Toast.LENGTH_LONG).show();
+										refreshLists();
+									}
+								});
+								break;
 						}
-					}else{
-						if(data.has("votes")){
-							try{
-								dataDao.updateTopFilterVotes(filterId, Integer.valueOf(data.get("votes").toString()));
-								refreshLists();
-							}catch(Exception ex){
-								Log.e("json error", ex.toString());
-							}
-						}
-						Toast.makeText(TopsActivity.this, TopsActivity.this.getString(R.string.vote_added), Toast.LENGTH_LONG).show();
+					}catch(Exception ex){
+						Log.e("json error", ex.toString());
 					}
 				}
 			});

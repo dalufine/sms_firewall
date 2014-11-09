@@ -1,160 +1,160 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    a:layout_width="match_parent"
+    a:layout_height="match_parent"
+    a:orientation="vertical"
     tools:context="com.quazar.sms_firewall.activities.MainActivity" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"
-        android:orientation="vertical" >
+        a:layout_width="match_parent"
+        a:layout_height="0px"
+        a:layout_weight="1"
+        a:orientation="vertical" >
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="1"
-            android:background="@drawable/top_panel"
-            android:gravity="center"
-            android:orientation="vertical" >
+            a:layout_width="match_parent"
+            a:layout_height="0px"
+            a:layout_weight="1"
+            a:background="@drawable/top_panel"
+            a:gravity="center"
+            a:orientation="vertical" >
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="35dp"
-                android:gravity="right"
-                android:paddingRight="10dp"
-                android:paddingTop="10dp" >
+                a:layout_width="fill_parent"
+                a:layout_height="35dp"
+                a:gravity="right"
+                a:paddingRight="10dp"
+                a:paddingTop="10dp" >
 
                 <ImageButton
                     style="@style/HelpButton" 
-                    android:contentDescription="@string/default_text"/>
+                    a:contentDescription="@string/default_text"/>
             </LinearLayout>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginTop="-25dp"
-                android:contentDescription="@string/default_text"
-                android:src="@drawable/text_logo" />
+                a:layout_width="wrap_content"
+                a:layout_height="40dp"
+                a:layout_marginTop="-25dp"
+                a:contentDescription="@string/default_text"
+                a:src="@drawable/text_logo" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="1.5"
-            android:gravity="center" >
+            a:layout_width="match_parent"
+            a:layout_height="0px"
+            a:layout_weight="1.5"
+            a:gravity="center" >
 
             <ImageView
-                android:id="@+id/logo"
+                a:id="@+id/logo"
                 style="@style/Logo"
-                android:contentDescription="@string/default_text" />
+                a:contentDescription="@string/default_text" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/stats"
+            a:id="@+id/stats"
             style="@style/StatisticsPanel"
-            android:layout_weight="3" >
+            a:layout_weight="3" >
 
             <TextView
                 style="@style/GroupHeaderText"
-                android:text="@string/statistics" />
+                a:text="@string/statistics" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:gravity="center"
-                android:orientation="horizontal" >
+                a:layout_width="wrap_content"
+                a:layout_height="fill_parent"
+                a:gravity="center"
+                a:orientation="horizontal" >
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="fill_parent"
-                    android:contentDescription="@string/default_text"
-                    android:src="@drawable/traffic" />
+                    a:layout_width="40dp"
+                    a:layout_height="fill_parent"
+                    a:contentDescription="@string/default_text"
+                    a:src="@drawable/traffic" />
 
                 <LinearLayout
                     style="@style/VCenterPanel"
-                    android:layout_marginLeft="10dp" >
+                    a:layout_marginLeft="10dp" >
 
                     <TextView
-                        android:id="@+id/stat_blocked"
+                        a:id="@+id/stat_blocked"
                         style="@style/StatisticsFont.Red"
-                        android:text="@string/stat_blocked" />
+                        a:text="@string/stat_blocked" />
 
                     <TextView
-                        android:id="@+id/stat_suspicious"
+                        a:id="@+id/stat_suspicious"
                         style="@style/StatisticsFont.Yellow"
-                        android:text="@string/stat_suspicious" />
+                        a:text="@string/stat_suspicious" />
 
                     <TextView
-                        android:id="@+id/stat_received"
+                        a:id="@+id/stat_received"
                         style="@style/StatisticsFont.Green"
-                        android:text="@string/stat_recieved" />
+                        a:text="@string/stat_recieved" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             style="@style/ButtonsPanel"
-            android:layout_weight="2"
-            android:orientation="vertical" >
+            a:layout_weight="2"
+            a:orientation="vertical" >
 
             <TextView
                 style="@style/GroupHeaderText"
-                android:layout_marginBottom="10dp"
-                android:text="@string/add_new_sms_filter" />
+                a:layout_marginBottom="10dp"
+                a:text="@string/add_new_sms_filter" />
 
             <LinearLayout
-                android:id="@+id/fast_access"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                a:id="@+id/fast_access"
+                a:layout_width="wrap_content"
+                a:layout_height="wrap_content"
+                a:orientation="horizontal" >
 
                 <Button
-                    android:id="@+id/fast_phone_number"
+                    a:id="@+id/fast_phone_number"
                     style="@style/ImageButtonWithText"
-                    android:drawableLeft="@drawable/phone_number_type_selector"
-                    android:onClick="onPhoneNumberClick"
-                    android:text="@string/phone_number" />
+                    a:drawableLeft="@drawable/phone_number_type_selector"
+                    a:onClick="onPhoneNumberClick"
+                    a:text="@string/phone_number" />
 
                 <Button
-                    android:id="@+id/fast_word"
+                    a:id="@+id/fast_word"
                     style="@style/ImageButtonWithText"
-                    android:layout_marginLeft="15dp"
-                    android:drawableLeft="@drawable/word_type"
-                    android:onClick="onWordClick"
-                    android:text="@string/word" />
+                    a:layout_marginLeft="15dp"
+                    a:drawableLeft="@drawable/word_type"
+                    a:onClick="onWordClick"
+                    a:text="@string/word" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/nav_panel"
+        a:id="@+id/nav_panel"
         style="@style/NavPanel" >
 
         <ImageButton
-            android:id="@+id/filters"
+            a:id="@+id/filters"
             style="@style/FiltersButton"
-            android:contentDescription="@string/default_text"
-            android:onClick="onShowFilters" />
+            a:contentDescription="@string/default_text"
+            a:onClick="onShowFilters" />
 
         <ImageButton
-            android:id="@+id/logs"
+            a:id="@+id/logs"
             style="@style/LogButton"
-            android:contentDescription="@string/default_text"
-            android:onClick="onShowLogs" />
+            a:contentDescription="@string/default_text"
+            a:onClick="onShowLogs" />
 
         <ImageButton
-            android:id="@+id/tops"
+            a:id="@+id/tops"
             style="@style/TopButton"
-            android:contentDescription="@string/default_text"
-            android:onClick="onShowTops" />
+            a:contentDescription="@string/default_text"
+            a:onClick="onShowTops" />
 
         <ImageButton
-            android:id="@+id/settings"
+            a:id="@+id/settings"
             style="@style/SettingsButton"
-            android:contentDescription="@string/default_text"
-            android:onClick="onShowSettings" />
+            a:contentDescription="@string/default_text"
+            a:onClick="onShowSettings" />
     </LinearLayout>
 
 </LinearLayout>

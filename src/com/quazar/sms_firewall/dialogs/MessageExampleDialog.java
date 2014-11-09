@@ -17,7 +17,7 @@ import com.quazar.sms_firewall.models.TopFilter.TopType;
 public class MessageExampleDialog extends Dialog{	
 	public MessageExampleDialog(final Context context, TopFilter item, List<String> examples){
 		super(context, R.style.Dialog);		
-		View v=getLayoutInflater().inflate(R.layout.message_example_dialog, null);	
+		View v=getLayoutInflater().inflate(R.layout.dialog_message_example, null);	
 		setContentView(v);
 		if(item.getType()==TopType.WORD){
 			((TextView)v.findViewById(R.id.header_ex)).setText(R.string.word_with_dots);
@@ -26,7 +26,7 @@ public class MessageExampleDialog extends Dialog{
 		((TextView)v.findViewById(R.id.message_votes)).setText(""+item.getVotes());
 		((TextView)v.findViewById(R.id.message_position)).setText(""+item.getPos());
 		ListView messagesLisn=(ListView)v.findViewById(R.id.messages_ex);
-		messagesLisn.setAdapter(new ArrayAdapter<String>(context, R.layout.examples_list_item, R.id.example_message, examples));
+		messagesLisn.setAdapter(new ArrayAdapter<String>(context, R.layout.item_examples, R.id.example_message, examples));
 		((Button)v.findViewById(R.id.close_btn)).setOnClickListener(new Button.OnClickListener(){			
 			@Override
 			public void onClick(View v){				

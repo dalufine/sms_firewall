@@ -10,7 +10,7 @@ import com.quazar.sms_firewall.R;
 public class HelpDialog extends Dialog {
 	public HelpDialog(final Context context, String title, String text) {
 		super(context, R.style.Dialog);
-		View v = getLayoutInflater().inflate(R.layout.help_dialog, null);
+		View v = getLayoutInflater().inflate(R.layout.dialog_help, null);
 		setContentView(v);
 		v.setOnClickListener(new View.OnClickListener() {			
 			@Override

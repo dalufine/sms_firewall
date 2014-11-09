@@ -25,6 +25,8 @@ import com.quazar.sms_firewall.models.TopFilter.TopCategory;
 import com.quazar.sms_firewall.models.TopFilter.TopType;
 import com.quazar.sms_firewall.models.UserFilter;
 import com.quazar.sms_firewall.models.UserFilter.FilterType;
+import com.quazar.sms_firewall.utils.ContentUtils;
+import com.quazar.sms_firewall.utils.DictionaryUtils;
 
 public class DataDao extends SQLiteOpenHelper{
 	private static final String DB_NAME="sms_firewall";
@@ -157,7 +159,17 @@ public class DataDao extends SQLiteOpenHelper{
 						cursor.getColumnIndex("status");
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.US);
 				while(cursor.moveToNext()){
-					logs.add(new SmsLogItem(cursor.getLong(idIdx), cursor.getString(phoneNameIdx), cursor.getString(bodyIdx), sdf.parse(cursor.getString(addTimeIdx)), cursor.getInt(statusIdx)));
+					SmsLogItem sms=new SmsLogItem();
+					sms.setId(cursor.getLong(idIdx));
+					String number=cursor.getString(phoneNameIdx);
+					String name=DictionaryUtils.getInstance().getContactsName(number);					
+					sms.setName(name != null ? name: number);
+					sms.setNumber(name != null && !name.equalsIgnoreCase(number) ? number
+							+ " " : "");
+					sms.setBody(cursor.getString(bodyIdx));
+					sms.setDate(sdf.parse(cursor.getString(addTimeIdx)));
+					sms.setStatus(cursor.getInt(statusIdx));
+					logs.add(sms);
 				}
 				return logs;
 			}finally{

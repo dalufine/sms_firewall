@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    a:layout_width="match_parent"
+    a:layout_height="50dp"
+    a:background="@drawable/list_item_bg"
+    a:orientation="horizontal"
+    a:padding="5dp" >
+
+    <ImageView
+        a:id="@+id/item_icon"
+        a:contentDescription="@string/default_text"
+        a:layout_width="45dp"
+        a:layout_height="fill_parent"
+        a:src="@drawable/ic_launcher" />
+
+    <TextView
+        a:id="@+id/item_text"
+        a:layout_width="match_parent"
+        a:layout_height="match_parent"
+        a:layout_marginLeft="10dp"
+        a:gravity="center_vertical"
+        a:text="@string/default_text"
+        a:textSize="12sp" />
+
+</LinearLayout>

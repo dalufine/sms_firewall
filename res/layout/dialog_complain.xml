@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    a:layout_width="match_parent"
+    a:layout_height="match_parent"
+    a:minWidth="270dp"
+    a:orientation="vertical"
+    a:padding="15dp" >
+
+    <TextView
+        style="@style/DialogHeaderText"
+        a:text="@string/complain_info_title" />
+
+    <ScrollView
+        a:layout_width="match_parent"
+        a:layout_height="match_parent"
+        a:padding="0dp" >
+
+        <LinearLayout
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:orientation="vertical" >
+
+            <TextView
+                style="@style/PropertyTitleFont"
+                a:text="@string/phone_number_with_dots" />
+
+            <TextView
+                a:id="@+id/phone_number"
+                style="@style/PropertyValueFont"
+                a:textSize="20sp"
+                a:gravity="center"
+                a:text="@string/default_numbers"
+                a:textColor="#ff0000" />
+
+            <TextView
+                style="@style/PropertyTitleFont"
+                a:layout_marginTop="10dp"
+                a:text="@string/message_example" />
+
+            <TextView
+                a:id="@+id/message_example"
+                style="@style/PropertyValueFont"
+                a:gravity="left"
+                a:text="@string/default_numbers"
+                a:textSize="12sp" />
+
+            <TextView
+                style="@style/PropertyTitleFont"
+                a:layout_marginTop="10dp"
+                a:text="@string/filter_category" />
+
+            <Spinner
+                a:id="@+id/filter_category"
+                a:layout_width="match_parent"
+                a:layout_height="40dp"
+                a:layout_marginTop="5dp"
+                a:choiceMode="singleChoice"
+                a:entries="@array/filter_categories" />
+
+            <LinearLayout
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:layout_marginTop="15dp"
+                a:orientation="horizontal" >
+
+                <TextView
+                    style="@style/PropertyTitleFont"
+                    a:layout_width="wrap_content"
+                    a:layout_gravity="center_vertical"
+                    a:text="@string/filter_type" />
+
+                <TextView
+                    a:id="@+id/filter_type"
+                    style="@style/PropertyValueFont"
+                    a:gravity="right"
+                    a:text="@string/default_text" />
+            </LinearLayout>
+
+            <LinearLayout
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:layout_marginTop="10dp"
+                a:gravity="right" >
+
+                <Button
+                    a:id="@+id/send_btn"
+                    style="@style/BlackButton"
+                    a:text="@string/send" />
+
+                <Button
+                    a:id="@+id/close_btn"
+                    style="@style/BlackButton"
+                    a:layout_marginLeft="15dp"
+                    a:text="@string/cancel" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

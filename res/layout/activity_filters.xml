@@ -1,64 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/filters_tabhost"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+<TabHost xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@+id/filters_tabhost"
+    a:layout_width="fill_parent"
+    a:layout_height="fill_parent" >
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        a:layout_width="fill_parent"
+        a:layout_height="fill_parent"
+        a:orientation="vertical" >
 
         <TabWidget
-            android:id="@android:id/tabs"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            a:id="@android:id/tabs"
+            a:layout_width="fill_parent"
+            a:layout_height="wrap_content" />
 
         <FrameLayout
-            android:id="@android:id/tabcontent"
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1" >
+            a:id="@android:id/tabcontent"
+            a:layout_width="match_parent"
+            a:layout_height="0dip"
+            a:layout_weight="1" >
 
             <LinearLayout
-                android:id="@+id/phone_filters"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
+                a:id="@+id/phone_filters"
+                a:layout_width="fill_parent"
+                a:layout_height="fill_parent" >
 
                 <ListView
-                    android:id="@+id/phone_filters_list"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" />
+                    a:id="@+id/phone_filters_list"
+                    a:layout_width="fill_parent"
+                    a:layout_height="fill_parent" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/word_filters"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
+                a:id="@+id/word_filters"
+                a:layout_width="fill_parent"
+                a:layout_height="fill_parent" >
 
                 <ListView
-                    android:id="@+id/word_filters_list"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" />
+                    a:id="@+id/word_filters_list"
+                    a:layout_width="fill_parent"
+                    a:layout_height="fill_parent" />
             </LinearLayout>
         </FrameLayout>
 
-        <LinearLayout style="@style/NavPanel" >
+        <LinearLayout
+            style="@style/NavPanel">
 
             <ImageButton
                 style="@style/BackButton"
-                android:contentDescription="@string/default_text"
-                android:onClick="onGoBack" />
+                a:contentDescription="@string/default_text"
+                a:onClick="onGoBack" />
 
             <ImageButton
                 style="@style/AddButton"
-                android:contentDescription="@string/default_text"
-                android:onClick="onAddFilter" />
+                a:contentDescription="@string/default_text"
+                a:onClick="onAddFilter" />
 
             <ImageButton
                 style="@style/ClearButton"
-                android:contentDescription="@string/default_text"
-                android:onClick="onClearFilters" />
+                a:contentDescription="@string/default_text"
+                a:onClick="onClearFilters" />
         </LinearLayout>
     </LinearLayout>
 

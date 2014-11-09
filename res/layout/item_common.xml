@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    a:layout_width="match_parent"
+    a:layout_height="50dp"
+    a:background="@drawable/list_item_bg"
+    a:orientation="horizontal"
+    a:padding="5dp" >
+
+    <TextView
+        a:id="@+id/item_date"
+        style="@style/ListDateFont"
+        a:layout_width="70dp"
+        a:layout_height="match_parent"
+        a:text="@string/default_datetime_format" />
+
+    <LinearLayout
+        a:layout_width="match_parent"
+        a:layout_height="match_parent"
+        a:layout_marginLeft="10dp"
+        a:orientation="vertical" >
+
+        <LinearLayout
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:orientation="horizontal" >
+
+            <TextView
+                a:id="@+id/item_name"
+                style="@style/ListContactFont"
+                a:layout_width="wrap_content"
+                a:layout_height="wrap_content"
+                a:text="@string/default_numbers" />
+
+            <TextView
+                a:id="@+id/item_number"
+                style="@style/ListSubContactFont"
+                a:text="@string/default_numbers" />
+        </LinearLayout>
+
+        <TextView
+            a:id="@+id/item_text"
+            style="@style/ListBodyFont"
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:lines="1"
+            a:text="@string/default_text_long" />
+    </LinearLayout>
+
+</LinearLayout>

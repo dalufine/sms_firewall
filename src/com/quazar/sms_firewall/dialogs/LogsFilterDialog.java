@@ -26,12 +26,12 @@ public class LogsFilterDialog extends Dialog{
 	public LogsFilterDialog(final Context context, DialogListener<LogFilter> listener){
 		super(context, R.style.Dialog);
 		this.listener=listener;		
-		view=getLayoutInflater().inflate(R.layout.logs_filter_dialog, null);		
+		view=getLayoutInflater().inflate(R.layout.dialog_logs_filter, null);		
 		setContentView(view);	
 		final Spinner senderSelect=(Spinner)view.findViewById(R.id.sender);
 		List<String> senders=new DataDao(context).getLogSenders();
 		senders.add(0, "");
-		senderSelect.setAdapter(new ArrayAdapter<String>(context, R.layout.spinner_list_item, R.id.spinner_list_value, senders));
+		senderSelect.setAdapter(new ArrayAdapter<String>(context, R.layout.item_spinner, R.id.spinner_list_value, senders));
 		final EditText dateFromField=(EditText)view.findViewById(R.id.dateFrom), 
 				dateToField=(EditText)view.findViewById(R.id.dateTo), bodyField=((EditText)view.findViewById(R.id.bodyContains));
 		String localSdf=((SimpleDateFormat)SimpleDateFormat.getDateInstance()).toLocalizedPattern();

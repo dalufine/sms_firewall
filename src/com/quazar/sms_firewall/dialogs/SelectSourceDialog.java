@@ -24,7 +24,7 @@ public class SelectSourceDialog extends Dialog{
 	public SelectSourceDialog(final Context context, String title, final SelectListener<Integer> listener, final List<Integer> exclude){
 		super(context, R.style.Dialog);
 		Collections.sort(exclude);
-		View v=getLayoutInflater().inflate(R.layout.source_list, null);
+		View v=getLayoutInflater().inflate(R.layout.list_source, null);
 		if(title!=null){
 			((TextView)v.findViewById(R.id.select_source_popup_title)).setText(title);
 		}
@@ -53,7 +53,7 @@ public class SelectSourceDialog extends Dialog{
 			hm.put(ICON_KEY, icons[i]);
 			sources.add(hm);
 		}
-		SimpleAdapter adapter=new SimpleAdapter(context, sources, R.layout.source_list_item, new String[] { TEXT_KEY, ICON_KEY }, new int[] { R.id.item_text, R.id.item_icon });
+		SimpleAdapter adapter=new SimpleAdapter(context, sources, R.layout.item_source, new String[] { TEXT_KEY, ICON_KEY }, new int[] { R.id.item_text, R.id.item_icon });
 		listView.setAdapter(adapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		setContentView(v);

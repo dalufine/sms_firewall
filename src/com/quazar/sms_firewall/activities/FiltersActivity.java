@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.InputType;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -31,7 +33,6 @@ public class FiltersActivity extends BaseActivity{
 	private TabHost tabHost;
 	private ListView phonesList, wordsList;
 	private static int PHONE_NUMBERS_TAB=0;//WORDS_TAB=1
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -39,28 +40,28 @@ public class FiltersActivity extends BaseActivity{
 		setContentView(R.layout.activity_filters);
 		tabHost=(TabHost)findViewById(R.id.filters_tabhost);
 		tabHost.setup();
-		dataDao=new DataDao(this);		
+		dataDao=new DataDao(this);
 
 		TabHost.TabSpec phoneFiltersTab=tabHost.newTabSpec("phone filters");
 		phoneFiltersTab.setIndicator(createTabView(tabHost.getContext(), getResources().getString(R.string.numbers), R.drawable.phone_selector));
 		phoneFiltersTab.setContent(R.id.phone_filters);
 
-		phonesList=(ListView)findViewById(R.id.phone_filters_list);				
+		phonesList=(ListView)findViewById(R.id.phone_filters_list);
 		phonesList.setAdapter(getAdapter(FilterType.PHONE_NAME));
 
 		TabHost.TabSpec wordFiltersTab=tabHost.newTabSpec("word filters");
 		wordFiltersTab.setIndicator(createTabView(tabHost.getContext(), getResources().getString(R.string.words), R.drawable.word_selector));
 		wordFiltersTab.setContent(R.id.word_filters);
-		wordsList=(ListView)findViewById(R.id.word_filters_list);		
+		wordsList=(ListView)findViewById(R.id.word_filters_list);
 		wordsList.setAdapter(getAdapter(FilterType.WORD));
 
 		tabHost.addTab(phoneFiltersTab);
 		tabHost.addTab(wordFiltersTab);
 		tabHost.setCurrentTab(PHONE_NUMBERS_TAB);
-	}	
-	public SimpleAdapter getAdapter(FilterType type) {
+	}
+	public SimpleAdapter getAdapter(FilterType type){
 		List<UserFilter> filters=dataDao.getUserFilters();
-		List<HashMap<String, Object>>list=new ArrayList<HashMap<String, Object>>();
+		List<HashMap<String, Object>> list=new ArrayList<HashMap<String, Object>>();
 		for(UserFilter filter:filters){
 			if(filter.getType()==type){
 				HashMap<String, Object> map=new HashMap<String, Object>();
@@ -72,7 +73,7 @@ public class FiltersActivity extends BaseActivity{
 				list.add(map);
 			}
 		}
-		return new SimpleAdapter(this, list, R.layout.filters_list_item, new String[]{"filter_value"}, new int[]{R.id.filter_value});
+		return new SimpleAdapter(this, list, R.layout.item_filters, new String[] { "filter_value" }, new int[] { R.id.filter_value });
 	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
@@ -83,13 +84,13 @@ public class FiltersActivity extends BaseActivity{
 			phonesList.setAdapter(getAdapter(FilterType.PHONE_NAME));
 		}
 	}
-	public void onAddFilter(View v){		
+	public void onAddFilter(View v){
 		if(tabHost.getCurrentTab()==PHONE_NUMBERS_TAB){
-			DialogUtils.showSourceSelectPopup(this, Arrays.asList(SelectSourceDialog.FROM_ENTER_WORD), new Handler(new Handler.Callback() {				
+			DialogUtils.showSourceSelectPopup(this, Arrays.asList(SelectSourceDialog.FROM_ENTER_WORD), new Handler(new Handler.Callback(){
 				@Override
-				public boolean handleMessage(Message msg) {	
+				public boolean handleMessage(Message msg){
 					HashMap<String, Object> map=(HashMap<String, Object>)msg.obj;
-					Object value=map.get(ContentUtils.NUMBER);				
+					Object value=map.get(ContentUtils.NUMBER);
 					if(value!=null){
 						dataDao.insertUserFilter(FilterType.PHONE_NAME, (String)value);
 					}
@@ -98,19 +99,23 @@ public class FiltersActivity extends BaseActivity{
 				}
 			}));
 		}else{
-			DialogUtils.showEnterWordFilterPopup(this, new Handler(new Handler.Callback() {				
+			DialogUtils.showEnterValueDialog(this, R.string.enter_word, InputType.TYPE_CLASS_TEXT, new Handler(new Handler.Callback(){
 				@Override
-				public boolean handleMessage(Message msg) {
-					wordsList.setAdapter(getAdapter(FilterType.WORD));					
+				public boolean handleMessage(Message msg){
+					Map<String, Object> map=(Map)msg.obj;
+					DataDao dao=new DataDao(FiltersActivity.this);
+					dao.insertUserFilter(FilterType.WORD, (String)map.get(ContentUtils.NUMBER));
+					dao.close();
+					wordsList.setAdapter(getAdapter(FilterType.WORD));
 					return false;
 				}
 			}));
 		}
 	}
 	public void onClearFilters(View v){
-		DialogUtils.showConfirmDialog(this, getResources().getString(R.string.confirmation), getResources().getString(R.string.filters_clear_conf), new DialogListener<Boolean>() {			
+		DialogUtils.showConfirmDialog(this, getResources().getString(R.string.confirmation), getResources().getString(R.string.filters_clear_conf), new DialogListener<Boolean>(){
 			@Override
-			public void ok(Boolean value) {
+			public void ok(Boolean value){
 				if(tabHost.getCurrentTab()==PHONE_NUMBERS_TAB){
 					dataDao.clearUserFilters(FilterType.PHONE_NAME);
 					phonesList.setAdapter(getAdapter(FilterType.PHONE_NAME));
@@ -118,17 +123,16 @@ public class FiltersActivity extends BaseActivity{
 					dataDao.clearUserFilters(FilterType.WORD);
 					wordsList.setAdapter(getAdapter(FilterType.WORD));
 				}
-			}			
-			@Override
-			public void cancel() {
 			}
+			@Override
+			public void cancel(){}
 		});
-		
+
 	}
 	public void onRemoveFilter(final View view){
-		DialogUtils.showConfirmDialog(this, getResources().getString(R.string.confirmation), getResources().getString(R.string.filter_delete_conf), new DialogListener<Boolean>() {			
+		DialogUtils.showConfirmDialog(this, getResources().getString(R.string.confirmation), getResources().getString(R.string.filter_delete_conf), new DialogListener<Boolean>(){
 			@Override
-			public void ok(Boolean value) {
+			public void ok(Boolean value){
 				if(tabHost.getCurrentTab()==PHONE_NUMBERS_TAB){
 					int position=phonesList.getPositionForView((View)view.getParent());
 					HashMap<String, Object> map=(HashMap<String, Object>)phonesList.getAdapter().getItem(position);
@@ -140,10 +144,9 @@ public class FiltersActivity extends BaseActivity{
 					dataDao.deleteUserFilter((Long)map.get("id"));
 					wordsList.setAdapter(getAdapter(FilterType.WORD));
 				}
-			}			
-			@Override
-			public void cancel() {
 			}
-		});		
-	}	
+			@Override
+			public void cancel(){}
+		});
+	}
 }

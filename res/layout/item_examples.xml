@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    a:layout_width="match_parent"
+    a:layout_height="wrap_content"
+    a:orientation="vertical"
+    a:background="@drawable/list_item_bg"
+    a:padding="5dp">    
+    <TextView
+        style="@style/ListBodyFont"
+        a:id="@+id/example_message"
+        a:text="@string/default_text_long"       
+        a:lines="4"/>
+</LinearLayout>

@@ -20,7 +20,7 @@ import android.util.Base64;
 import android.util.Log;
 
 public class JSONClient{
-	private static final String HOST="192.168.0.100:8080";
+	private static final String HOST="malyanov.ddns.net:8080";
 	private static final String PROTOCOL="http";
 
 	protected JSONObject get(String serviceUrl){

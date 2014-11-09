@@ -2,6 +2,7 @@ package com.quazar.sms_firewall.activities;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.NotificationManager;
@@ -11,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -113,7 +115,16 @@ public class MainActivity extends Activity{
 		StateManager.showSettings(this);
 	}
 	public void onWordClick(View v){
-		DialogUtils.showEnterWordFilterPopup(this, null);
+		DialogUtils.showEnterValueDialog(this, R.string.enter_word, InputType.TYPE_CLASS_TEXT, new Handler(new Handler.Callback(){
+			@Override
+			public boolean handleMessage(Message msg){
+				Map<String, Object> map=(Map)msg.obj;
+				DataDao dao=new DataDao(MainActivity.this);
+				dao.insertUserFilter(FilterType.WORD, (String)map.get(ContentUtils.NUMBER));
+				dao.close();				
+				return false;
+			}
+		}));
 	}
 
 	@Override

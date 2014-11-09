@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    a:layout_width="match_parent"
+    a:layout_height="match_parent"
+    a:minWidth="250dp"
+    a:orientation="vertical"
+    a:padding="5dp" >
+
+    <TextView
+        style="@style/DialogHeaderText"
+        a:text="@string/filter_info_title" />
+
+    <LinearLayout
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content"
+        a:orientation="vertical" >
+
+        <TextView
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:text="@string/messages_position"
+            a:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            a:id="@+id/message_position"
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content" />
+
+        <TextView
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:text="@string/messages_votes"
+            a:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            a:id="@+id/message_votes"
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content" />
+
+        <TextView
+            a:id="@+id/header_ex"
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:text="@string/phone_number_with_dots"
+            a:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            a:id="@+id/phone_number_ex"
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content" />
+
+        <TextView
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:text="@string/message_examples"
+            a:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+    <ListView
+        a:id="@+id/messages_ex"
+        a:layout_width="match_parent"
+        a:layout_height="0dip"
+        a:layout_weight="2" >
+    </ListView>
+
+    <LinearLayout
+        a:layout_width="match_parent"
+        a:layout_height="0dip"
+        a:layout_weight="0.5"
+        a:gravity="center_horizontal" >
+
+        <Button
+            a:id="@+id/close_btn"
+            style="@style/BlackButton"
+            a:layout_marginTop="10dp"
+            a:text="@string/close" />
+    </LinearLayout>
+
+</LinearLayout>

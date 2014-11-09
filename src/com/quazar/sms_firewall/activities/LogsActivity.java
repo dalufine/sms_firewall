@@ -23,7 +23,6 @@ import com.quazar.sms_firewall.models.SmsLogItem;
 import com.quazar.sms_firewall.models.SmsLogItem.LogStatus;
 import com.quazar.sms_firewall.utils.ContentUtils;
 import com.quazar.sms_firewall.utils.DialogUtils;
-import com.quazar.sms_firewall.utils.DictionaryUtils;
 
 public class LogsActivity extends BaseActivity implements OnScrollListener{
 	private static DataDao dataDao;
@@ -93,7 +92,7 @@ public class LogsActivity extends BaseActivity implements OnScrollListener{
 	public SimpleAdapter getAdapter(int viewId, LogStatus status, LogFilter filter){
 		List<SmsLogItem> logs=dataDao.getLogs(status, filter, 0, PAGE_SIZE);
 		lists.put(viewId, addItems(logs, new ArrayList<HashMap<String, Object>>()));
-		return new SimpleAdapter(this, lists.get(viewId), R.layout.list_item, new String[] { "date", "body", "contact" }, new int[] { R.id.item_date, R.id.item_text, R.id.item_number});
+		return new SimpleAdapter(this, lists.get(viewId), R.layout.item_common, new String[] { "date", "body", "name", "number" }, new int[] { R.id.item_date, R.id.item_text, R.id.item_name, R.id.item_number});
 	}
 
 	private void loadPage(int page, LogFilter filter){
@@ -115,7 +114,8 @@ public class LogsActivity extends BaseActivity implements OnScrollListener{
 			map.put("id", log.getId());
 			map.put("date", ContentUtils.getDateFormater().format(log.getDate()));
 			map.put("body", log.getBody());
-			map.put("contact", DictionaryUtils.getInstance().getContactsName(log.getPhoneName()));
+			map.put("name", log.getName());
+			map.put("number", log.getNumber());
 			list.add(map);
 		}
 		return list;

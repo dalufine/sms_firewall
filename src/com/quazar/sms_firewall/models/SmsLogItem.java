@@ -1,12 +1,6 @@
 package com.quazar.sms_firewall.models;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
-
-import org.json.JSONObject;
-
-import android.util.Log;
 
 public class SmsLogItem {
 	public enum LogStatus {
@@ -14,25 +8,46 @@ public class SmsLogItem {
 	};
 
 	private long id;
-	private String phoneName, body;
+	private String name;
+	private String number;
+	private String body;
 	private Date date;
 	private LogStatus status;
 
-	public SmsLogItem(long id, String phoneName, String body, Date date, int status) {
-		super();
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public void setId(long id) {
 		this.id = id;
-		this.phoneName = phoneName;
+	}
+
+	public void setBody(String body) {
 		this.body = body;
+	}
+
+	public void setDate(Date date) {
 		this.date = date;
-		this.status=LogStatus.values()[status];		
+	}
+
+	public void setStatus(int status) {
+		this.status = LogStatus.values()[status];
 	}
 
 	public long getId() {
 		return id;
-	}
-
-	public String getPhoneName() {
-		return phoneName;
 	}
 
 	public String getBody() {
@@ -45,24 +60,5 @@ public class SmsLogItem {
 
 	public LogStatus getStatus() {
 		return status;
-	}
-
-	@Override
-	public String toString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss",
-				Locale.getDefault());
-		return String.format("id:%d date:%s phone:%s body:%s;\r\n", id,
-				sdf.format(date), phoneName, body);
-	}
-	public JSONObject toJSON(){
-		JSONObject obj=new JSONObject();
-		try{
-			obj.put("time", date.getTime());
-			obj.put("number", phoneName);
-			obj.put("text", body);
-		}catch(Exception ex){
-			Log.e("log item", ex.toString());
-		}
-		return obj;
 	}
 }

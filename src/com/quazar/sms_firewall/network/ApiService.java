@@ -97,7 +97,7 @@ public class ApiService extends JSONClient{
 		return sendOrRequestConnection(String.format("/service/filters/top?locale=%s", getLocale()), null, handler);
 	}
 
-	public boolean addVote(int filterId, final Handler handler) throws Exception{
+	public boolean addVote(long filterId, final Handler handler) throws Exception{
 		return sendOrRequestConnection(String.format("/service/filters/add_vote?user_id=%s&filter_id=%d", getUserId(), filterId), null, handler);
 	}
 
@@ -123,7 +123,7 @@ public class ApiService extends JSONClient{
 		return true;
 	}
 
-	public void loadTops() throws Exception{
+	public void loadTops(final Handler handler) throws Exception{
 		getTops(new Handler(){
 			@Override
 			public void handleMessage(Message msg){
@@ -136,6 +136,9 @@ public class ApiService extends JSONClient{
 					parseTopFilters(items, examples, obj.getJSONArray("spam"));
 					parseTopFilters(items, examples, obj.getJSONArray("fraud"));
 					new DataDao(context).updateTopFilters(items, examples);
+					if(handler!=null){
+						handler.dispatchMessage(new Message());
+					}
 				}catch(Exception ex){
 					Log.e("api", ex.toString());
 				}
@@ -233,7 +236,7 @@ public class ApiService extends JSONClient{
 	// ------------------Sync---------------------------------
 	public boolean sync() throws Exception{
 		if(DeviceInfoUtil.isOnline(context)){
-			loadTops();
+			loadTops(null);
 			saveUserFiltersToServer(new DataDao(context).getUserFilters(), null);
 			return true;
 		}

@@ -21,7 +21,8 @@
     <string name="logs">Logs</string>
     <string name="select_source_popup_title">Select the source</string>
     <string name="select_source_to_check">Select the source of message to check</string>
-    <string name="select_source_to_complain">Select the source of message to complain</string>
+    <string name="select_sms_to_complain">Select sms to complain</string>
+    <string name="wifi_connect_error">Wi-fi connecting failed</string>
     <string name="inbox_sms">Inbox SMS</string>
     <string name="income_calls">Income calls</string>
     <string name="numbers">Phone numbers</string>
@@ -127,6 +128,8 @@
     <string name="complain_info_title">Complain information</string>
     <string name="votes_per_day_error">You can not vote for this item this day</string>
     <string name="error_dialog_title">Error occurred</string>
+    <string name="server_error">Server error occurred</string>
+    <string name="voted_today_error">You have voted today for this filter</string>
     <string name="vote_added">Vote successfuly added</string>
     <string name="add_new_sms_filter">Add new SMS filter</string>
     <string name="logs_control">Logs control</string>

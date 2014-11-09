@@ -10,6 +10,7 @@ import android.net.wifi.WifiManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.quazar.sms_firewall.R;
@@ -22,7 +23,7 @@ public class ConnectionDialog extends Dialog{
 
 	public ConnectionDialog(final Context context, final ConnectionListener listener){
 		super(context, R.style.Dialog);
-		View v=getLayoutInflater().inflate(R.layout.connection_dialog, null);
+		View v=getLayoutInflater().inflate(R.layout.dialog_connection, null);
 		setContentView(v);
 		((Button)v.findViewById(R.id.closeConnPopup)).setOnClickListener(new Button.OnClickListener(){
 			@Override
@@ -48,13 +49,24 @@ public class ConnectionDialog extends Dialog{
 			@Override
 			public void onClick(View v){
 				wifiManager.setWifiEnabled(!wifiManager.isWifiEnabled());
+				long start=System.currentTimeMillis();
+				while(wifiManager.getWifiState()!=WifiManager.WIFI_STATE_ENABLED){
+					if((System.currentTimeMillis()-start)/1000>10){
+						Toast.makeText(context, context.getResources().getString(R.string.wifi_connect_error), Toast.LENGTH_LONG).show();
+						return;
+					}
+					try{
+						Thread.sleep(1000);
+					}catch(Exception ex){
+						Log.e("thread", "thread sleep error");
+					}
+				}
 				if(listener!=null)
 					listener.onConnectionReady();
 				dismiss();
 			}
 		});
 	}
-
 	private void setMobileDataEnabled(Context context, boolean enabled){
 		try{
 			final ConnectivityManager conman=(ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);

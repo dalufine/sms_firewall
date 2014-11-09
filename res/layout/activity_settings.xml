@@ -1,118 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    a:layout_width="fill_parent"
+    a:layout_height="fill_parent"
+    a:orientation="vertical" >
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:padding="10dp" >
+        a:layout_width="fill_parent"
+        a:layout_height="0dp"
+        a:layout_weight="1"
+        a:orientation="vertical"
+        a:padding="10dp" >
 
         <LinearLayout
             style="@style/GroupPanel"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            android:layout_weight="2"
-            android:orientation="vertical"
-            android:padding="10dp" >
+            a:layout_height="0dp"
+            a:layout_margin="10dp"
+            a:layout_weight="2"
+            a:orientation="vertical"
+            a:padding="10dp" >
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal" >
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:layout_marginLeft="10dp"
+                a:layout_marginRight="10dp"
+                a:gravity="center_horizontal"
+                a:orientation="horizontal" >
 
                 <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/language" />
+                    a:layout_width="100dp"
+                    a:layout_height="wrap_content"
+                    a:layout_gravity="center_vertical"
+                    a:text="@string/language" />
 
                 <Spinner
-                    android:id="@+id/language_select"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="5dp"
-                    android:choiceMode="singleChoice"
-                    android:entries="@array/languages" />
+                    a:id="@+id/language_select"
+                    a:layout_width="match_parent"
+                    a:layout_height="40dp"
+                    a:layout_marginLeft="5dp"
+                    a:choiceMode="singleChoice"
+                    a:entries="@array/languages" />
             </LinearLayout>
 
             <CheckBox
-                android:id="@+id/sync_on"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center|left"
-                android:text="@string/sync_on" />
+                a:id="@+id/sync_on"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:gravity="center|left"
+                a:text="@string/sync_on" />
 
             <CheckBox
-                android:id="@+id/top_filter_on"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center|left"
-                android:text="@string/top_filter_on" />
+                a:id="@+id/top_filter_on"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:layout_marginTop="10dp"
+                a:gravity="center|left"
+                a:text="@string/top_filter_on" />
 
             <CheckBox
-                android:id="@+id/blocked_counter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center|left"
-                android:text="@string/blocked_counter" />
+                a:id="@+id/blocked_counter"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:layout_marginTop="10dp"
+                a:gravity="center|left"
+                a:text="@string/blocked_counter" />
         </LinearLayout>
 
         <LinearLayout
             style="@style/ButtonsPanel"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical" >
+            a:layout_height="0dp"
+            a:layout_weight="1"
+            a:orientation="vertical" >
 
             <TextView
                 style="@style/GroupHeaderText"
-                android:layout_marginBottom="10dp"
-                android:text="@string/logs_control" />
+                a:layout_marginBottom="10dp"
+                a:text="@string/logs_control" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                a:layout_width="wrap_content"
+                a:layout_height="wrap_content"
+                a:orientation="horizontal" >
 
                 <Button
                     style="@style/BlackButton"
-                    android:layout_width="wrap_content"
-                    android:text="@string/clear_logs" />
+                    a:layout_width="wrap_content"
+                    a:text="@string/clear_logs" />
 
                 <Button
                     style="@style/BlackButton"
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/reset_logs_password" />
+                    a:layout_width="wrap_content"
+                    a:layout_marginLeft="10dp"
+                    a:text="@string/reset_logs_password" />
             </LinearLayout>
         </LinearLayout>
 
         <Button
             style="@style/BlackButton"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/reset_stats" />
+            a:layout_width="wrap_content"
+            a:layout_gravity="center_horizontal"
+            a:text="@string/reset_stats" />
     </LinearLayout>
 
     <LinearLayout style="@style/NavPanel" >
 
         <ImageButton
             style="@style/BackButton"
-            android:contentDescription="@string/default_text"
-            android:onClick="onGoBack" />
+            a:contentDescription="@string/default_text"
+            a:onClick="onGoBack" />
 
         <ImageButton
             style="@style/OkButton"
-            android:contentDescription="@string/default_text"
-            android:onClick="onSave" />
+            a:contentDescription="@string/default_text"
+            a:onClick="onSave" />
     </LinearLayout>
 
 </LinearLayout>

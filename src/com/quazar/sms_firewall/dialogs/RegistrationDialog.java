@@ -25,7 +25,7 @@ public class RegistrationDialog extends Dialog{
 
 	public RegistrationDialog(final Context context){
 		super(context, R.style.Dialog);
-		final View v=getLayoutInflater().inflate(R.layout.registration_dialog, null);
+		final View v=getLayoutInflater().inflate(R.layout.dialog_registration, null);
 		setContentView(v);
 		useSync=(CheckBox)v.findViewById(R.id.syncFilters);
 		useEmail=(CheckBox)v.findViewById(R.id.useEmail);
@@ -84,7 +84,7 @@ public class RegistrationDialog extends Dialog{
 										if(errorCode==ResponseCodes.USER_ALREADY_REGISTERED.getCode()){
 											api.loadUserFilters();											
 										}
-										api.loadTops();
+										api.loadTops(null);
 									}catch(Exception ex){
 										Log.e("json error", ex.toString());
 									}

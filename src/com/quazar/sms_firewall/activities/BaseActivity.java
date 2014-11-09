@@ -15,7 +15,7 @@ public class BaseActivity extends Activity {
 		this.onBackPressed();
 	}
 	protected View createTabView(Context context, String text, int drawableId) {
-		View view = LayoutInflater.from(context).inflate(R.layout.tab_layout,
+		View view = LayoutInflater.from(context).inflate(R.layout.layout_tab,
 				null);
 		TextView tv = (TextView) view.findViewById(R.id.tab_text);
 		tv.setText(text);

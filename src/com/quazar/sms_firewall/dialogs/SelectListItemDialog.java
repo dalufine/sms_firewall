@@ -19,7 +19,7 @@ import com.quazar.sms_firewall.utils.ContentUtils;
 public class SelectListItemDialog extends Dialog{
 	public SelectListItemDialog(final Context context, String title, final List<HashMap<String, Object>> items, final SelectListener<HashMap<String, Object>> listener){
 		super(context, R.style.Dialog);
-		View v=getLayoutInflater().inflate(R.layout.item_list, null);
+		View v=getLayoutInflater().inflate(R.layout.list_common, null);
 		((TextView)v.findViewById(R.id.list_title)).setText(title);
 		ListView listView=(ListView)v.findViewById(R.id.list);
 		listView.setOnItemClickListener(new OnItemClickListener(){
@@ -30,7 +30,7 @@ public class SelectListItemDialog extends Dialog{
 			}
 		});
 		SimpleAdapter adapter=
-				new SimpleAdapter(context, items, R.layout.list_item, new String[] { ContentUtils.NUMBER, ContentUtils.TEXT, ContentUtils.DATE }, new int[] { R.id.item_number, R.id.item_text, R.id.item_date });
+				new SimpleAdapter(context, items, R.layout.item_common, new String[] { ContentUtils.NAME, ContentUtils.NUMBER, ContentUtils.TEXT, ContentUtils.DATE }, new int[] { R.id.item_name, R.id.item_number, R.id.item_text, R.id.item_date });
 		listView.setAdapter(adapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		setContentView(v);

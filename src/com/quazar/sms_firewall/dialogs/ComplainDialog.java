@@ -1,7 +1,5 @@
 package com.quazar.sms_firewall.dialogs;
 
-import java.util.Arrays;
-
 import org.json.JSONObject;
 
 import android.app.Dialog;
@@ -24,7 +22,7 @@ public class ComplainDialog extends Dialog{
 
 	public ComplainDialog(final Context context, final String value, final String example, final FilterType filterType){
 		super(context, R.style.Dialog);
-		final View content=getLayoutInflater().inflate(R.layout.complain_dialog, null);
+		final View content=getLayoutInflater().inflate(R.layout.dialog_complain, null);
 		setContentView(content);
 		((TextView)findViewById(R.id.phone_number)).setText(value);
 		((TextView)content.findViewById(R.id.message_example)).setText(example);

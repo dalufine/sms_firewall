@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:a="http://schemas.android.com/apk/res/android"
+    a:layout_width="match_parent"
+    a:layout_height="wrap_content"
+    a:minWidth="250dp" >
+
+    <LinearLayout
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content"
+        a:gravity="center_horizontal"
+        a:minWidth="300dp"
+        a:orientation="vertical"
+        a:padding="10dp" >
+
+        <TextView
+            style="@style/DialogHeaderText"
+            a:text="@string/logs_filter" />
+
+        <LinearLayout
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:orientation="vertical" >
+
+            <TextView
+                a:layout_width="wrap_content"
+                a:layout_height="wrap_content"
+                a:text="@string/sender" />
+
+            <Spinner
+                a:id="@+id/sender"
+                a:layout_width="match_parent"
+                a:layout_height="62dp" />
+
+            <TextView
+                a:layout_width="wrap_content"
+                a:layout_height="wrap_content"
+                a:text="@string/body_contains" />
+
+            <EditText
+                a:id="@+id/bodyContains"
+                style="@style/EditText" />
+
+            <TextView
+                a:layout_width="wrap_content"
+                a:layout_height="wrap_content"
+                a:text="@string/date_from" />
+
+            <EditText
+                a:id="@+id/dateFrom"
+                style="@style/EditText"
+                a:inputType="date" >
+            </EditText>
+
+            <TextView
+                a:layout_width="wrap_content"
+                a:layout_height="wrap_content"
+                a:text="@string/date_to" />
+
+            <EditText
+                a:id="@+id/dateTo"
+                style="@style/EditText"
+                a:inputType="date" />
+        </LinearLayout>
+
+        <LinearLayout
+            a:layout_width="wrap_content"
+            a:layout_height="wrap_content"
+            a:paddingTop="20dp" >
+
+            <Button
+                a:id="@+id/okLogFilterBtn"
+                style="@style/BlackButton"
+                a:text="@string/ok" />
+
+            <Button
+                a:id="@+id/resetLogFilterBtn"
+                style="@style/BlackButton"
+                a:layout_marginLeft="10dp"
+                a:text="@string/reset" />
+
+            <Button
+                a:id="@+id/cancelLogFilterBtn"
+                style="@style/BlackButton"
+                a:layout_marginLeft="10dp"
+                a:text="@string/cancel" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

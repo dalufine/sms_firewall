@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:a="http://schemas.android.com/apk/res/android"
+    a:layout_width="match_parent"
+    a:layout_height="match_parent"
+    a:minWidth="270dp"
+    a:padding="0dp" >
+
+    <LinearLayout
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content"
+        a:gravity="center_horizontal|top"
+        a:orientation="vertical" >
+
+        <TextView
+            a:id="@+id/registration_text"
+            style="@style/DialogHeaderText"
+            a:text="@string/registration_welcome" />
+
+        <LinearLayout
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:orientation="vertical" >
+
+            <TextView
+                a:layout_width="wrap_content"
+                a:layout_height="wrap_content"
+                a:text="@string/sync_filters_text" />
+
+            <CheckBox
+                a:id="@+id/syncFilters"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:text="@string/sync_filters" />
+
+            <TextView
+                a:layout_width="wrap_content"
+                a:layout_height="wrap_content"
+                a:text="@string/use_email_text" />
+
+            <CheckBox
+                a:id="@+id/useEmail"
+                a:layout_width="wrap_content"
+                a:layout_height="wrap_content"
+                a:checked="false"
+                a:enabled="false"
+                a:text="@string/use_email" />
+
+            <TextView
+                a:layout_width="wrap_content"
+                a:layout_height="wrap_content"
+                a:text="@string/your_email" />
+
+            <EditText
+                a:id="@+id/userEmail"
+                style="@style/EditText"
+                a:ems="10"
+                a:enabled="false"
+                a:inputType="textEmailAddress|textNoSuggestions" />
+
+            <TextView
+                a:layout_width="wrap_content"
+                a:layout_height="wrap_content"
+                a:text="@string/enter_password_text" />
+
+            <EditText
+                a:id="@+id/logsPassword"
+                style="@style/EditText"
+                a:ems="10"
+                a:inputType="textPassword|textNoSuggestions" >
+
+                <requestFocus />
+            </EditText>
+
+            <TextView
+                a:layout_width="wrap_content"
+                a:layout_height="wrap_content"
+                a:text="@string/send_suspicious_text" />
+
+            <CheckBox
+                a:id="@+id/sendSuspicious"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:checked="true"
+                a:text="@string/send_suspicious" />
+        </LinearLayout>
+
+        <Button
+            a:id="@+id/saveReg"
+            style="@style/BlackButton"
+            a:text="@string/ok" />
+    </LinearLayout>
+
+</ScrollView>

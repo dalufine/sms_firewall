@@ -17,7 +17,7 @@ public class EnterValueDialog extends Dialog{
 	public EnterValueDialog(Context context, String title, int inputType, DialogListener<String> listener){
 		super(context, R.style.Dialog);
 		this.listener=listener;
-		View v=getLayoutInflater().inflate(R.layout.enter_value_dialog, null);
+		View v=getLayoutInflater().inflate(R.layout.dialog_enter_value, null);
 		setContentView(v);
 		valueField=(EditText)findViewById(R.id.value_fileld);
 		valueField.setInputType(inputType);
