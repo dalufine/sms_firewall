@@ -2,21 +2,29 @@
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
     a:layout_width="fill_parent"
     a:layout_height="50dp"
-    a:orientation="horizontal"
     a:background="@drawable/list_item_bg"
-    a:padding="10dp" >    
-    
+    a:orientation="horizontal"
+    a:padding="10dp" >
+
     <TextView
-        a:id="@+id/filter_value"
-        style="@style/FilterListItemFont"        
-        a:text="@string/default_text"/>
-    
-    <ImageButton        
+        a:id="@+id/filter_name"
+        style="@style/FilterListItemFont"
+        a:text="@string/default_text" />
+
+    <TextView
+        a:id="@+id/filter_number"
+        style="@style/ListSubContactFont"
+        a:layout_width="wrap_content"
+        a:layout_marginRight="10dp"
+        a:text="@string/default_numbers" />
+
+    <ImageButton
+        a:layout_width="40dp"
         a:layout_height="fill_parent"
-        a:layout_width="40dp"   
-        a:src="@drawable/delete_selector"
-        a:scaleType="fitCenter"
         a:background="@null"
-        a:contentDescription="@string/default_text"     
-        a:onClick="onRemoveFilter"/>    
+        a:contentDescription="@string/default_text"
+        a:onClick="onRemoveFilter"
+        a:scaleType="fitCenter"
+        a:src="@drawable/delete_selector" />
+
 </LinearLayout>

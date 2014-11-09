@@ -72,15 +72,21 @@ public class FiltersActivity extends BaseActivity{
 		for(UserFilter filter:filters){
 			if(filter.getType()==type){
 				HashMap<String, Object> map=new HashMap<String, Object>();
-				if(type==FilterType.PHONE_NAME)
-					map.put("filter_value", DictionaryUtils.getInstance().getContactsName(filter.getValue()));
-				else map.put("filter_value", filter.getValue());
+				String number=filter.getValue();
+				if(type==FilterType.PHONE_NAME){
+					String name=DictionaryUtils.getInstance().getContactsName(number);
+					map.put(ContentUtils.NAME, name!=null?name:number);
+					map.put(ContentUtils.NUMBER, name!=null&&!name.equalsIgnoreCase(number)?number+" ":"");
+				}else{
+					map.put(ContentUtils.NAME, number);
+					map.put(ContentUtils.NUMBER, " ");
+				}
 				map.put("type", type);
 				map.put("id", filter.getId());
 				list.add(map);
 			}
 		}
-		return new SimpleAdapter(this, list, R.layout.item_filters, new String[] { "filter_value" }, new int[] { R.id.filter_value });
+		return new SimpleAdapter(this, list, R.layout.item_filters, new String[] { ContentUtils.NAME, ContentUtils.NUMBER }, new int[] { R.id.filter_name, R.id.filter_number });
 	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
@@ -97,9 +103,9 @@ public class FiltersActivity extends BaseActivity{
 				@Override
 				public boolean handleMessage(Message msg){
 					HashMap<String, Object> map=(HashMap<String, Object>)msg.obj;
-					Object value=map.get(ContentUtils.NUMBER);
-					if(value!=null){
-						dataDao.insertUserFilter(FilterType.PHONE_NAME, (String)value);
+					String value=(String)map.get(ContentUtils.PROC_NUMBER);
+					if(value!=null&&value.trim().length()>0){
+						dataDao.insertUserFilter(FilterType.PHONE_NAME, value);
 					}
 					phonesList.setAdapter(getAdapter(FilterType.PHONE_NAME));
 					return false;
@@ -109,8 +115,8 @@ public class FiltersActivity extends BaseActivity{
 			DialogUtils.showEnterValueDialog(this, R.string.enter_word, InputType.TYPE_CLASS_TEXT, new Handler(new Handler.Callback(){
 				@Override
 				public boolean handleMessage(Message msg){
-					Map<String, Object> map=(Map)msg.obj;					
-					dataDao.insertUserFilter(FilterType.WORD, (String)map.get(ContentUtils.NUMBER));					
+					Map<String, Object> map=(Map)msg.obj;
+					dataDao.insertUserFilter(FilterType.WORD, (String)map.get(ContentUtils.PROC_NUMBER));
 					wordsList.setAdapter(getAdapter(FilterType.WORD));
 					return false;
 				}

@@ -14,7 +14,7 @@ import android.provider.CallLog;
 import android.provider.ContactsContract;
 
 public class ContentUtils {
-	public static final String NUMBER = "number", DATE = "date", TEXT = "text",
+	public static final String NUMBER = "number", PROC_NUMBER = "proc_number", DATE = "date", TEXT = "text",
 			NAME = "name";
 
 	public static String getPhoneNumber(Context activity, Uri contentUri) {
@@ -58,6 +58,7 @@ public class ContentUtils {
 			sms.put(NUMBER,
 					name != null && !name.equalsIgnoreCase(number) ? number
 							+ " " : "");
+			sms.put(PROC_NUMBER, number);
 			sms.put(TEXT, cursor.getString(1));
 			Long dateTime = cursor.getLong(2);
 			sms.put(DATE, sdf.format(new Date(dateTime)));
@@ -99,6 +100,7 @@ public class ContentUtils {
 			calls.put(NUMBER,
 					name != null && !name.equalsIgnoreCase(number) ? number
 							+ " " : "");
+			calls.put(PROC_NUMBER, number);
 			calls.put(DATE,
 					getDateFormater().format(new Date(cursor.getLong(2))));
 			calls.put(TEXT, secondsToTime(cursor.getInt(3)));

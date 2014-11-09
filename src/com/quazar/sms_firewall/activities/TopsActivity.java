@@ -172,7 +172,7 @@ public class TopsActivity extends BaseActivity{
 			public void handleMessage(Message msg){
 				try{
 					Map<String, Object> map=(Map)msg.obj;
-					sendAndProccessCheck((String)map.get(ContentUtils.NAME));
+					sendAndProccessCheck((String)map.get(ContentUtils.PROC_NUMBER));
 				}catch(Exception ex){
 					Log.e("check", ex.toString());
 					ex.printStackTrace();
@@ -195,9 +195,8 @@ public class TopsActivity extends BaseActivity{
 			public void handleMessage(Message msg){
 				try{
 					Map<String, Object> map=(Map)msg.obj;
-					String number=(String)map.get(ContentUtils.NUMBER);
-					String name=(String)map.get(ContentUtils.NAME);
-					sendAndProcessComplain(name==null?"":name+(" "+number), (String)map.get(ContentUtils.TEXT));
+					String number=(String)map.get(ContentUtils.PROC_NUMBER);					
+					sendAndProcessComplain(number, (String)map.get(ContentUtils.TEXT));
 				}catch(Exception e){
 					Log.e("complain", e.toString());
 					e.printStackTrace();

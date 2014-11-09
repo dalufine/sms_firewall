@@ -1,5 +1,6 @@
 package com.quazar.sms_firewall.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,8 @@ import com.quazar.sms_firewall.dialogs.SelectSourceDialog;
 import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
 import com.quazar.sms_firewall.dialogs.listeners.SelectListener;
 import com.quazar.sms_firewall.enums.SourceTypes;
+import com.quazar.sms_firewall.models.SmsLogItem;
+import com.quazar.sms_firewall.models.SmsLogItem.LogStatus;
 
 public class DialogUtils{
 	public static void createWarningDialog(final Context context, String title, String message, String buttonTitle){
@@ -78,6 +81,36 @@ public class DialogUtils{
 		}
 	}
 
+	public static void showSuspiciousSelectDialog(Activity activity, final Handler handler){
+		DataDao dao=new DataDao(activity);
+		List<SmsLogItem> list=dao.getLogs(LogStatus.SUSPICIOUS, null, 0, 1);
+		if(list.isEmpty()){
+			DialogUtils.createWarningDialog(activity, activity.getResources().getString(R.string.warning), activity.getResources().getString(R.string.no_suspicious_sms), activity.getResources().getString(R.string.ok));
+			return;
+		}
+		final List<HashMap<String, Object>> sources=new ArrayList<HashMap<String, Object>>();
+		for(SmsLogItem item:list){
+			HashMap<String, Object> map=new HashMap<String, Object>();
+			map.put(ContentUtils.NAME, item.getName()!=null?item.getName():item.getNumber());
+			map.put(ContentUtils.NUMBER, item.getName()!=null&&!item.getName().equalsIgnoreCase(item.getNumber())?item.getNumber()+" ":"");
+			map.put(ContentUtils.PROC_NUMBER, item.getNumber());
+			map.put(ContentUtils.DATE, ContentUtils.getDateFormater().format(item.getDate()));
+			map.put(ContentUtils.TEXT, item.getBody());
+			sources.add(map);
+		}
+		SelectListItemDialog suspiciousPopup=new SelectListItemDialog(activity, activity.getResources().getString(R.string.suspicious_sms), sources, new SelectListener<HashMap<String, Object>>(){
+			@Override
+			public void recieveSelection(HashMap<String, Object> selection){
+				selection.put("type", SourceTypes.SUSPICIOUS);
+				if(handler!=null){
+					Message mes=handler.obtainMessage(1, selection);
+					handler.dispatchMessage(mes);
+				}
+			}
+		});
+		suspiciousPopup.show();
+	}
+
 	public static void showEnterValueDialog(Activity activity, int titleStringId, final int inputType, final Handler handler){
 		EnterValueDialog evd=new EnterValueDialog(activity, activity.getResources().getString(titleStringId), inputType, new DialogListener<String>(){
 			@Override
@@ -85,7 +118,7 @@ public class DialogUtils{
 				if(handler!=null){
 					Map<String, Object> data=new HashMap<String, Object>();
 					data.put("type", inputType==InputType.TYPE_CLASS_PHONE?SourceTypes.ENTERED_NUMBER:SourceTypes.ENTERED_WORD);
-					data.put(ContentUtils.NUMBER, value);
+					data.put(ContentUtils.PROC_NUMBER, value);
 					Message mes=handler.obtainMessage(1, data);
 					handler.dispatchMessage(mes);
 				}
@@ -114,6 +147,8 @@ public class DialogUtils{
 							showCallSelectDialog(activity, handler);
 							break;
 						case SelectSourceDialog.FROM_SUSPICIOUS_SMS:
+							showSuspiciousSelectDialog(activity, handler);
+							break;
 						case SelectSourceDialog.FROM_FRAUDS_TOP:
 							break;
 						case SelectSourceDialog.FROM_ENTER_PHONE:

@@ -25,6 +25,7 @@
     <string name="wifi_connect_error">Wi-fi connecting failed</string>
     <string name="inbox_sms">Inbox SMS</string>
     <string name="income_calls">Income calls</string>
+    <string name="suspicious_sms">Suspicious sms messages</string>
     <string name="numbers">Phone numbers</string>
     <string name="words">Words</string>
     <string name="delete">Delete</string>
@@ -85,7 +86,8 @@
     <string name="no_filters_found">There are no filters for input "%s"!</string>
     <string name="no_sms_warn">There is no inbox sms!</string>
     <string name="warning">Warning!</string>
-    <string name="no_income_calls">There is no income calls</string>
+    <string name="no_income_calls">There are no income calls</string>
+    <string name="no_suspicious_sms">There are no suspicious sms messages</string>
     <string name="mobile_internet">Mobile Internet</string>
     <string name="wi_fi">Wi-fi</string>
     <string name="close">Close</string>
