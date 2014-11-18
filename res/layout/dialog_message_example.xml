@@ -89,9 +89,15 @@
         a:layout_height="wrap_content"
         a:layout_marginTop="10dp"
         a:gravity="center_horizontal" >
+        
+        <Button
+            a:id="@+id/add_example_btn"            
+            style="@style/BlackButton"
+            a:text="@string/add_example" />
 
         <Button
             a:id="@+id/close_btn"
+            a:layout_marginLeft="15dp"
             style="@style/BlackButton"
             a:text="@string/close" />
     </LinearLayout>

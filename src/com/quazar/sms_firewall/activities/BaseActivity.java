@@ -1,13 +1,12 @@
 package com.quazar.sms_firewall.activities;
-import com.quazar.sms_firewall.R;
-
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.StateListDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.quazar.sms_firewall.R;
 
 
 public class BaseActivity extends Activity {

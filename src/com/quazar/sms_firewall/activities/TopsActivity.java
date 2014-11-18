@@ -42,6 +42,7 @@ public class TopsActivity extends BaseActivity{
 	private DataDao dataDao;
 	private TabHost tabHost;
 	private ListView fraudList, wordsList, spamList;
+	private TopFilter selected;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -125,13 +126,21 @@ public class TopsActivity extends BaseActivity{
 					if(filters==null||filters.length()==0){
 						Toast.makeText(TopsActivity.this, String.format(getResources().getString(R.string.no_filters_found), value), Toast.LENGTH_LONG).show();
 					}else{
+						data=filters.getJSONObject(0);						
 						MessageExampleDialog med=
-								new MessageExampleDialog(TopsActivity.this, new TopFilter((Integer)data.get("id"), (Integer)data.get("position"), (Integer)data.get("votes"), (String)data.get("value"), (Integer)data
-										.get("type"), (Integer)data.get("category")), jsonArrayToStringList(data.getJSONArray("examples")));
+								new MessageExampleDialog(TopsActivity.this, new TopFilter((Integer)data.get("id"), 0, (Integer)data.get("votes"), (String)data.get("value"), (Integer)data
+										.get("type"), (Integer)data.get("category")), jsonArrayToStringList(data.getJSONArray("examples")), new Handler(){
+									@Override
+									public void handleMessage(Message msg){
+										final TopFilter item=(TopFilter)msg.obj;
+										addExample(item);
+									}
+								});
 						med.show();
 					}
 				}catch(Exception ex){
 					Log.e("json error", ex.toString());
+					ex.printStackTrace();
 				}
 			}
 		});
@@ -184,7 +193,7 @@ public class TopsActivity extends BaseActivity{
 	private List<String> jsonArrayToStringList(JSONArray array) throws JSONException{
 		List<String> list=new ArrayList<String>();
 		for(int i=0;i<array.length();i++){
-			list.add(array.getString(i));
+			list.add(array.getJSONObject(i).getString("value"));
 		}
 		return list;
 	}
@@ -195,7 +204,7 @@ public class TopsActivity extends BaseActivity{
 			public void handleMessage(Message msg){
 				try{
 					Map<String, Object> map=(Map)msg.obj;
-					String number=(String)map.get(ContentUtils.PROC_NUMBER);					
+					String number=(String)map.get(ContentUtils.PROC_NUMBER);
 					sendAndProcessComplain(number, (String)map.get(ContentUtils.TEXT));
 				}catch(Exception e){
 					Log.e("complain", e.toString());
@@ -276,11 +285,48 @@ public class TopsActivity extends BaseActivity{
 
 	public void onItemClick(View v){
 		Map<String, Object> map=getSelectedItemProperties(v, 1);
-		Long id=(Long)map.get("id");
-		MessageExampleDialog med=
-				new MessageExampleDialog(this, new TopFilter(id, (Integer)map.get("position"), (Integer)map.get("votes"), (String)map.get("value"), (Integer)map.get("type"), 0), new DataDao(this)
-						.getTopFilterExamples(id));
+		selected=new TopFilter();
+		selected.setId((Long)map.get("id"));
+		selected.setValue((String)map.get("value"));
+		selected.setPos((Integer)map.get("position"));
+		selected.setVotes((Integer)map.get("votes"));
+		selected.setType(TopType.values()[(Integer)map.get("type")]);
+
+		final MessageExampleDialog med=new MessageExampleDialog(this, selected, new DataDao(this).getTopFilterExamples(selected.getId()), new Handler(){
+			@Override
+			public void handleMessage(Message msg){
+				final TopFilter item=(TopFilter)msg.obj;
+				addExample(item);
+			}
+		});
 		med.show();
+	}
+
+	private void addExample(final TopFilter item){
+		DialogUtils.showSmsSelectDialog(TopsActivity.this, R.string.select_sms_for_example, new Handler(){
+			@Override
+			public void handleMessage(Message msg){
+				ApiService api=new ApiService(TopsActivity.this);
+				try{
+					api.addExample(item.getId(), (String)((Map<String, Object>)msg.obj).get(ContentUtils.TEXT), new Handler(){
+						@Override
+						public void handleMessage(Message msg){
+							try{
+								reloadTops(null);
+							}catch(Exception e){
+								Log.e("reload tops error", e.getLocalizedMessage());
+								e.printStackTrace();
+							}
+							Toast.makeText(TopsActivity.this, R.string.example_added_to_filter, Toast.LENGTH_LONG).show();
+						}
+					});
+				}catch(Exception e){
+					Log.e("add example error", e.getLocalizedMessage());
+					e.printStackTrace();
+				}
+			}
+		});
+
 	}
 
 	private Map<String, Object> getSelectedItemProperties(View v, int level){

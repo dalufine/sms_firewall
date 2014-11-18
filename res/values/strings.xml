@@ -22,6 +22,7 @@
     <string name="select_source_popup_title">Select the source</string>
     <string name="select_source_to_check">Select the source of message to check</string>
     <string name="select_sms_to_complain">Select sms to complain</string>
+    <string name="select_sms_for_example">Select sms example</string>
     <string name="wifi_connect_error">Wi-fi connecting failed</string>
     <string name="inbox_sms">Inbox SMS</string>
     <string name="income_calls">Income calls</string>
@@ -91,6 +92,7 @@
     <string name="mobile_internet">Mobile Internet</string>
     <string name="wi_fi">Wi-fi</string>
     <string name="close">Close</string>
+    <string name="add_example">Add example</string>
     <string name="inet_conn_on">Please, turn on Internet connection:</string>
     <string name="registration_welcome">Registartion welcome</string>
     <string name="sync_filters_text">Check this option to sync your filters:</string>
@@ -121,6 +123,8 @@
     <string name="date_from">Date from:</string>
     <string name="date_to">Date to:</string>
     <string name="add_all_from_top">Do you really want to add all filters on this tab?</string>
+    <string name="item_not_selected">Select the item first</string>
+    <string name="example_added_to_filter">Example added to filter</string>
     <string name="filters_added">Filters added!</string>
     <string name="filter_added">Filter added!</string>
     <string name="example_added">We have such filter. Your example have been added!</string>

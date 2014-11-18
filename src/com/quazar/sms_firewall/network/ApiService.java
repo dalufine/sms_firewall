@@ -1,5 +1,6 @@
 package com.quazar.sms_firewall.network;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -84,6 +85,9 @@ public class ApiService extends JSONClient{
 		data.put("example", example);
 		data.put("locale", getLocale());
 		return sendOrRequestConnection("/service/filters/add", data, handler);
+	}
+	public boolean addExample(Long filterId, String example, Handler handler) throws Exception{		
+		return sendOrRequestConnection(String.format("/service/filters/add_example?user_id=%s&filter_id=%d&example=%s", getUserId(), filterId, URLEncoder.encode(example, "UTF-8")), null, handler);
 	}
 	//use at tops
 	public boolean addFilterExample(Long filterId, String example, Handler handler) throws Exception{
