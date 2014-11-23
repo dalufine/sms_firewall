@@ -33,6 +33,7 @@ import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
 import com.quazar.sms_firewall.models.TopFilter;
 import com.quazar.sms_firewall.models.TopFilter.TopCategory;
 import com.quazar.sms_firewall.models.TopFilter.TopType;
+import com.quazar.sms_firewall.models.UserFilter;
 import com.quazar.sms_firewall.models.UserFilter.FilterType;
 import com.quazar.sms_firewall.network.ApiService;
 import com.quazar.sms_firewall.utils.ContentUtils;
@@ -126,10 +127,10 @@ public class TopsActivity extends BaseActivity{
 					if(filters==null||filters.length()==0){
 						Toast.makeText(TopsActivity.this, String.format(getResources().getString(R.string.no_filters_found), value), Toast.LENGTH_LONG).show();
 					}else{
-						data=filters.getJSONObject(0);						
+						data=filters.getJSONObject(0);
 						MessageExampleDialog med=
-								new MessageExampleDialog(TopsActivity.this, new TopFilter((Integer)data.get("id"), 0, (Integer)data.get("votes"), (String)data.get("value"), (Integer)data
-										.get("type"), (Integer)data.get("category")), jsonArrayToStringList(data.getJSONArray("examples")), new Handler(){
+								new MessageExampleDialog(TopsActivity.this, new TopFilter((Integer)data.get("id"), 0, (Integer)data.get("votes"), (String)data.get("value"), (Integer)data.get("type"), (Integer)data
+										.get("category")), jsonArrayToStringList(data.getJSONArray("examples")), new Handler(){
 									@Override
 									public void handleMessage(Message msg){
 										final TopFilter item=(TopFilter)msg.obj;
@@ -295,8 +296,13 @@ public class TopsActivity extends BaseActivity{
 		final MessageExampleDialog med=new MessageExampleDialog(this, selected, new DataDao(this).getTopFilterExamples(selected.getId()), new Handler(){
 			@Override
 			public void handleMessage(Message msg){
-				final TopFilter item=(TopFilter)msg.obj;
-				addExample(item);
+				TopFilter item=(TopFilter)msg.obj;
+				if(msg.what==MessageExampleDialog.ADD_EXAMPLE){					
+					addExample(item);
+				}else{					
+					dataDao.insertUserFilter(item.getType()==TopType.WORD?FilterType.WORD:FilterType.PHONE_NAME, item.getValue());
+					Toast.makeText(TopsActivity.this, R.string.filter_added, Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 		med.show();

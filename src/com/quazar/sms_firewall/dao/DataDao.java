@@ -81,7 +81,7 @@ public class DataDao extends SQLiteOpenHelper{
 		return filters;
 	}
 
-	public int insertUserFilter(FilterType type, String value){
+	public int insertUserFilter(FilterType type, String value){		
 		SQLiteDatabase dbase=null;
 		Cursor cursor=null;
 		try{
@@ -432,5 +432,5 @@ public class DataDao extends SQLiteOpenHelper{
 			dbase.close();
 		}
 		return null;
-	}
+	}	
 }

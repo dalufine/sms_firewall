@@ -17,7 +17,7 @@ public class DictionaryUtils {
 			while (cursor.moveToNext()) {
 				String name =cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
 				String phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-				instance.contactsMap.put(phoneNumber.replaceAll("[\\s\\-\\(\\)\\+]*", ""), name);
+				instance.contactsMap.put(ContentUtils.getFormatedPhoneNumber(phoneNumber), name);
 			}			
 		}		
 	}
@@ -28,7 +28,7 @@ public class DictionaryUtils {
 
 	public String getContactsName(String phoneName){		
 		if(contactsMap!=null){
-			String name=contactsMap.get(phoneName.replaceAll("[\\s\\-\\(\\)\\+]*", ""));
+			String name=contactsMap.get(phoneName);
 			if(name!=null)
 				return name;
 		}

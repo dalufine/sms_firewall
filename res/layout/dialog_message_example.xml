@@ -80,8 +80,8 @@
         a:layout_width="match_parent"
         a:layout_height="150dp"
         a:layout_marginTop="7dp"
-        a:padding="1dp"
-        a:background="@drawable/shape_border">
+        a:background="@drawable/shape_border"
+        a:padding="1dp" >
     </ListView>
 
     <LinearLayout
@@ -89,17 +89,24 @@
         a:layout_height="wrap_content"
         a:layout_marginTop="10dp"
         a:gravity="center_horizontal" >
-        
-        <Button
-            a:id="@+id/add_example_btn"            
-            style="@style/BlackButton"
-            a:text="@string/add_example" />
 
         <Button
-            a:id="@+id/close_btn"
-            a:layout_marginLeft="15dp"
+            a:id="@+id/to_my_filters_btn"
             style="@style/BlackButton"
-            a:text="@string/close" />
+            a:text="@string/to_my_filters" />
+
+        <Button
+            a:id="@+id/add_example_btn"
+            style="@style/BlackButton"
+            a:layout_marginLeft="15dp"
+            a:text="@string/add_example" />
     </LinearLayout>
+
+    <Button
+        a:id="@+id/close_btn"
+        style="@style/BlackButton"
+        a:layout_gravity="center_horizontal"        
+        a:layout_marginTop="10dp"
+        a:text="@string/close" />
 
 </LinearLayout>

@@ -93,6 +93,7 @@
     <string name="wi_fi">Wi-fi</string>
     <string name="close">Close</string>
     <string name="add_example">Add example</string>
+    <string name="to_my_filters">To my filters</string>
     <string name="inet_conn_on">Please, turn on Internet connection:</string>
     <string name="registration_welcome">Registartion welcome</string>
     <string name="sync_filters_text">Check this option to sync your filters:</string>
@@ -122,7 +123,7 @@
     <string name="body_contains">Body contains:</string>
     <string name="date_from">Date from:</string>
     <string name="date_to">Date to:</string>
-    <string name="add_all_from_top">Do you really want to add all filters on this tab?</string>
+    <string name="add_all_from_top">Do you really want to add all filters on this tab?</string>    
     <string name="item_not_selected">Select the item first</string>
     <string name="example_added_to_filter">Example added to filter</string>
     <string name="filters_added">Filters added!</string>

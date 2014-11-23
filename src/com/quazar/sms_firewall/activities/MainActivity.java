@@ -137,7 +137,7 @@ public class MainActivity extends Activity{
 		super.onActivityResult(requestCode, resultCode, data);
 		if(requestCode==StateManager.CONTACTS_REQUEST_ID&&resultCode==Activity.RESULT_OK){
 			String phoneNumber=ContentUtils.getPhoneNumber(this, data.getData());
-			dataDao.insertUserFilter(FilterType.PHONE_NAME, phoneNumber);
+			dataDao.insertUserFilter(FilterType.PHONE_NAME, ContentUtils.getFormatedPhoneNumber(phoneNumber));
 		}
 	}
 
