@@ -8,16 +8,21 @@ import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
 
 public class EnterPasswordDialog extends EnterValueDialog{
 	private String passwordToCheck;
-	
+
 	public EnterPasswordDialog(Context context, String passwordToCheck, DialogListener<String> listener){
 		super(context, context.getResources().getString(R.string.ask_logs_password), InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD, listener);
+		this.passwordToCheck=passwordToCheck;
+	}
+	
+	public EnterPasswordDialog(Context context, int headerStringId, String passwordToCheck, DialogListener<String> listener){
+		super(context, context.getResources().getString(headerStringId), InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD, listener);
 		this.passwordToCheck=passwordToCheck;
 	}
 
 	@Override
 	protected boolean isValidValue(String value){
 		if(super.isValidValue(value)){
-			if(!value.equalsIgnoreCase(passwordToCheck)){
+			if(passwordToCheck!=null&&!value.equalsIgnoreCase(passwordToCheck)){
 				valueField.setError(getContext().getResources().getString(R.string.logs_password_error));
 				return false;
 			}

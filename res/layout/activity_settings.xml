@@ -28,7 +28,7 @@
                 a:orientation="horizontal" >
 
                 <TextView
-                    a:layout_width="100dp"
+                    a:layout_width="70dp"
                     a:layout_height="wrap_content"
                     a:layout_gravity="center_vertical"
                     a:text="@string/language" />
@@ -46,7 +46,7 @@
                 a:id="@+id/sync_on"
                 a:layout_width="match_parent"
                 a:layout_height="wrap_content"
-                a:gravity="center|left"
+                a:gravity="center|left"                
                 a:text="@string/sync_on" />
 
             <CheckBox
@@ -54,16 +54,9 @@
                 a:layout_width="match_parent"
                 a:layout_height="wrap_content"
                 a:layout_marginTop="10dp"
-                a:gravity="center|left"
+                a:gravity="center|left"                
                 a:text="@string/top_filter_on" />
-
-            <CheckBox
-                a:id="@+id/blocked_counter"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:layout_marginTop="10dp"
-                a:gravity="center|left"
-                a:text="@string/blocked_counter" />
+            
         </LinearLayout>
 
         <LinearLayout
@@ -85,12 +78,16 @@
                 <Button
                     style="@style/BlackButton"
                     a:layout_width="wrap_content"
+                    a:onClick="onClearLogs"                    
                     a:text="@string/clear_logs" />
 
                 <Button
                     style="@style/BlackButton"
                     a:layout_width="wrap_content"
+                    a:ellipsize="end"
+                    a:lines="1"
                     a:layout_marginLeft="10dp"
+                    a:onClick="onResetLogsPassword"
                     a:text="@string/reset_logs_password" />
             </LinearLayout>
         </LinearLayout>
@@ -99,6 +96,7 @@
             style="@style/BlackButton"
             a:layout_width="wrap_content"
             a:layout_gravity="center_horizontal"
+            a:onClick="onResetStatistics"
             a:text="@string/reset_stats" />
     </LinearLayout>
 

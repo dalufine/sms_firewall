@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="default_text">default</string>
+    <string name="default_text_long">default default default default default default default default default default default default default default default default default default default default default default default default default default default default</string>
+    <string name="default_datetime_format">dd.MM.yyyy HH:mm:ss</string>
+    <string name="default_numbers">0123456789</string>
+    <string name="app_name">Sms Firewall</string>
+    <string name="stat_blocked">Заблокированные SMS: %d</string>
+    <string name="stat_suspicious">Подозрительные SMS: %d</string>
+    <string name="stat_recieved">Полученные SMS: %d</string>
+    <string name="stat_last_sync">Последняя синхронизация с сервером: %s</string>
+    <string name="word">Слово</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="phone_number_with_dots">Номер телефона:</string>
+    <string name="filter_category">Категория фильтра:</string>
+    <string name="filter_type">Тип фильтра:</string>
+    <string name="word_with_dots">Слово:</string>
+    <string name="filters">Фильтры</string>
+    <string name="logs">Журнал</string>
+    <string name="select_source_popup_title">Выберите источник</string>
+    <string name="select_source_to_check">Выберите ситочник сообшения для проверки</string>
+    <string name="select_sms_to_complain">Выберите sms для жалобы</string>
+    <string name="select_sms_for_example">Выберите пример sms</string>
+    <string name="wifi_connect_error">Wi-fi не выполнено</string>
+    <string name="inbox_sms">Входящие SMS</string>
+    <string name="income_calls">Входящие звонки</string>
+    <string name="suspicious_sms">Подозрительные sms</string>
+    <string name="numbers">Номера телефонов</string>
+    <string name="words">Слова</string>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
+    <string name="ok">OK</string>
+    <string name="enter_word">Введите слово</string>
+    <string name="enter_phone_number">Введите номер телефона</string>
+    <string name="enter_value_warning">Пожалуйста, введите значение!</string>
+    <string name="blocked">Заблокированные</string>
+    <string name="suspicious">Подозрительные</string>
+    <string name="filtered">Проверенные</string>
+    <string name="journal">Журнал</string>
+    <string name="frauds">Мошенники</string>
+    <string name="spam">Спам</string>
+    <string name="tops">Топ 100</string>
+    <string name="sync_on">Синхронизация с сервером</string>
+    <string name="top_filter_on">Использовать все фильтры из Топ 100</string>
+    <string name="reset_stats">Сбросить статистику</string>
+    <string name="reset">Сбросить</string>
+    <string name="filter_reseted">Фильтр сброшен</string>
+    <string name="reset_logs_password">Сбросить пароль</string>
+    <string name="clear_logs">Очистить журнал</string>
+    <string name="blocked_counter">Показывать счётчик заблокированных sms</string>
+    <string name="language">Язык</string>
+    <string name="settings">Настройки</string>
+
+    <string-array name="sources">
+        <item>Контакты</item>
+        <item>Входящие SMS</item>
+        <item>Входящие звонки</item>
+        <item>Подозрительные SMS</item>
+        <item>Топ мошенников</item>
+        <item>Введите слово</item>
+        <item>Введите номер телефона</item>
+    </string-array>
+    <string-array name="top_sources">
+        <item>Контакты</item>
+        <item>Входящие SMS</item>
+        <item>Входящие звонки</item>
+        <item>Введите значение</item>
+    </string-array>
+    <string-array name="languages">
+        <item>(RU) Русский</item>
+        <item>(EN) English</item>
+    </string-array>
+    <string-array name="filter_categories">
+        <item>Общий</item>
+        <item>Спам</item>
+        <item>Мошенники</item>
+    </string-array>
+    <string-array name="filter_types">
+        <item>Номер/имя телефона</item>
+        <item>Слово</item>
+    </string-array>
+
+    <string name="no_filters_found">Не найдено фильтров для "%s"!</string>
+    <string name="no_sms_warn">Нет входящих sms!</string>
+    <string name="warning">Внимание!</string>
+    <string name="no_income_calls">Нет входящих звонков</string>
+    <string name="no_suspicious_sms">Нет подозрительных sms</string>
+    <string name="mobile_internet">Мобильный Интернет</string>
+    <string name="wi_fi">Wi-fi</string>
+    <string name="close">Закрыть</string>
+    <string name="add_example">Добавить пример</string>
+    <string name="to_my_filters">В мои фильтры</string>
+    <string name="inet_conn_on">Пожалуйста, активируйте Интернет-соединение:</string>
+    <string name="registration_welcome">Добро пожаловать! Пожайлуйста, зарегистрируйтесь.</string>
+    <string name="sync_filters_text">Отметьте, если хотите синхронизировать свои фильтры с сервером:</string>
+    <string name="sync_filters">синхронизировать фильтры</string>
+    <string name="use_email_text">Отметьте, чтобы использовать для синхронизации фильтров e-mail на других устройствах:</string>
+    <string name="use_email">использовать e-mail</string>
+    <string name="your_email">Ваш e-mail:</string>
+    <string name="enter_password_text">Введеите пароль для журнала sms и синхронизации Ваших фильтров с сервером:</string>
+    <string name="send_suspicious_text">Дайте нам возможность улучшить Sms Firewall:</string>
+    <string name="send_suspicious">посылать подозрительные</string>
+    <string name="send">Отправить</string>
+    <string name="enter_email">Пожалуйста, введите корректный e-mail!</string>
+    <string name="password_length_error">Пароль слишком короткий, минимальнаяя длина 8 символов</string>
+    <string name="have_errors">Есть ошибки! Пожалуйста, исправьте их!</string>
+    <string name="registration_thanks">Большое спасибо за регистрацию!</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="confirmation">Подтверждение</string>
+    <string name="filter_delete_conf">Вы действительно хотите удалить этот фильтр?</string>
+    <string name="filters_clear_conf">Вы действительно хотите удалить все фильтры на этой вкладке?</string>
+    <string name="fraud_warn">Собщение от "%s" может быть мошенническим</string>
+    <string name="ask_logs_password">Пожалуйста, введите пароль для доступа к журналу:</string>
+    <string name="logs_password_error">Неверный пароль!</string>
+    <string name="logs_clear_conf">Вы действительно хотите удалить все сообщения на этой вкладке?</string>
+    <string name="sender">Отправитель:</string>
+    <string name="logs_filter">Фильтр журнала</string>
+    <string name="body_contains">Текст sms содержит:</string>
+    <string name="date_from">Дата с:</string>
+    <string name="date_to">Дата до:</string>
+    <string name="add_all_from_top">Вы действительно хотите добавить все фильтры с этой вкладки?</string>
+    <string name="item_not_selected">Сначала выберите элемент!</string>
+    <string name="example_added_to_filter">Пример добавлен к фильтру!</string>
+    <string name="filters_added">Фильтры добавлены!</string>
+    <string name="filter_added">Фильтр добавлен!</string>
+    <string name="example_added">У нас есть такой фильтр. Выш пример был добавлен!</string>
+    <string name="have_such_filter_and_example">У нас есть такой фильтр с таким примером.</string>
+    <string name="message_examples">Примеры сообщений:</string>
+    <string name="message_example">Пример сообщения:</string>
+    <string name="messages_votes">Голосов:</string>
+    <string name="filter_info_title">Информация о фильтре и его примеры</string>
+    <string name="complain_info_title">Информация для жалобы</string>
+    <string name="votes_per_day_error">Вы уже голосовали за этот фильтр сегодня!</string>
+    <string name="error_dialog_title">Произошла ошибка</string>
+    <string name="server_error">Произошла ошибка сервера</string>
+    <string name="voted_today_error">Вы уже голосовали за этот фильтр сегодня!</string>
+    <string name="vote_added">Голос успешно добавлен</string>
+    <string name="add_new_sms_filter">Добавить новый sms-фильтр</string>
+    <string name="logs_control">Управление журналом</string>
+    <string name="statistics">Статистика</string>
+
+</resources>

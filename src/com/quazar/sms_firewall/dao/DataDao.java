@@ -81,7 +81,7 @@ public class DataDao extends SQLiteOpenHelper{
 		return filters;
 	}
 
-	public int insertUserFilter(FilterType type, String value){		
+	public int insertUserFilter(FilterType type, String value){
 		SQLiteDatabase dbase=null;
 		Cursor cursor=null;
 		try{
@@ -161,10 +161,9 @@ public class DataDao extends SQLiteOpenHelper{
 					SmsLogItem sms=new SmsLogItem();
 					sms.setId(cursor.getLong(idIdx));
 					String number=cursor.getString(phoneNameIdx);
-					String name=DictionaryUtils.getInstance().getContactsName(number);					
-					sms.setName(name != null ? name: number);
-					sms.setNumber(name != null && !name.equalsIgnoreCase(number) ? number
-							+ " " : "");
+					String name=DictionaryUtils.getInstance().getContactsName(number);
+					sms.setName(name!=null?name:number);
+					sms.setNumber(name!=null&&!name.equalsIgnoreCase(number)?number+" ":"");
 					sms.setBody(cursor.getString(bodyIdx));
 					sms.setDate(sdf.parse(cursor.getString(addTimeIdx)));
 					sms.setStatus(cursor.getInt(statusIdx));
@@ -210,7 +209,12 @@ public class DataDao extends SQLiteOpenHelper{
 	public int clearLogs(LogStatus status){
 		SQLiteDatabase dbase=getWritableDatabase();
 		try{
-			int result=(int)dbase.delete("logs", "status=?", new String[] { ""+status.ordinal() });
+			int result=0;
+			if(status==null){
+				result=(int)dbase.delete("logs", null, null);
+			}else{
+				result=(int)dbase.delete("logs", "status=?", new String[] { ""+status.ordinal() });
+			}
 			return result;
 		}finally{
 			dbase.close();
@@ -432,5 +436,5 @@ public class DataDao extends SQLiteOpenHelper{
 			dbase.close();
 		}
 		return null;
-	}	
+	}
 }

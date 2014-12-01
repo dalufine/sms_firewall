@@ -1,8 +1,10 @@
 package com.quazar.sms_firewall.activities;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import android.os.Bundle;
 import android.util.SparseArray;
@@ -116,10 +118,11 @@ public class LogsActivity extends BaseActivity implements OnScrollListener{
 	}
 
 	private List<HashMap<String, Object>> addItems(List<SmsLogItem> items, List<HashMap<String, Object>> list){
+		SimpleDateFormat sdf=new SimpleDateFormat(getString(R.string.default_datetime_format), Locale.getDefault());
 		for(SmsLogItem log:items){
 			HashMap<String, Object> map=new HashMap<String, Object>();
 			map.put("id", log.getId());
-			map.put("date", ContentUtils.getDateFormater().format(log.getDate()));
+			map.put("date", sdf.format(log.getDate()));
 			map.put("body", log.getBody());
 			map.put("name", log.getName());
 			map.put("number", log.getNumber());

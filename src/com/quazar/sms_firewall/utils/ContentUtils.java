@@ -17,6 +17,7 @@ import android.provider.ContactsContract;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
+import com.quazar.sms_firewall.R;
 
 public class ContentUtils{
 	public static final String NUMBER="number", PROC_NUMBER="proc_number", DATE="date", TEXT="text", NAME="name";
@@ -71,11 +72,7 @@ public class ContentUtils{
 		return list;
 	}
 
-	public static SimpleDateFormat getDateFormater(){
-		Locale locale=Locale.getDefault();
-		if(locale.getCountry()=="RU"){
-			return new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
-		}
+	public static SimpleDateFormat getDateFormater(){		
 		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 	}
 
@@ -88,6 +85,7 @@ public class ContentUtils{
 	public static List<HashMap<String, Object>> getIncomeCalls(Context context){
 		List<HashMap<String, Object>> list=new ArrayList<HashMap<String, Object>>();
 		Cursor cursor=context.getContentResolver().query(CallLog.Calls.CONTENT_URI, new String[] { "name", "number", "date", "duration" }, "type=?", new String[] { String.valueOf(CallLog.Calls.INCOMING_TYPE) }, null);
+		SimpleDateFormat sdf=new SimpleDateFormat(context.getString(R.string.default_datetime_format), Locale.getDefault());
 		while(cursor.moveToNext()){
 			HashMap<String, Object> calls=new HashMap<String, Object>();
 			String name=cursor.getString(0);
@@ -95,7 +93,7 @@ public class ContentUtils{
 			calls.put(NAME, name!=null?name:number);
 			calls.put(NUMBER, getFormatedPhoneNumber(name!=null&&!name.equalsIgnoreCase(number)?number+" ":""));
 			calls.put(PROC_NUMBER, number);
-			calls.put(DATE, getDateFormater().format(new Date(cursor.getLong(2))));
+			calls.put(DATE, sdf.format(new Date(cursor.getLong(2))));
 			calls.put(TEXT, secondsToTime(cursor.getInt(3)));
 			list.add(calls);
 		}

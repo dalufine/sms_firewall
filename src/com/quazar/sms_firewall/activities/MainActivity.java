@@ -2,6 +2,7 @@ package com.quazar.sms_firewall.activities;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import android.app.Activity;
@@ -14,9 +15,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.InputType;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
-import android.view.Window;
 import android.widget.TextView;
 
 import com.quazar.sms_firewall.Param;
@@ -31,23 +30,28 @@ import com.quazar.sms_firewall.network.ApiService;
 import com.quazar.sms_firewall.utils.ContentUtils;
 import com.quazar.sms_firewall.utils.DialogUtils;
 import com.quazar.sms_firewall.utils.DictionaryUtils;
+import com.quazar.sms_firewall.utils.LocaleUtils;
 
 public class MainActivity extends Activity{
 	private DataDao dataDao;
+	public static volatile boolean localeChanged=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		Param.load(this);
+		if(Param.LOCALE.getValue()!=null&&((String)Param.LOCALE.getValue()).length()>0){
+			LocaleUtils.setLanguage(this, (String)Param.LOCALE.getValue(), false);
+		}
 		dataDao=new DataDao(this);
 		ResponseCodes.init(this);
 		DictionaryUtils.createInstance(this);
-		Param.load(this);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 		updateStatisticsViews();
 		NotificationManager nm=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 		nm.cancel(777);
 		if((Boolean)Param.IS_NEW.getValue()){
+			Param.LOCALE.setValue(Locale.getDefault().getCountry());
 			RegistrationDialog rd=new RegistrationDialog(this);
 			rd.setOnCancelListener(new DialogInterface.OnCancelListener(){
 				@Override
@@ -68,7 +72,7 @@ public class MainActivity extends Activity{
 		}
 	}
 	@Override
-	protected void onDestroy(){		
+	protected void onDestroy(){
 		if(dataDao!=null){
 			dataDao.close();
 		}
@@ -77,6 +81,10 @@ public class MainActivity extends Activity{
 	@Override
 	protected void onResume(){
 		super.onResume();
+		if(localeChanged){
+			setContentView(R.layout.activity_main);
+			localeChanged=false;
+		}
 		updateStatisticsViews();
 	}
 	private void updateStatisticsViews(){
@@ -86,11 +94,6 @@ public class MainActivity extends Activity{
 		tv.setText(String.format(getResources().getString(R.string.stat_recieved), (Integer)Param.RECIEVED_SMS_CNT.getValue()));
 		tv=(TextView)findViewById(R.id.stat_suspicious);
 		tv.setText(String.format(getResources().getString(R.string.stat_suspicious), (Integer)Param.SUSPICIOUS_SMS_CNT.getValue()));
-	}
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu){
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		return true;
 	}
 
 	public void onHelpClick(View v){
@@ -126,7 +129,7 @@ public class MainActivity extends Activity{
 			@Override
 			public boolean handleMessage(Message msg){
 				Map<String, Object> map=(Map)msg.obj;
-				dataDao.insertUserFilter(FilterType.WORD, (String)map.get(ContentUtils.PROC_NUMBER));				
+				dataDao.insertUserFilter(FilterType.WORD, (String)map.get(ContentUtils.PROC_NUMBER));
 				return false;
 			}
 		}));

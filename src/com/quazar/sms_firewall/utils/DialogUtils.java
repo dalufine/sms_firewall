@@ -1,8 +1,10 @@
 package com.quazar.sms_firewall.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import android.app.Activity;
@@ -10,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Message;
 import android.text.InputType;
@@ -89,12 +92,13 @@ public class DialogUtils{
 			return;
 		}
 		final List<HashMap<String, Object>> sources=new ArrayList<HashMap<String, Object>>();
+		SimpleDateFormat sdf=new SimpleDateFormat(activity.getString(R.string.default_datetime_format), Locale.getDefault());
 		for(SmsLogItem item:list){
 			HashMap<String, Object> map=new HashMap<String, Object>();
 			map.put(ContentUtils.NAME, item.getName()!=null?item.getName():item.getNumber());
 			map.put(ContentUtils.NUMBER, item.getName()!=null&&!item.getName().equalsIgnoreCase(item.getNumber())?item.getNumber()+" ":"");
 			map.put(ContentUtils.PROC_NUMBER, item.getNumber());
-			map.put(ContentUtils.DATE, ContentUtils.getDateFormater().format(item.getDate()));
+			map.put(ContentUtils.DATE, sdf.format(item.getDate()));
 			map.put(ContentUtils.TEXT, item.getBody());
 			sources.add(map);
 		}

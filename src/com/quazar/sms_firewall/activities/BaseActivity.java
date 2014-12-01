@@ -1,4 +1,5 @@
 package com.quazar.sms_firewall.activities;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,17 +9,15 @@ import android.widget.TextView;
 
 import com.quazar.sms_firewall.R;
 
-
-public class BaseActivity extends Activity {
+public class BaseActivity extends Activity{
 	public void onGoBack(View v){
 		this.onBackPressed();
 	}
-	protected View createTabView(Context context, String text, int drawableId) {
-		View view = LayoutInflater.from(context).inflate(R.layout.layout_tab,
-				null);
-		TextView tv = (TextView) view.findViewById(R.id.tab_text);
+	protected View createTabView(Context context, String text, int drawableId){
+		View view=LayoutInflater.from(context).inflate(R.layout.layout_tab, null);
+		TextView tv=(TextView)view.findViewById(R.id.tab_text);
 		tv.setText(text);
-		ImageView im = (ImageView) view.findViewById(R.id.tab_img);		
+		ImageView im=(ImageView)view.findViewById(R.id.tab_img);
 		im.setImageDrawable(getResources().getDrawable(drawableId));
 		return view;
 

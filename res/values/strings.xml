@@ -8,8 +8,7 @@
     <string name="app_name">Sms Firewall</string>
     <string name="stat_blocked">Blocked SMS: %d</string>
     <string name="stat_suspicious">Suspicious SMS: %d</string>
-    <string name="stat_recieved">Received SMS: %d</string>
-    <string name="stat_bodies_vol">Volume of blocked text: %d symbols</string>
+    <string name="stat_recieved">Received SMS: %d</string>    
     <string name="stat_last_sync">Last server sync: %s</string>
     <string name="word">Word</string>
     <string name="phone_number">Phone number</string>
@@ -48,8 +47,7 @@
     <string name="reset">Reset</string>
     <string name="filter_reseted">Filter reseted</string>
     <string name="reset_logs_password">Reset logs password</string>
-    <string name="clear_logs">Clear logs</string>
-    <string name="blocked_counter">Show blocked SMS counter</string>
+    <string name="clear_logs">Clear logs</string>    
     <string name="language">Language</string>
     <string name="settings">Settings</string>
 
@@ -69,8 +67,8 @@
         <item>Enter value</item>
     </string-array>
     <string-array name="languages">
-        <item>Русский</item>
-        <item>English</item>
+        <item>(RU) Русский</item>
+        <item>(EN) English</item>
     </string-array>
     
     <string-array name="filter_categories">
@@ -106,13 +104,19 @@
     <string name="send_suspicious">send suspicious sms</string>
     <string name="send">Send</string>
     <string name="enter_email">Please, enter correct e-mail!</string>
-    <string name="password_length_error">Password too short, min length is 8 chars</string>
+    <string name="password_length_error">Password is too short, min length is 8 chars</string>
     <string name="have_errors">There are some error! Please, fix them!</string>
     <string name="registration_thanks">Big thanks for registration!</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="confirmation">Confirmation</string>
+    <string name="reset_statistics_conf">Do you really want to reset statistics?</string>
     <string name="filter_delete_conf">Do you really want to delete this filter?</string>
+    <string name="all_logs_clear_conf">Do you really want to delete all logs?</string>
+    <string name="logs_empty">Logs are empty!</string>
+    <string name="statistic_reseted">Statistics reseted!</string>
+    <string name="password_saved">Password saved!</string>
+    <string name="enter_new_password">Please, enter new logs password:</string>
     <string name="filters_clear_conf">Do you really want to clear filters on this tab?</string>
     <string name="fraud_warn">The message from "%s" can be a fraud</string>
     <string name="ask_logs_password">Please, enter password to access logs.</string>

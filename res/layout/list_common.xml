@@ -8,6 +8,7 @@
     <TextView
         a:id="@+id/list_title"
         style="@style/DialogHeaderText"
+        a:gravity="center_horizontal"
         a:text="@string/inbox_sms" >
     </TextView>
 

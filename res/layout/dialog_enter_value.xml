@@ -7,6 +7,7 @@
     <TextView
         style="@style/DialogHeaderText"
         a:text="@string/default_text"
+        a:gravity="center_horizontal"
         a:id="@+id/value_title"/>
     <EditText
         style="@style/EditText"

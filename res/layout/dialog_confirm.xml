@@ -7,16 +7,20 @@
     <TextView
         style="@style/DialogHeaderText"
         a:text="@string/default_text"
+        a:textSize="20sp"
+        a:gravity="center"
         a:id="@+id/title"/>
     <TextView
         style="@style/PropertyValueFont"
         a:text="@string/default_text_long"
+        a:textSize="18sp"        
+        a:gravity="center"
         a:id="@+id/question"/>
     <LinearLayout
         a:layout_width="wrap_content"
         a:layout_height="wrap_content"
         a:layout_marginTop="10dp"
-        a:layout_gravity="right">
+        a:layout_gravity="center_horizontal">
         <Button
             style="@style/BlackButton"           
             a:id="@+id/ok_btn"
