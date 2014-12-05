@@ -6,6 +6,8 @@
     <string name="default_datetime_format">yyyy-MM-dd HH:mm:ss</string>
     <string name="default_numbers">0123456789</string>
     <string name="app_name">Sms Firewall</string>
+    <string name="crash_report">Crash report</string>
+    <string name="crash_report_text">Sorry, but Sms Firewall crashed :-( We collected all needed information to fix this error in the next version. Also you can write description of situation in which error occurred, it will be very helpful.</string>
     <string name="stat_blocked">Blocked SMS: %d</string>
     <string name="stat_suspicious">Suspicious SMS: %d</string>
     <string name="stat_recieved">Received SMS: %d</string>    
@@ -31,6 +33,7 @@
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+    <string name="send_report">Send report</string>
     <string name="enter_word">Enter word</string>
     <string name="enter_phone_number">Enter phone number</string>
     <string name="enter_value_warning">Enter value, please!</string>
@@ -69,6 +72,7 @@
     <string-array name="languages">
         <item>(RU) Русский</item>
         <item>(EN) English</item>
+        <item>(US) English</item>
     </string-array>
     
     <string-array name="filter_categories">

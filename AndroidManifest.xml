@@ -38,6 +38,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.quazar.sms_firewall.activities.ErrorActivity"
+            android:theme="@android:style/Theme.Dialog"            
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+              <action android:name="com.quazar.sms_firewall.SEND_REPORT" />
+              <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="com.quazar.sms_firewall.activities.FiltersActivity"
             android:label="@string/filters"
             android:launchMode="standard"

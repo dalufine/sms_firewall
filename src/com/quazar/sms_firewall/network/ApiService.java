@@ -106,12 +106,13 @@ public class ApiService extends JSONClient{
 		return sendOrRequestConnection(String.format("/service/filters/add_vote?user_id=%s&filter_id=%d", getUserId(), filterId), null, handler);
 	}
 
-	public boolean registerBug(String stacktrace) throws Exception{
+	public boolean registerBug(String description, String log) throws Exception{
 		JSONObject data=new JSONObject();
 		data.put("user_id", getUserId());
 		data.put("version", Param.VERSION.getValue());
-		data.put("stacktrace", stacktrace);
-		return sendOrSaveIfNoConnection("/service/bugs/add", data, null);
+		data.put("description", description);
+		data.put("log", log);
+		return sendOrRequestConnection("/service/bugs/add", data, null);
 	}
 
 	public boolean sendWaitingRequests() throws Exception{

@@ -22,7 +22,8 @@ import android.util.Base64;
 import android.util.Log;
 
 public class JSONClient{
-	private static final String HOST="malyanov.ddns.net:8080";
+	//private static final String HOST="malyanov.ddns.net:8080";
+	private static final String HOST="10.7.4.83:9999";
 	private static final String PROTOCOL="http";
 
 	public void ping(final int timeout, final Handler handler){

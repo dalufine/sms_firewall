@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    a:layout_width="220dp"
+    a:layout_height="match_parent"
+    a:layout_margin="10dp"    
+    a:orientation="vertical" >
+
+    <TextView
+        style="@style/DialogHeaderText"
+        a:gravity="center"
+        a:text="@string/crash_report" />
+
+    <TextView
+        style="@style/PropertyValueFont"
+        a:layout_width="wrap_content"
+        a:gravity="left"
+        a:text="@string/crash_report_text" />
+
+    <EditText
+        a:id="@+id/error_description"
+        style="@style/EditText"
+        a:layout_marginTop="10dp"
+        a:gravity="left|top"
+        a:inputType="textMultiLine"
+        a:lines="3" />
+
+    <LinearLayout
+        a:layout_width="wrap_content"
+        a:layout_height="wrap_content"
+        a:layout_gravity="center_horizontal" >
+
+        <Button
+            style="@style/BlackButton"
+            a:onClick="onSendReport"
+            a:text="@string/send_report" />
+
+        <Button
+            style="@style/BlackButton"
+            a:layout_marginLeft="15dp"
+            a:onClick="onClose"
+            a:text="@string/close" />
+    </LinearLayout>
+
+</LinearLayout>

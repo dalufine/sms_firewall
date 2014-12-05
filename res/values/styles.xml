@@ -253,6 +253,10 @@
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
+    
+    <style name="ErrorDialog" parent="Dialog">
+        <item name="android:windowBackground">@drawable/error_dialog_background</item>
+    </style>
 
     <style name="test">
         <item name="android:text">#f00</item>

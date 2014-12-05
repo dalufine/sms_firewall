@@ -22,6 +22,8 @@ public class SettingsActivity extends BaseActivity{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
+		int a=1;
+		a=a/(a-1);
 		super.onCreate(savedInstanceState);		
 		setContentView(R.layout.activity_settings);
 		dao=new DataDao(this);
