@@ -8,6 +8,7 @@ import android.util.Log;
 import com.quazar.sms_firewall.dao.DataDao;
 import com.quazar.sms_firewall.network.ApiService;
 import com.quazar.sms_firewall.utils.DeviceInfoUtil;
+import com.quazar.sms_firewall.utils.LogUtil;
 
 public class NetworkStatusReciever extends BroadcastReceiver{
 	private DataDao dataDao;
@@ -26,11 +27,10 @@ public class NetworkStatusReciever extends BroadcastReceiver{
 			try{
 				api.sendWaitingRequests();
 			}catch(Exception ex){
-				Log.e("waiting request", ex.toString());
-				ex.printStackTrace();
+				LogUtil.error(context, "onReceive", ex);
 			}
 		}else{
-			Log.i("network", "network is off");
+			LogUtil.info("network is off");
 		}
 	}
 	@Override

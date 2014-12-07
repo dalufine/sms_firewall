@@ -17,7 +17,7 @@ public class DictionaryUtils {
 			while (cursor.moveToNext()) {
 				String name =cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
 				String phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-				instance.contactsMap.put(ContentUtils.getFormatedPhoneNumber(phoneNumber), name);
+				instance.contactsMap.put(ContentUtils.getFormatedPhoneNumber(context, phoneNumber), name);
 			}			
 		}		
 	}

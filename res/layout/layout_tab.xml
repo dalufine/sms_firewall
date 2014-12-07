@@ -18,8 +18,9 @@
         a:layout_width="fill_parent"
         a:layout_height="wrap_content"        
         a:gravity="center"
-        a:lines="1"
-        a:ellipsize="end"        
+        a:singleLine="true"
+        a:ellipsize="marquee"        
+        a:marqueeRepeatLimit="marquee_forever" 
         a:textColor="@drawable/tab_text_color"
         a:text="@string/default_text" >
     </TextView>

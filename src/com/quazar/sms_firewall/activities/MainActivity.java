@@ -1,7 +1,6 @@
 package com.quazar.sms_firewall.activities;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -14,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,10 +29,11 @@ import com.quazar.sms_firewall.utils.ContentUtils;
 import com.quazar.sms_firewall.utils.DialogUtils;
 import com.quazar.sms_firewall.utils.DictionaryUtils;
 import com.quazar.sms_firewall.utils.LocaleUtils;
+import com.quazar.sms_firewall.utils.LogUtil;
 
 public class MainActivity extends Activity{
 	private DataDao dataDao;
-	public static volatile boolean localeChanged=false;
+	private static volatile boolean invalidated=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -44,8 +43,8 @@ public class MainActivity extends Activity{
 			LocaleUtils.setLanguage(this, (String)Param.LOCALE.getValue(), false);
 		}
 		dataDao=new DataDao(this);
-		ResponseCodes.init(this);
-		DictionaryUtils.createInstance(this);
+		ResponseCodes.init(this);		
+		DictionaryUtils.createInstance(this);		
 		setContentView(R.layout.activity_main);
 		updateStatisticsViews();
 		NotificationManager nm=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
@@ -64,9 +63,8 @@ public class MainActivity extends Activity{
 			ApiService api=new ApiService(this);
 			try{
 				api.sync();
-			}catch(Exception e){
-				Log.e("registration", e.toString());
-				e.printStackTrace();
+			}catch(Exception ex){
+				LogUtil.error(this, "onCreate", ex);
 			}
 			//Param.LAST_SYNC.setValue(System.currentTimeMillis());//TODO uncomment on prod
 		}
@@ -78,12 +76,15 @@ public class MainActivity extends Activity{
 		}
 		super.onDestroy();
 	}
+	public static void invalidate(){
+		invalidated=true;
+	}
 	@Override
 	protected void onResume(){
 		super.onResume();
-		if(localeChanged){
+		if(invalidated){
 			setContentView(R.layout.activity_main);
-			localeChanged=false;
+			invalidated=false;
 		}
 		updateStatisticsViews();
 	}
@@ -101,16 +102,21 @@ public class MainActivity extends Activity{
 	}
 
 	public void onPhoneNumberClick(View v){
-		DialogUtils.showSourceSelectPopup(this, Arrays.asList(SelectSourceDialog.FROM_ENTER_WORD), new Handler(){
-			@Override
-			public void handleMessage(Message msg){
-				HashMap<String, Object> map=(HashMap<String, Object>)msg.obj;
-				Object value=map.get(ContentUtils.PROC_NUMBER);
-				if(value!=null){
-					dataDao.insertUserFilter(FilterType.PHONE_NAME, (String)value);
+		try{
+			DialogUtils.showSourceSelectPopup(this, Arrays.asList(SelectSourceDialog.FROM_ENTER_WORD), new Handler(){
+				@SuppressWarnings({ "rawtypes", "unchecked" })
+				@Override
+				public void handleMessage(Message msg){
+					Map<String, Object> map=(Map)msg.obj;
+					Object value=map.get(ContentUtils.PROC_NUMBER);
+					if(value!=null){
+						dataDao.insertUserFilter(FilterType.PHONE_NAME, (String)value);
+					}
 				}
-			}
-		});
+			});
+		}catch(Exception ex){
+			LogUtil.error(this, "onPhoneNumberClick", ex);
+		}
 	}
 	public void onShowFilters(View v){
 		StateManager.showFilters(this);
@@ -126,6 +132,7 @@ public class MainActivity extends Activity{
 	}
 	public void onWordClick(View v){
 		DialogUtils.showEnterValueDialog(this, R.string.enter_word, InputType.TYPE_CLASS_TEXT, new Handler(new Handler.Callback(){
+			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
 			public boolean handleMessage(Message msg){
 				Map<String, Object> map=(Map)msg.obj;
@@ -140,8 +147,11 @@ public class MainActivity extends Activity{
 		super.onActivityResult(requestCode, resultCode, data);
 		if(requestCode==StateManager.CONTACTS_REQUEST_ID&&resultCode==Activity.RESULT_OK){
 			String phoneNumber=ContentUtils.getPhoneNumber(this, data.getData());
-			dataDao.insertUserFilter(FilterType.PHONE_NAME, ContentUtils.getFormatedPhoneNumber(phoneNumber));
+			try{
+				dataDao.insertUserFilter(FilterType.PHONE_NAME, ContentUtils.getFormatedPhoneNumber(this, phoneNumber));
+			}catch(Exception ex){
+				LogUtil.error(this, "onActivityResult", ex);
+			}
 		}
 	}
-
 }

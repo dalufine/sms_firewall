@@ -27,6 +27,7 @@ import com.quazar.sms_firewall.models.UserFilter.FilterType;
 import com.quazar.sms_firewall.utils.ContentUtils;
 import com.quazar.sms_firewall.utils.DialogUtils;
 import com.quazar.sms_firewall.utils.DictionaryUtils;
+import com.quazar.sms_firewall.utils.LogUtil;
 
 public class FiltersActivity extends BaseActivity{
 	private DataDao dataDao;
@@ -99,20 +100,26 @@ public class FiltersActivity extends BaseActivity{
 	}
 	public void onAddFilter(View v){
 		if(tabHost.getCurrentTab()==PHONE_NUMBERS_TAB){
-			DialogUtils.showSourceSelectPopup(this, Arrays.asList(SelectSourceDialog.FROM_ENTER_WORD), new Handler(new Handler.Callback(){
-				@Override
-				public boolean handleMessage(Message msg){
-					HashMap<String, Object> map=(HashMap<String, Object>)msg.obj;
-					String value=(String)map.get(ContentUtils.PROC_NUMBER);
-					if(value!=null&&value.trim().length()>0){
-						dataDao.insertUserFilter(FilterType.PHONE_NAME, value);
+			try{
+				DialogUtils.showSourceSelectPopup(this, Arrays.asList(SelectSourceDialog.FROM_ENTER_WORD), new Handler(new Handler.Callback(){
+					@SuppressWarnings({ "unchecked", "rawtypes" })
+					@Override
+					public boolean handleMessage(Message msg){
+						Map<String, Object> map=(Map)msg.obj;
+						String value=(String)map.get(ContentUtils.PROC_NUMBER);
+						if(value!=null&&value.trim().length()>0){
+							dataDao.insertUserFilter(FilterType.PHONE_NAME, value);
+						}
+						phonesList.setAdapter(getAdapter(FilterType.PHONE_NAME));
+						return false;
 					}
-					phonesList.setAdapter(getAdapter(FilterType.PHONE_NAME));
-					return false;
-				}
-			}));
+				}));
+			}catch(Exception ex){
+				LogUtil.error(this, "onAddFilter", ex);
+			}
 		}else{
 			DialogUtils.showEnterValueDialog(this, R.string.enter_word, InputType.TYPE_CLASS_TEXT, new Handler(new Handler.Callback(){
+				@SuppressWarnings({ "unchecked", "rawtypes" })
 				@Override
 				public boolean handleMessage(Message msg){
 					Map<String, Object> map=(Map)msg.obj;
@@ -142,16 +149,17 @@ public class FiltersActivity extends BaseActivity{
 	}
 	public void onRemoveFilter(final View view){
 		DialogUtils.showConfirmDialog(this, getResources().getString(R.string.confirmation), getResources().getString(R.string.filter_delete_conf), new DialogListener<Boolean>(){
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
 			public void ok(Boolean value){
 				if(tabHost.getCurrentTab()==PHONE_NUMBERS_TAB){
 					int position=phonesList.getPositionForView((View)view.getParent());
-					HashMap<String, Object> map=(HashMap<String, Object>)phonesList.getAdapter().getItem(position);
+					Map<String, Object> map=(Map)phonesList.getAdapter().getItem(position);
 					dataDao.deleteUserFilter((Long)map.get("id"));
 					phonesList.setAdapter(getAdapter(FilterType.PHONE_NAME));
 				}else{
 					int position=wordsList.getPositionForView((View)view.getParent());
-					HashMap<String, Object> map=(HashMap<String, Object>)wordsList.getAdapter().getItem(position);
+					Map<String, Object> map=(Map)wordsList.getAdapter().getItem(position);
 					dataDao.deleteUserFilter((Long)map.get("id"));
 					wordsList.setAdapter(getAdapter(FilterType.WORD));
 				}

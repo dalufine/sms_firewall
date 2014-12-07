@@ -39,21 +39,25 @@ public class ContentUtils{
 		return null;
 	}
 
-	public static String getFormatedPhoneNumber(String value){		
-		if(value.replaceAll("\\D", "").length()<6){
-			return value;
-		}
+	public static String getFormatedPhoneNumber(Context context, String value){		
 		try{
+			if(value.replaceAll("\\D", "").length()<9){
+				return value;
+			}
 			PhoneNumberUtil phoneUtil=PhoneNumberUtil.getInstance();
-			PhoneNumber phoneNumber=phoneUtil.parse(value, Locale.getDefault().getCountry());
-			value=phoneUtil.format(phoneNumber, PhoneNumberFormat.E164);
-			return value;
+			String region=Locale.getDefault().getCountry();
+			if(region==null||region.trim().length()==0){
+				region=Locale.getDefault().toString().toUpperCase(Locale.getDefault());
+			}
+			PhoneNumber phoneNumber=phoneUtil.parse(value, region);
+			value=phoneUtil.format(phoneNumber, PhoneNumberFormat.E164);			
 		}catch(Exception ex){
+			LogUtil.error(context, "getFormatedPhoneNumber: "+value, ex);
 		}
-		return null;
+		return value;
 	}
 
-	public static List<HashMap<String, Object>> getInboxSms(Context context){
+	public static List<HashMap<String, Object>> getInboxSms(Context context) throws Exception{
 		List<HashMap<String, Object>> list=new ArrayList<HashMap<String, Object>>();
 		Cursor cursor=context.getContentResolver().query(Uri.parse("content://sms/inbox"), new String[] { "address", "body", "date" }, null, null, null);
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -62,7 +66,7 @@ public class ContentUtils{
 			String number=cursor.getString(0);
 			String name=DictionaryUtils.getInstance().getContactsName(number);
 			sms.put(NAME, name!=null?name:number);
-			sms.put(NUMBER, getFormatedPhoneNumber(name!=null&&!name.equalsIgnoreCase(number)?number+" ":""));
+			sms.put(NUMBER, getFormatedPhoneNumber(context, name!=null&&!name.equalsIgnoreCase(number)?number+" ":""));
 			sms.put(PROC_NUMBER, number);
 			sms.put(TEXT, cursor.getString(1));
 			Long dateTime=cursor.getLong(2);
@@ -72,7 +76,7 @@ public class ContentUtils{
 		return list;
 	}
 
-	public static SimpleDateFormat getDateFormater(){		
+	public static SimpleDateFormat getDateFormater(){
 		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 	}
 
@@ -82,7 +86,7 @@ public class ContentUtils{
 
 	}
 
-	public static List<HashMap<String, Object>> getIncomeCalls(Context context){
+	public static List<HashMap<String, Object>> getIncomeCalls(Context context) throws Exception{
 		List<HashMap<String, Object>> list=new ArrayList<HashMap<String, Object>>();
 		Cursor cursor=context.getContentResolver().query(CallLog.Calls.CONTENT_URI, new String[] { "name", "number", "date", "duration" }, "type=?", new String[] { String.valueOf(CallLog.Calls.INCOMING_TYPE) }, null);
 		SimpleDateFormat sdf=new SimpleDateFormat(context.getString(R.string.default_datetime_format), Locale.getDefault());
@@ -91,7 +95,7 @@ public class ContentUtils{
 			String name=cursor.getString(0);
 			String number=cursor.getString(1);
 			calls.put(NAME, name!=null?name:number);
-			calls.put(NUMBER, getFormatedPhoneNumber(name!=null&&!name.equalsIgnoreCase(number)?number+" ":""));
+			calls.put(NUMBER, getFormatedPhoneNumber(context, name!=null&&!name.equalsIgnoreCase(number)?number+" ":""));
 			calls.put(PROC_NUMBER, number);
 			calls.put(DATE, sdf.format(new Date(cursor.getLong(2))));
 			calls.put(TEXT, secondsToTime(cursor.getInt(3)));

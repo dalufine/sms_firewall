@@ -23,17 +23,16 @@ public class MessageExampleDialog extends Dialog{
 	public MessageExampleDialog(final Activity activity, final TopFilter item, List<String> examples, final Handler handler){
 		super(activity, R.style.Dialog);
 		setOwnerActivity(activity);
-		View v=getLayoutInflater().inflate(R.layout.dialog_message_example, null);
-		setContentView(v);
+		setContentView(R.layout.dialog_message_example);
 		if(item.getType()==TopType.WORD){
-			((TextView)v.findViewById(R.id.header_ex)).setText(R.string.word_with_dots);
+			((TextView)findViewById(R.id.header_ex)).setText(R.string.word_with_dots);
 		}
-		((TextView)v.findViewById(R.id.phone_number_ex)).setText(item.getValue());
-		((TextView)v.findViewById(R.id.message_votes)).setText(""+item.getVotes());
-		((TextView)v.findViewById(R.id.message_position)).setText(""+item.getPos());
-		ListView messagesLisn=(ListView)v.findViewById(R.id.messages_ex);
+		((TextView)findViewById(R.id.phone_number_ex)).setText(item.getValue());
+		((TextView)findViewById(R.id.message_votes)).setText(""+item.getVotes());
+		((TextView)findViewById(R.id.message_position)).setText(""+item.getPos());
+		ListView messagesLisn=(ListView)findViewById(R.id.messages_ex);
 		messagesLisn.setAdapter(new ArrayAdapter<String>(activity, R.layout.item_examples, R.id.example_message, examples));
-		((Button)v.findViewById(R.id.close_btn)).setOnClickListener(new Button.OnClickListener(){
+		((Button)findViewById(R.id.close_btn)).setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
 				dismiss();

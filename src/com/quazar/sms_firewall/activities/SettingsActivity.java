@@ -21,9 +21,7 @@ public class SettingsActivity extends BaseActivity{
 	private DataDao dao;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState){
-		int a=1;
-		a=a/(a-1);
+	protected void onCreate(Bundle savedInstanceState){		
 		super.onCreate(savedInstanceState);		
 		setContentView(R.layout.activity_settings);
 		dao=new DataDao(this);
@@ -93,6 +91,6 @@ public class SettingsActivity extends BaseActivity{
 		String lang=langSpinner.getSelectedItem().toString().substring(1, 3);
 		LocaleUtils.setLanguage(this, lang, true);
 		onCreate(null);
-		MainActivity.localeChanged=true;
+		MainActivity.invalidate();
 	}
 }

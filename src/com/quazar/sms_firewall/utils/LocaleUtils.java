@@ -9,7 +9,7 @@ import com.quazar.sms_firewall.Param;
 
 public class LocaleUtils{
 	public static void setLanguage(Activity activity, String isoCode, boolean save){
-		Locale locale=new Locale(isoCode);
+		Locale locale=new Locale(isoCode.toUpperCase(Locale.getDefault()));		
 		Locale.setDefault(locale);
 		Configuration config=new Configuration();
 		config.locale=locale;

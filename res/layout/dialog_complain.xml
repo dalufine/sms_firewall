@@ -8,6 +8,7 @@
 
     <TextView
         style="@style/DialogHeaderText"
+        a:textSize="18sp"
         a:text="@string/complain_info_title" />
 
     <ScrollView
@@ -22,6 +23,7 @@
 
             <TextView
                 style="@style/PropertyTitleFont"
+                a:id="@+id/type_header"
                 a:text="@string/phone_number_with_dots" />
 
             <TextView
@@ -35,6 +37,7 @@
             <TextView
                 style="@style/PropertyTitleFont"
                 a:layout_marginTop="10dp"
+                a:id="@+id/message_example_header"
                 a:text="@string/message_example" />
 
             <TextView
@@ -47,6 +50,7 @@
             <TextView
                 style="@style/PropertyTitleFont"
                 a:layout_marginTop="10dp"
+                a:id="@+id/filter_category_header"
                 a:text="@string/filter_category" />
 
             <Spinner

@@ -23,12 +23,12 @@ public class SelectSourceDialog extends Dialog{
 
 	public SelectSourceDialog(final Context context, String title, final SelectListener<Integer> listener, final List<Integer> exclude){
 		super(context, R.style.Dialog);
+		setContentView(R.layout.list_source);
 		Collections.sort(exclude);
-		View v=getLayoutInflater().inflate(R.layout.list_source, null);
 		if(title!=null){
-			((TextView)v.findViewById(R.id.select_source_popup_title)).setText(title);
+			((TextView)findViewById(R.id.select_source_popup_title)).setText(title);
 		}
-		ListView listView=(ListView)v.findViewById(R.id.sources_list);
+		ListView listView=(ListView)findViewById(R.id.sources_list);
 		listView.setOnItemClickListener(new OnItemClickListener(){
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id){
@@ -43,7 +43,7 @@ public class SelectSourceDialog extends Dialog{
 		List<HashMap<String, Object>> sources=new ArrayList<HashMap<String, Object>>();
 
 		String[] texts=context.getResources().getStringArray(R.array.sources);
-		int[] icons= { R.drawable.contacts, R.drawable.inbox_sms, R.drawable.call, R.drawable.suspicious, R.drawable.top, R.drawable.enter_value, R.drawable.enter_value};
+		int[] icons= { R.drawable.contacts, R.drawable.inbox_sms, R.drawable.call, R.drawable.suspicious, R.drawable.top, R.drawable.enter_value, R.drawable.enter_value };
 
 		for(int i=0;i<texts.length;i++){
 			if(exclude.contains(i))
@@ -56,9 +56,8 @@ public class SelectSourceDialog extends Dialog{
 		SimpleAdapter adapter=new SimpleAdapter(context, sources, R.layout.item_source, new String[] { TEXT_KEY, ICON_KEY }, new int[] { R.id.item_text, R.id.item_icon });
 		listView.setAdapter(adapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		setContentView(v);
 	}
-	
+
 	public SelectSourceDialog(final Context context, final SelectListener<Integer> listener, final List<Integer> exclude){
 		this(context, null, listener, exclude);
 	}

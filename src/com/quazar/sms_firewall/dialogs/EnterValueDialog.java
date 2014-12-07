@@ -11,33 +11,37 @@ import android.widget.TextView;
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
 import com.quazar.sms_firewall.utils.ContentUtils;
+import com.quazar.sms_firewall.utils.LogUtil;
 
 public class EnterValueDialog extends Dialog{
 	protected DialogListener<String> listener;
 	protected EditText valueField;
 
-	public EnterValueDialog(Context context, String title, final int inputType, DialogListener<String> listener){
+	public EnterValueDialog(final Context context, String title, final int inputType, DialogListener<String> listener){
 		super(context, R.style.Dialog);
-		this.listener=listener;
-		View v=getLayoutInflater().inflate(R.layout.dialog_enter_value, null);
-		setContentView(v);
+		this.listener=listener;		
+		setContentView(R.layout.dialog_enter_value);
 		valueField=(EditText)findViewById(R.id.value_fileld);
 		valueField.setInputType(inputType);
-		((TextView)v.findViewById(R.id.value_title)).setText(title);
-		((Button)v.findViewById(R.id.ok_btn)).setOnClickListener(new Button.OnClickListener(){
+		((TextView)findViewById(R.id.value_title)).setText(title);
+		((Button)findViewById(R.id.ok_btn)).setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
 				String value=valueField.getText().toString().trim();
 				if(isValidValue(value)){
 					if(inputType==InputType.TYPE_CLASS_PHONE){
-						value=ContentUtils.getFormatedPhoneNumber(value);
+						try{
+							value=ContentUtils.getFormatedPhoneNumber(context, value);
+						}catch(Exception ex){
+							LogUtil.error(context, "EnterValueDialog", ex);
+						}
 					}
 					EnterValueDialog.this.listener.ok(value);
 					dismiss();
 				}
 			}
 		});
-		((Button)v.findViewById(R.id.cancel_btn)).setOnClickListener(new Button.OnClickListener(){
+		((Button)findViewById(R.id.cancel_btn)).setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
 				EnterValueDialog.this.listener.cancel();

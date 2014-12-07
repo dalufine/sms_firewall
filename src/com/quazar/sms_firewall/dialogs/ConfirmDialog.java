@@ -14,19 +14,18 @@ public class ConfirmDialog extends Dialog{
 
 	public ConfirmDialog(Context context, String title, String question, DialogListener<Boolean> listener){
 		super(context, R.style.Dialog);
-		this.listener=listener;
-		View v=getLayoutInflater().inflate(R.layout.dialog_confirm, null);
-		setContentView(v);
+		this.listener=listener;		
+		setContentView(R.layout.dialog_confirm);
 		((TextView)findViewById(R.id.title)).setText(title);
 		((TextView)findViewById(R.id.question)).setText(question);
-		((Button)v.findViewById(R.id.ok_btn)).setOnClickListener(new Button.OnClickListener(){
+		((Button)findViewById(R.id.ok_btn)).setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
 				ConfirmDialog.this.listener.ok(true);
 				dismiss();
 			}
 		});
-		((Button)v.findViewById(R.id.cancel_btn)).setOnClickListener(new Button.OnClickListener(){
+		((Button)findViewById(R.id.cancel_btn)).setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
 				ConfirmDialog.this.listener.cancel();

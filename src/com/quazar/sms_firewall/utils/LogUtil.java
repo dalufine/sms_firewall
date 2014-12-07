@@ -27,7 +27,7 @@ public class LogUtil {
 		Log.e("debug", comment);
 	}
 
-	private static String toString(Exception ex) {
+	public static String toString(Exception ex) {
 		StringWriter sw = null;
 		PrintWriter pw = null;
 		try {

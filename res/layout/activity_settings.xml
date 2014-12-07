@@ -46,7 +46,7 @@
                 a:id="@+id/sync_on"
                 a:layout_width="match_parent"
                 a:layout_height="wrap_content"
-                a:gravity="center|left"                
+                a:gravity="center|left"
                 a:text="@string/sync_on" />
 
             <CheckBox
@@ -54,9 +54,8 @@
                 a:layout_width="match_parent"
                 a:layout_height="wrap_content"
                 a:layout_marginTop="10dp"
-                a:gravity="center|left"                
+                a:gravity="center|left"
                 a:text="@string/top_filter_on" />
-            
         </LinearLayout>
 
         <LinearLayout
@@ -78,16 +77,16 @@
                 <Button
                     style="@style/BlackButton"
                     a:layout_width="wrap_content"
-                    a:onClick="onClearLogs"                    
+                    a:onClick="onClearLogs"
                     a:text="@string/clear_logs" />
 
                 <Button
                     style="@style/BlackButton"
                     a:layout_width="wrap_content"
-                    a:ellipsize="end"
-                    a:lines="1"
                     a:layout_marginLeft="10dp"
-                    a:onClick="onResetLogsPassword"
+                    a:ellipsize="end"              
+                    a:singleLine="true"      
+                    a:onClick="onResetLogsPassword"                    
                     a:text="@string/reset_logs_password" />
             </LinearLayout>
         </LinearLayout>

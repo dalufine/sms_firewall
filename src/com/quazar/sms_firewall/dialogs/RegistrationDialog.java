@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,6 +17,7 @@ import com.quazar.sms_firewall.Param;
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.ResponseCodes;
 import com.quazar.sms_firewall.network.ApiService;
+import com.quazar.sms_firewall.utils.LogUtil;
 
 public class RegistrationDialog extends Dialog{
 	private CheckBox useSync, useEmail, sendSuspicious;
@@ -25,13 +25,12 @@ public class RegistrationDialog extends Dialog{
 
 	public RegistrationDialog(final Context context){
 		super(context, R.style.Dialog);
-		final View v=getLayoutInflater().inflate(R.layout.dialog_registration, null);
-		setContentView(v);
-		useSync=(CheckBox)v.findViewById(R.id.syncFilters);
-		useEmail=(CheckBox)v.findViewById(R.id.useEmail);
-		sendSuspicious=(CheckBox)v.findViewById(R.id.sendSuspicious);
-		userEmail=(EditText)v.findViewById(R.id.userEmail);
-		logsPassword=(EditText)v.findViewById(R.id.logsPassword);
+		setContentView(R.layout.dialog_registration);
+		useSync=(CheckBox)findViewById(R.id.syncFilters);
+		useEmail=(CheckBox)findViewById(R.id.useEmail);
+		sendSuspicious=(CheckBox)findViewById(R.id.sendSuspicious);
+		userEmail=(EditText)findViewById(R.id.userEmail);
+		logsPassword=(EditText)findViewById(R.id.logsPassword);
 		useSync.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
@@ -44,7 +43,7 @@ public class RegistrationDialog extends Dialog{
 				userEmail.setEnabled(isChecked);
 			}
 		});
-		((Button)v.findViewById(R.id.saveReg)).setOnClickListener(new Button.OnClickListener(){
+		((Button)findViewById(R.id.saveReg)).setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
 				boolean hasError=false;
@@ -71,7 +70,7 @@ public class RegistrationDialog extends Dialog{
 				if(!hasError){
 					Toast.makeText(context, context.getResources().getString(R.string.registration_thanks), Toast.LENGTH_SHORT).show();
 					Param.SEND_SUSPICIOUS.setValue(sendSuspicious.isChecked());
-					Param.IS_NEW.setValue(false);										
+					Param.IS_NEW.setValue(false);
 					final ApiService api=new ApiService(context);
 					try{
 						api.register(new Handler(){
@@ -82,18 +81,17 @@ public class RegistrationDialog extends Dialog{
 									try{
 										int errorCode=data.getInt("code");
 										if(errorCode==ResponseCodes.USER_ALREADY_REGISTERED.getCode()){
-											api.loadUserFilters();											
+											api.loadUserFilters();
 										}
 										api.loadTops(null);
 									}catch(Exception ex){
-										Log.e("json error", ex.toString());
+										LogUtil.error(context, "RegistrationDialog", ex);
 									}
 								}
 							}
 						});
-					}catch(Exception e){						
-						Log.e("registration", e.toString());
-						e.printStackTrace();
+					}catch(Exception ex){
+						LogUtil.error(context, "RegistrationDialog", ex);
 					}
 					RegistrationDialog.this.dismiss();
 				}else{

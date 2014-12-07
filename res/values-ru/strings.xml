@@ -21,6 +21,7 @@
     <string name="select_source_popup_title">Выберите источник</string>
     <string name="select_source_to_check">Выберите ситочник сообшения для проверки</string>
     <string name="select_sms_to_complain">Выберите sms для жалобы</string>
+    <string name="type_word_to_complain">Введите слово для жалобы</string>
     <string name="select_sms_for_example">Выберите пример sms</string>
     <string name="wifi_connect_error">Wi-fi не выполнено</string>
     <string name="inbox_sms">Входящие SMS</string>
@@ -34,9 +35,9 @@
     <string name="enter_word">Введите слово</string>
     <string name="enter_phone_number">Введите номер телефона</string>
     <string name="enter_value_warning">Пожалуйста, введите значение!</string>
-    <string name="blocked">Заблокированные</string>
-    <string name="suspicious">Подозрительные</string>
-    <string name="filtered">Проверенные</string>
+    <string name="blocked">Заблокированные (%d)</string>
+    <string name="suspicious">Подозрительные (%d)</string>
+    <string name="filtered">Проверенные (%d)</string>
     <string name="journal">Журнал</string>
     <string name="frauds">Мошенники</string>
     <string name="spam">Спам</string>

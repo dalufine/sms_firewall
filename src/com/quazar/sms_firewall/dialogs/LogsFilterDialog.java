@@ -18,18 +18,17 @@ import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.dao.DataDao;
 import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
 import com.quazar.sms_firewall.models.LogFilter;
+import com.quazar.sms_firewall.utils.LogUtil;
 
 public class LogsFilterDialog extends Dialog{
-	private DialogListener<LogFilter> listener;
-	private View view;
+	private DialogListener<LogFilter> listener;	
 	private LogFilter filter=new LogFilter();
 
-	public LogsFilterDialog(final Context context, DialogListener<LogFilter> listener){
+	public LogsFilterDialog(final Context context, DialogListener<LogFilter> listener) throws Exception{
 		super(context, R.style.Dialog);
-		this.listener=listener;
-		view=getLayoutInflater().inflate(R.layout.dialog_logs_filter, null);
-		setContentView(view);
-		final Spinner senderSelect=(Spinner)view.findViewById(R.id.sender);
+		this.listener=listener;		
+		setContentView(R.layout.dialog_logs_filter);
+		final Spinner senderSelect=(Spinner)findViewById(R.id.sender);
 		DataDao dao=new DataDao(context);
 		List<String> senders=null;
 		try{
@@ -41,7 +40,7 @@ public class LogsFilterDialog extends Dialog{
 		}
 		senders.add(0, "");
 		senderSelect.setAdapter(new ArrayAdapter<String>(context, R.layout.item_spinner, R.id.spinner_list_value, senders));
-		final EditText dateFromField=(EditText)view.findViewById(R.id.dateFrom), dateToField=(EditText)view.findViewById(R.id.dateTo), bodyField=((EditText)view.findViewById(R.id.bodyContains));
+		final EditText dateFromField=(EditText)findViewById(R.id.dateFrom), dateToField=(EditText)findViewById(R.id.dateTo), bodyField=((EditText)findViewById(R.id.bodyContains));
 		String localSdf=((SimpleDateFormat)SimpleDateFormat.getDateInstance()).toLocalizedPattern();
 		dateFromField.setHint(localSdf);
 		dateToField.setHint(localSdf);
@@ -89,7 +88,7 @@ public class LogsFilterDialog extends Dialog{
 		if(filter.getTo()!=null){
 			dateToField.setText(SimpleDateFormat.getDateInstance().format(filter.getTo()));
 		}
-		((Button)view.findViewById(R.id.okLogFilterBtn)).setOnClickListener(new Button.OnClickListener(){
+		((Button)findViewById(R.id.okLogFilterBtn)).setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
 				String phoneName=senderSelect.getSelectedItem().toString().trim(), dateFrom=dateFromField.getText().toString().trim(), dateTo=dateToField.getText().toString().trim(), bodyLike=
@@ -102,7 +101,7 @@ public class LogsFilterDialog extends Dialog{
 				dismiss();
 			}
 		});
-		((Button)view.findViewById(R.id.resetLogFilterBtn)).setOnClickListener(new Button.OnClickListener(){
+		((Button)findViewById(R.id.resetLogFilterBtn)).setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
 				resetFilter();
@@ -112,7 +111,7 @@ public class LogsFilterDialog extends Dialog{
 				bodyField.setText(null);
 			}
 		});
-		((Button)view.findViewById(R.id.cancelLogFilterBtn)).setOnClickListener(new Button.OnClickListener(){
+		((Button)findViewById(R.id.cancelLogFilterBtn)).setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
 				cancel();
@@ -126,7 +125,9 @@ public class LogsFilterDialog extends Dialog{
 		if(val.length()>0){
 			try{
 				cal.setTime(SimpleDateFormat.getDateInstance().parse(val));
-			}catch(Exception ex){}
+			}catch(Exception ex){
+				LogUtil.error(context, "setDateToEditText", ex);
+			}
 		}
 		DatePickerDialog dpd=new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener(){
 			@Override

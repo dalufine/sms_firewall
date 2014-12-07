@@ -12,7 +12,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Message;
 import android.text.InputType;
@@ -42,11 +41,11 @@ public class DialogUtils{
 		}).show();
 	}
 
-	public static void showSourceSelectPopup(final Activity activity, List<Integer> exclude, final Handler handler){
+	public static void showSourceSelectPopup(final Activity activity, List<Integer> exclude, final Handler handler) throws Exception{
 		showSourceSelectPopup(activity, null, exclude, handler);
 	}
 
-	public static void showSmsSelectDialog(Activity activity, int titleStringId, final Handler handler){
+	public static void showSmsSelectDialog(Activity activity, int titleStringId, final Handler handler) throws Exception{
 		final List<HashMap<String, Object>> sms=ContentUtils.getInboxSms(activity);
 		if(!sms.isEmpty()){
 			SelectListItemDialog smsPopup=new SelectListItemDialog(activity, activity.getResources().getString(titleStringId), sms, new SelectListener<HashMap<String, Object>>(){
@@ -65,7 +64,7 @@ public class DialogUtils{
 		}
 	}
 
-	public static void showCallSelectDialog(Activity activity, final Handler handler){
+	public static void showCallSelectDialog(Activity activity, final Handler handler) throws Exception{
 		final List<HashMap<String, Object>> sources=ContentUtils.getIncomeCalls(activity);
 		if(!sources.isEmpty()){
 			SelectListItemDialog callsPopup=new SelectListItemDialog(activity, activity.getResources().getString(R.string.income_calls), sources, new SelectListener<HashMap<String, Object>>(){
@@ -84,7 +83,7 @@ public class DialogUtils{
 		}
 	}
 
-	public static void showSuspiciousSelectDialog(Activity activity, final Handler handler){
+	public static void showSuspiciousSelectDialog(Activity activity, final Handler handler) throws Exception{
 		DataDao dao=new DataDao(activity);
 		List<SmsLogItem> list=dao.getLogs(LogStatus.SUSPICIOUS, null, 0, 1);
 		if(list.isEmpty()){
@@ -134,7 +133,7 @@ public class DialogUtils{
 		evd.show();
 	}
 
-	public static void showSourceSelectPopup(final Activity activity, String title, List<Integer> exclude, final Handler handler){
+	public static void showSourceSelectPopup(final Activity activity, String title, List<Integer> exclude, final Handler handler) throws Exception{
 		SelectSourceDialog sourceSelect=new SelectSourceDialog(activity, title, new SelectListener<Integer>(){
 			@Override
 			public void recieveSelection(Integer selection){
@@ -164,6 +163,8 @@ public class DialogUtils{
 						default:
 							break;
 					}
+				}catch(Exception ex){
+					LogUtil.error(activity, "showSourceSelectPopup", ex);
 				}finally{
 					if(dao!=null){
 						dao.close();
@@ -183,7 +184,7 @@ public class DialogUtils{
 	}
 
 	public static void showInfoDialog(Context context, String title, String info){
-		AlertDialog dialog=new AlertDialog.Builder(context).setIcon(android.R.drawable.ic_dialog_info).setTitle(title).setMessage(info).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener(){
+		new AlertDialog.Builder(context).setIcon(android.R.drawable.ic_dialog_info).setTitle(title).setMessage(info).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener(){
 			@Override
 			public void onClick(DialogInterface dialog, int which){
 				dialog.dismiss();
