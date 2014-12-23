@@ -62,15 +62,13 @@ public class ApiService extends JSONClient{
 				}
 			}
 		};
-		return sendOrRequestConnection(String.format("/service/users/filters?user_id=%s&password=%s", getUserId(),
-				getUserPassword()), null, handler);
+		return sendOrRequestConnection(String.format("/service/users/filters?user_id=%s", getUserId()), null, handler);
 	}
 
 	//use at registration and periodically sync on active connection event
 	public boolean saveUserFiltersToServer(List<UserFilter> filters, Handler handler) throws Exception{
 		JSONObject data = new JSONObject();
-		data.put("user_id", getUserId());
-		data.put("password", getUserPassword());
+		data.put("user_id", getUserId());		
 		JSONArray array = new JSONArray();
 		for (UserFilter f:filters) {
 			array.put(f.toJSON());
@@ -282,20 +280,12 @@ public class ApiService extends JSONClient{
 	}
 
 	private String getUserPassword(){
-		Object password = Param.LOGS_PASSWORD.getValue();
+		Object password = Param.PASSWORD.getValue();
 		if (password != null)
 			return (String) password;
 		return null;
 	}
-
-	private String getUserId(){
-		String id = null;
-		Object email = Param.USER_EMAIL.getValue();
-		if (email != null && ((String) email).trim().length() != 0)
-			id = (String) email;
-		else id = DeviceInfoUtil.getIMEI(context);
-		return id;
-	}
+	
 
 	// ------------------Sync---------------------------------
 	public boolean sync() throws Exception{

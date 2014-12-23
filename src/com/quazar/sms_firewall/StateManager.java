@@ -24,7 +24,7 @@ public class StateManager{
 	}
 	// 
 	public static void showLogs(final Activity activity){
-		EnterPasswordDialog dialog=new EnterPasswordDialog(activity, (String)Param.LOGS_PASSWORD.getValue(), new DialogListener<String>(){
+		EnterPasswordDialog dialog=new EnterPasswordDialog(activity, (String)Param.PASSWORD.getValue(), new DialogListener<String>(){
 			@Override
 			public void ok(String value){				
 				Intent intent=new Intent(activity, LogsActivity.class);

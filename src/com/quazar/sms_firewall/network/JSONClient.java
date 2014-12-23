@@ -5,8 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.security.MessageDigest;
+import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -22,12 +21,12 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Base64;
 import android.util.Log;
 
 import com.quazar.sms_firewall.Param;
 import com.quazar.sms_firewall.utils.DeviceInfoUtil;
 import com.quazar.sms_firewall.utils.LogUtil;
+import com.quazar.sms_firewall.utils.Utils;
 
 public class JSONClient{
 
@@ -78,6 +77,8 @@ public class JSONClient{
 			DefaultHttpClient httpclient = new DefaultHttpClient();
 			String url = PROTOCOL + "://" + HOST + serviceUrl;
 			HttpGet httpGet = new HttpGet(url);
+			httpGet.setHeader("Hash", getHash(serviceUrl));
+			httpGet.setHeader("UserID", getUserId());
 			HttpResponse response = (HttpResponse) httpclient.execute(httpGet);
 			HttpEntity entity = response.getEntity();
 			if (entity != null) {
@@ -92,15 +93,23 @@ public class JSONClient{
 		}
 		return null;
 	}
+	
+	protected String getUserId(){
+		String id = null;
+		Object email = Param.USER_EMAIL.getValue();
+		if (email != null && ((String) email).trim().length() != 0)
+			id = (String) email;
+		else id = DeviceInfoUtil.getIMEI(context);
+		return id;
+	}
 
 	protected JSONObject post(String serviceUrl, JSONObject data){
 		try {
-			if (data != null) {
-				data.put("hash", getHash(data));
-			}
 			HttpClient httpclient = new DefaultHttpClient();
 			String url = PROTOCOL + "://" + HOST + serviceUrl;
 			HttpPost httpPost = new HttpPost(url);
+			httpPost.setHeader("Hash", getHash(data.toString()));
+			httpPost.setHeader("UserID", getUserId());
 			httpPost.setEntity(new StringEntity(data.toString(), "UTF-8"));
 			httpPost.setHeader("Content-type", "application/json;charset=UTF-8");
 			HttpResponse response = httpclient.execute(httpPost);
@@ -118,13 +127,10 @@ public class JSONClient{
 		return null;
 	}
 
-	private String getHash(JSONObject obj) throws Exception{
-		StringBuilder sb = new StringBuilder(obj.toString());
-		sb.append(Param.LOGS_PASSWORD.getValue());
-		sb.append(DeviceInfoUtil.getIMEI(context));
-		byte[] md5 = MessageDigest.getInstance("MD5").digest(sb.toString().getBytes("UTF-8"));
-		md5 = Base64.encode(md5, Base64.DEFAULT);
-		return new String(md5);
+	private String getHash(String str) throws Exception{
+		StringBuilder sb = new StringBuilder(str.toLowerCase(Locale.getDefault()).replaceAll("\\s", ""));
+		sb.append(Param.PASSWORD.getValue());
+		return Utils.md5AsBase64String(sb.toString());
 	}
 
 	// =================Async calls========================
@@ -176,11 +182,5 @@ public class JSONClient{
 			return sb.toString();
 		}
 		return "";
-	}
-
-	@SuppressWarnings("unused")
-	private String encodeString(String source) throws Exception{
-		byte[] bytes = Base64.encode(source.getBytes("UTF-8"), Base64.DEFAULT);
-		return URLEncoder.encode(new String(bytes, "UTF-8"), "UTF-8");
 	}
 }

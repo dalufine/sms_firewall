@@ -14,6 +14,7 @@
         <TextView
             a:id="@+id/registration_text"
             style="@style/DialogHeaderText"
+            a:gravity="center_horizontal"
             a:text="@string/registration_welcome" />
 
         <LinearLayout
@@ -81,6 +82,7 @@
                 a:layout_width="match_parent"
                 a:layout_height="wrap_content"
                 a:checked="true"
+                a:lines="2"
                 a:text="@string/send_suspicious" />
         </LinearLayout>
 
