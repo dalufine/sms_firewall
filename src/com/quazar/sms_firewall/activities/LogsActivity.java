@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.dao.DataDao;
+import com.quazar.sms_firewall.dialogs.HelpDialog.Window;
 import com.quazar.sms_firewall.dialogs.LogsFilterDialog;
 import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
 import com.quazar.sms_firewall.models.LogFilter;
@@ -42,6 +43,7 @@ public class LogsActivity extends BaseActivity implements OnScrollListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		this.windowType=Window.LOGS;
 		setContentView(R.layout.activity_logs);
 		tabHost = (TabHost) findViewById(R.id.logs_tabhost);
 		tabHost.setup();

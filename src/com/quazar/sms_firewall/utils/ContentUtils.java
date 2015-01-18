@@ -47,7 +47,7 @@ public class ContentUtils{
 			PhoneNumberUtil phoneUtil=PhoneNumberUtil.getInstance();
 			String region=Locale.getDefault().getCountry();
 			if(region==null||region.trim().length()==0){
-				region=Locale.getDefault().toString().toUpperCase(Locale.getDefault());
+				region=Locale.US.getCountry();
 			}
 			PhoneNumber phoneNumber=phoneUtil.parse(value, region);
 			value=phoneUtil.format(phoneNumber, PhoneNumberFormat.E164);			

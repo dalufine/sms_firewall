@@ -21,6 +21,7 @@ import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.ResponseCodes;
 import com.quazar.sms_firewall.StateManager;
 import com.quazar.sms_firewall.dao.DataDao;
+import com.quazar.sms_firewall.dialogs.HelpDialog;
 import com.quazar.sms_firewall.dialogs.RegistrationDialog;
 import com.quazar.sms_firewall.dialogs.SelectSourceDialog;
 import com.quazar.sms_firewall.models.UserFilter.FilterType;
@@ -98,7 +99,8 @@ public class MainActivity extends Activity{
 	}
 
 	public void onHelpClick(View v){
-
+		HelpDialog dialog=new HelpDialog(this, HelpDialog.Window.MAIN);
+		dialog.show();
 	}
 
 	public void onPhoneNumberClick(View v){

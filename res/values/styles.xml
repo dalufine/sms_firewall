@@ -85,6 +85,16 @@
         <item name="android:textColor">#FFF887</item>
         <item name="android:textSize">14sp</item>
     </style>
+    
+    <style name="HelpFont" parent="StatisticsFont">        
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:layout_marginLeft">15dp</item>        
+    </style>
+    
+    <style name="HelpFontSmall" parent="HelpFont">        
+        <item name="android:textSize">10sp</item>        
+    </style>
 
     <style name="FilterListItemFont" parent="ListDateFont">
         <item name="android:textSize">16sp</item>
@@ -207,6 +217,14 @@
         <item name="android:orientation">horizontal</item>
         <item name="android:layout_margin">10dp</item>
         <item name="android:layout_height">0px</item>
+    </style>
+    
+    <style name="HelpItemLayout">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="Logo">

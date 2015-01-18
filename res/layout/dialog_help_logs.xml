@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@+id/help_layout"
+    a:layout_width="match_parent"
+    a:layout_height="match_parent"
+    a:gravity="center_horizontal"
+    a:minWidth="250dp"
+    a:orientation="vertical"
+    a:padding="5dp" >
+
+    <TextView        
+        style="@style/DialogHeaderText"
+        a:layout_marginBottom="10dp"
+        a:text="@string/help_logs" />
+
+    <ScrollView
+        a:layout_width="match_parent"
+        a:layout_height="match_parent"
+        a:padding="0dp" >
+
+        <LinearLayout
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:orientation="vertical" >
+
+            <LinearLayout style="@style/HelpItemLayout" >
+
+                <ImageButton
+                    style="@style/BackButton"
+                    a:contentDescription="@string/default_text"/>                
+
+                <TextView
+                    style="@style/HelpFont"
+                    a:text="@string/back_button_help" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/HelpItemLayout" >
+
+                <ImageButton
+                    style="@style/LogFilterButton"
+                    a:layout_marginLeft="0dp"
+                    a:contentDescription="@string/default_text"/>
+
+                <TextView
+                    style="@style/HelpFont"
+                    a:text="@string/filter_wnd_button_help" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/HelpItemLayout" >
+
+                 <ImageButton
+                    style="@style/ResetButton"
+                    a:layout_marginLeft="0dp"
+                    a:contentDescription="@string/default_text"/>
+
+                <TextView
+                    style="@style/HelpFont"
+                    a:text="@string/reset_filter_button_help" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/HelpItemLayout" >
+
+                <ImageButton
+                    style="@style/ClearButton"
+                    a:layout_marginLeft="0dp"
+                    a:contentDescription="@string/default_text"/>
+
+                <TextView
+                    style="@style/HelpFont"
+                    a:text="@string/clear_button_help" />
+            </LinearLayout>           
+
+            <TextView
+                style="@style/HelpFont"
+                a:text="@string/logs_help" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -29,6 +29,7 @@ import com.quazar.sms_firewall.dao.DataDao;
 import com.quazar.sms_firewall.dialogs.ComplainDialog;
 import com.quazar.sms_firewall.dialogs.MessageExampleDialog;
 import com.quazar.sms_firewall.dialogs.SelectSourceDialog;
+import com.quazar.sms_firewall.dialogs.HelpDialog.Window;
 import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
 import com.quazar.sms_firewall.models.TopFilter;
 import com.quazar.sms_firewall.models.TopFilter.TopCategory;
@@ -48,9 +49,8 @@ public class TopsActivity extends BaseActivity{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
-//		int a = 1;//TODO remove
-//		a = a / (a - 1);
 		super.onCreate(savedInstanceState);
+		this.windowType=Window.TOPS;
 		setContentView(R.layout.activity_tops);
 		tabHost = (TabHost) findViewById(R.id.tops_tabhost);
 		tabHost.setup();

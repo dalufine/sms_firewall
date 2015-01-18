@@ -4,6 +4,34 @@
     <string name="default_text">default</string>
     <string name="default_text_long">default default default default default default default default default default default default default default default default default default default default default default default default default default default default</string>
     <string name="default_datetime_format">yyyy-MM-dd HH:mm:ss</string>
+    <!-- Help -->
+    <string name="help_main">Main screen help</string>
+    <string name="filters_button_help">Press to see your filters</string>
+    <string name="logs_button_help">Press to see your sms logs. Needs registration password for access.</string>
+    <string name="settings_button_help">Press to go to app setting</string>
+    <string name="tops_button_help">Press to see tops of sms frauders, spam and words</string>
+    <string name="fast_phone_number_filter_help">Fast add of phone number filter</string>
+    <string name="fast_word_filter_help">Fast add of word filter</string>
+    <string name="main_help">There are also statastics on main screen. Your can reset it in settings. Use menu button on other screens to open help. Press back button to close this window.</string>
+    
+    <string name="help_filters">Filters screen help</string>
+    <string name="back_button_help">Press to go back to main screen</string>
+    <string name="add_button_help">Press to add new word/phone number filter(depends on currently selected tab)</string>
+    <string name="clear_button_help">Press to clear all filters on current tab</string>
+    <string name="filters_help">Filters screen has two tabs with phone number filters and word filter. Your can delete every item in the list by pressing bin button.</string>
+    
+    <string name="help_logs">Logs screen help</string>    
+    <string name="filter_wnd_button_help">Press to open logs filter window</string>
+    <string name="reset_filter_button_help">Press to reset current logs filter</string>    
+    <string name="logs_help">Logs screen has two tabs with passed sms, blocked sms and suspicious sms. Suspicious sms are sms which match top 100 filters, but your receive them with warning message from app. Your can tap on every item to see details.</string>
+    
+    <string name="help_tops">Tops screen help</string>    
+    <string name="check_button_help">Press to check your sms</string>
+    <string name="complain_button_help">Press to complain sms</string>    
+    <string name="add_all_button_help">Press to add all filters from current tab</string>
+    <string name="tops_help">Tops screen has three tabs with frauders, spam and words tops. You can add each of these filters. When you tap on one of the filters you can see datails of this filter and examples of messages. Server saves three last message examples. Also you can vote for filters one time per 24 hours.</string>
+    
+    <!-- Help end -->
     <string name="default_numbers">0123456789</string>
     <string name="app_name">Sms Firewall</string>
     <string name="crash_report">Crash report</string>
@@ -12,7 +40,7 @@
     <string name="stat_suspicious">Suspicious SMS: %d</string>
     <string name="stat_recieved">Received SMS: %d</string>    
     <string name="stat_last_sync">Last server sync: %s</string>
-    <string name="word">Word</string>
+    <string name="word">Word</string>    
     <string name="phone_number">Phone number</string>
     <string name="word_with_dots">Word:</string>
     <string name="phone_number_with_dots">Phone number:</string>

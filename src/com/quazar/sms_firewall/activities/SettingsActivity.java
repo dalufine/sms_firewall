@@ -10,6 +10,7 @@ import com.quazar.sms_firewall.Param;
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.dao.DataDao;
 import com.quazar.sms_firewall.dialogs.EnterPasswordDialog;
+import com.quazar.sms_firewall.dialogs.HelpDialog.Window;
 import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
 import com.quazar.sms_firewall.utils.DialogUtils;
 import com.quazar.sms_firewall.utils.LocaleUtils;
@@ -26,6 +27,7 @@ public class SettingsActivity extends BaseActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		this.windowType=Window.SETTINGS;
 		setContentView(R.layout.activity_settings);
 		dao = new DataDao(this);
 		langSpinner = ((Spinner) findViewById(R.id.language_select));

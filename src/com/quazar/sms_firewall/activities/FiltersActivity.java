@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -20,6 +21,8 @@ import android.widget.TabHost;
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.StateManager;
 import com.quazar.sms_firewall.dao.DataDao;
+import com.quazar.sms_firewall.dialogs.HelpDialog;
+import com.quazar.sms_firewall.dialogs.HelpDialog.Window;
 import com.quazar.sms_firewall.dialogs.SelectSourceDialog;
 import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
 import com.quazar.sms_firewall.models.UserFilter;
@@ -38,6 +41,7 @@ public class FiltersActivity extends BaseActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		this.windowType=Window.FILTERS;
 		setContentView(R.layout.activity_filters);
 		tabHost=(TabHost)findViewById(R.id.filters_tabhost);
 		tabHost.setup();
@@ -167,5 +171,5 @@ public class FiltersActivity extends BaseActivity{
 			@Override
 			public void cancel(){}
 		});
-	}
+	}	
 }
