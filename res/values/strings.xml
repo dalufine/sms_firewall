@@ -31,6 +31,11 @@
     <string name="add_all_button_help">Press to add all filters from current tab</string>
     <string name="tops_help">Tops screen has three tabs with frauders, spam and words tops. You can add each of these filters. When you tap on one of the filters you can see datails of this filter and examples of messages. Server saves three last message examples. Also you can vote for filters one time per 24 hours.</string>
     
+    <string name="help_settings">Settings screen help</string>    
+    <string name="save_button_help">Press to save settings</string>
+    <string name="settings_help">On this screen you can change app language, on/off server synchronization of filters, on/off usage of top 100 filters, clear sms logs or reset statistics.</string>    
+    
+    
     <!-- Help end -->
     <string name="default_numbers">0123456789</string>
     <string name="app_name">Sms Firewall</string>

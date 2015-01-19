@@ -8,8 +8,7 @@
     a:orientation="vertical"
     a:padding="5dp" >
 
-    <TextView
-        a:id="@+id/help_title"
+    <TextView        
         style="@style/DialogHeaderText"
         a:layout_marginBottom="10dp"
         a:text="@string/help_tops" />

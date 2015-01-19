@@ -9,15 +9,14 @@
     a:padding="5dp" >
 
     <TextView
-        a:id="@+id/help_title"
         style="@style/DialogHeaderText"
         a:layout_marginBottom="10dp"
-        a:text="@string/help_filters" />
+        a:text="@string/help_settings" />
 
     <ScrollView
         a:layout_width="match_parent"
         a:layout_height="match_parent"
-        a:padding="0dp">
+        a:padding="0dp" >
 
         <LinearLayout
             a:layout_width="match_parent"
@@ -27,79 +26,29 @@
             <LinearLayout style="@style/HelpItemLayout" >
 
                 <ImageButton
-                    style="@style/FiltersButton"
-                    a:contentDescription="@string/default_text" />
+                    style="@style/BackButton"
+                    a:contentDescription="@string/default_text"/>                
 
                 <TextView
                     style="@style/HelpFont"
-                    a:text="@string/filters_button_help" />
+                    a:text="@string/back_button_help" />
             </LinearLayout>
-
+            
             <LinearLayout style="@style/HelpItemLayout" >
 
                 <ImageButton
-                    style="@style/LogButton"
+                    style="@style/OkButton"
                     a:layout_marginLeft="0dp"
-                    a:contentDescription="@string/logs_button_help" />
+                    a:contentDescription="@string/default_text"/>
 
                 <TextView
                     style="@style/HelpFont"
-                    a:text="@string/logs_button_help" />
-            </LinearLayout>
-
-            <LinearLayout style="@style/HelpItemLayout" >
-
-                <ImageButton
-                    style="@style/TopButton"
-                    a:layout_marginLeft="0dp"
-                    a:contentDescription="@string/tops_button_help" />
-
-                <TextView
-                    style="@style/HelpFont"
-                    a:text="@string/tops_button_help" />
-            </LinearLayout>
-
-            <LinearLayout style="@style/HelpItemLayout" >
-
-                <ImageButton
-                    style="@style/SettingsButton"
-                    a:layout_marginLeft="0dp"
-                    a:contentDescription="@string/settings_button_help" />
-
-                <TextView
-                    style="@style/HelpFont"
-                    a:text="@string/settings_button_help" />
-            </LinearLayout>
-
-            <LinearLayout style="@style/HelpItemLayout" >
-
-                <Button
-                    a:id="@+id/fast_phone_number"
-                    style="@style/ImageButtonWithText"
-                    a:drawableLeft="@drawable/phone_number_type_selector"
-                    a:text="@string/phone_number" />
-
-                <TextView
-                    style="@style/HelpFont"
-                    a:text="@string/fast_phone_number_filter_help" />
-            </LinearLayout>
-
-            <LinearLayout style="@style/HelpItemLayout" >
-
-                <Button
-                    a:id="@+id/fast_word"
-                    style="@style/ImageButtonWithText"
-                    a:drawableLeft="@drawable/word_type"
-                    a:text="@string/word" />
-
-                <TextView
-                    style="@style/HelpFont"
-                    a:text="@string/fast_word_filter_help" />
-            </LinearLayout>
+                    a:text="@string/save_button_help" />
+            </LinearLayout>           
 
             <TextView
                 style="@style/HelpFont"
-                a:text="@string/main_help" />
+                a:text="@string/settings_help" />
         </LinearLayout>
     </ScrollView>
 
