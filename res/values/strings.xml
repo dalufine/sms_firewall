@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!-- Default values -->
     <string name="default_text">default</string>
     <string name="default_text_long">default default default default default default default default default default default default default default default default default default default default default default default default default default default default</string>
     <string name="default_datetime_format">yyyy-MM-dd HH:mm:ss</string>
+    <string name="default_numbers">0123456789</string>
     <!-- Help -->
     <string name="help_main">Main screen help</string>
     <string name="filters_button_help">Press to see your filters</string>
@@ -23,7 +24,7 @@
     <string name="help_logs">Logs screen help</string>    
     <string name="filter_wnd_button_help">Press to open logs filter window</string>
     <string name="reset_filter_button_help">Press to reset current logs filter</string>    
-    <string name="logs_help">Logs screen has two tabs with passed sms, blocked sms and suspicious sms. Suspicious sms are sms which match top 100 filters, but your receive them with warning message from app. Your can tap on every item to see details.</string>
+    <string name="logs_help">Logs screen has three tabs with passed sms, blocked sms and suspicious sms. Suspicious sms are sms which match top 100 fraud filters, but your receive them with warning message from app. Your can tap on every item to see details.</string>
     
     <string name="help_tops">Tops screen help</string>    
     <string name="check_button_help">Press to check your sms</string>
@@ -36,15 +37,17 @@
     <string name="settings_help">On this screen you can change app language, on/off server synchronization of filters, on/off usage of top 100 filters, clear sms logs or reset statistics.</string>    
     
     
-    <!-- Help end -->
-    <string name="default_numbers">0123456789</string>
     <string name="app_name">Sms Firewall</string>
+    
     <string name="crash_report">Crash report</string>
     <string name="crash_report_text">Sorry, but Sms Firewall crashed :-( We collected all needed information to fix this error in the next version. Also you can write description of situation in which error occurred, it will be very helpful.</string>
+    
     <string name="stat_blocked">Blocked SMS: %d</string>
     <string name="stat_suspicious">Suspicious SMS: %d</string>
-    <string name="stat_recieved">Received SMS: %d</string>    
+    <string name="stat_recieved">Received SMS: %d</string>
+        
     <string name="stat_last_sync">Last server sync: %s</string>
+    
     <string name="word">Word</string>    
     <string name="phone_number">Phone number</string>
     <string name="word_with_dots">Word:</string>
@@ -105,8 +108,7 @@
     </string-array>
     <string-array name="languages">
         <item>(RU) Русский</item>
-        <item>(EN) English</item>
-        <item>(US) English</item>
+        <item>(EN) English</item>        
     </string-array>
     
     <string-array name="filter_categories">
