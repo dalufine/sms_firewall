@@ -34,12 +34,12 @@
     
     <string name="help_settings">Справка по окну настроек приложения</string>    
     <string name="save_button_help">Нажмите, чтобы сохранить настройки</string>
-    <string name="settings_help">В этом окне вы можете сменить язык приложения, включить или выключить синхронизацию Ваших фильтров с сервером, включить или выключить использование фильтров из топ 100, очистить логи sms или сбросить статистику.</string>
+    <string name="settings_help">В этом окне вы можете сменить язык приложения, включить или выключить синхронизацию Ваших фильтров с сервером, включить или выключить использование фильтров из топ 100 для нотификаций о мошенничестве, очистить логи sms или сбросить статистику.</string>
     
     <string name="app_name">Sms Firewall</string>
     
     <string name="crash_report">Crash report</string>
-    <string name="crash_report_text">Извините, наше приложение упало :-( Мы собрали всю нужную информацию, чтобы исправить эту ошибку в следующей версии. Также вы можете описать ситуацию, при которой произошла эта ошибка, это очень поможет нам.</string>
+    <string name="crash_report_text">Извините, но приложение упало :-( Мы собрали всю нужную информацию, чтобы исправить эту ошибку в следующей версии. Также вы можете описать ситуацию, при которой произошла эта ошибка, это очень поможет нам.</string>
     
     <string name="stat_blocked">Заблокированные SMS: %d</string>
     <string name="stat_suspicious">Подозрительные SMS: %d</string>
@@ -81,7 +81,7 @@
     <string name="spam">Спам</string>
     <string name="tops">Топ 100</string>
     <string name="sync_on">Синхронизация с сервером</string>
-    <string name="top_filter_on">Использовать все фильтры из Топ 100</string>
+    <string name="fraud_sms_notification">Оповещения о мошеннических sms</string>
     <string name="reset_stats">Сбросить статистику</string>
     <string name="reset">Сбросить</string>
     <string name="filter_reseted">Фильтр сброшен</string>
@@ -185,5 +185,7 @@
     <string name="add_new_sms_filter">Добавить новый sms-фильтр</string>
     <string name="logs_control">Управление журналом</string>
     <string name="statistics">Статистика</string>
+    
+    <string name="copyright">© 2015 Quantum Mobile Inc. Версия %s</string>
 
 </resources>

@@ -55,7 +55,7 @@
                 a:layout_height="wrap_content"
                 a:layout_marginTop="10dp"
                 a:gravity="center|left"
-                a:text="@string/top_filter_on" />
+                a:text="@string/fraud_sms_notification" />
         </LinearLayout>
 
         <LinearLayout
@@ -84,9 +84,9 @@
                     style="@style/BlackButton"
                     a:layout_width="wrap_content"
                     a:layout_marginLeft="10dp"
-                    a:ellipsize="end"              
-                    a:singleLine="true"      
-                    a:onClick="onResetLogsPassword"                    
+                    a:ellipsize="end"
+                    a:onClick="onResetLogsPassword"
+                    a:singleLine="true"
                     a:text="@string/reset_logs_password" />
             </LinearLayout>
         </LinearLayout>
@@ -97,6 +97,15 @@
             a:layout_gravity="center_horizontal"
             a:onClick="onResetStatistics"
             a:text="@string/reset_stats" />
+
+        <TextView
+            a:id="@+id/copyright"
+            style="@style/StatisticsFont"
+            a:layout_marginTop="5dp"
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:gravity="center_horizontal"
+            a:text="@string/copyright" />
     </LinearLayout>
 
     <LinearLayout style="@style/NavPanel" >

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quazar.sms_firewall.Param;
@@ -43,7 +44,10 @@ public class SettingsActivity extends BaseActivity{
 		syncCheckBox = ((CheckBox) findViewById(R.id.sync_on));
 		syncCheckBox.setChecked((Boolean) Param.USE_SYNC.getValue());
 		top100CheckBox = ((CheckBox) findViewById(R.id.top_filter_on));
-		top100CheckBox.setChecked((Boolean) Param.USE_TOP_100.getValue());
+		top100CheckBox.setChecked((Boolean) Param.FRAUD_NOTIFICATION.getValue());
+		//set version
+		TextView copyright=(TextView)findViewById(R.id.copyright);
+		copyright.setText(String.format(copyright.getText().toString(), Param.VERSION.getValue().toString()));
 	}
 
 	public void onClearLogs(View view){
@@ -103,9 +107,9 @@ public class SettingsActivity extends BaseActivity{
 		//set use_sync
 		boolean useSync = syncCheckBox.isChecked();
 		Param.USE_SYNC.setValue(useSync);
-		//set use top 100 filters
-		boolean useTop100 = top100CheckBox.isChecked();
-		Param.USE_TOP_100.setValue(useTop100);
+		//fraud notification
+		boolean fraudNotification = top100CheckBox.isChecked();
+		Param.FRAUD_NOTIFICATION.setValue(fraudNotification);
 		//set language
 		String lang = langSpinner.getSelectedItem().toString().substring(1, 3);
 		LocaleUtils.setLanguage(this, lang, true);

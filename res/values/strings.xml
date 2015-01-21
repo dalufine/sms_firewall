@@ -34,7 +34,7 @@
     
     <string name="help_settings">Settings screen help</string>    
     <string name="save_button_help">Press to save settings</string>
-    <string name="settings_help">On this screen you can change app language, on/off server synchronization of filters, on/off usage of top 100 filters, clear sms logs or reset statistics.</string>    
+    <string name="settings_help">On this screen you can change app language, on/off server synchronization of filters, on/off usage of top 100 filters for fraud notifications, clear sms logs or reset statistics.</string>    
     
     
     <string name="app_name">Sms Firewall</string>
@@ -82,7 +82,7 @@
     <string name="spam">Spam</string>
     <string name="tops">Top 100</string>
     <string name="sync_on">Server sync</string>
-    <string name="top_filter_on">Use all filters from top 100</string>
+    <string name="fraud_sms_notification">Fraud sms notification</string>
     <string name="reset_stats">Reset statistics</string>
     <string name="reset">Reset</string>
     <string name="filter_reseted">Filter reseted</string>
@@ -188,5 +188,7 @@
     <string name="add_new_sms_filter">Add new SMS filter</string>
     <string name="logs_control">Logs control</string>
     <string name="statistics">Statistics</string>
+    
+    <string name="copyright">© 2015 Quantum Mobile Inc. Verion %s</string>
 
 </resources>

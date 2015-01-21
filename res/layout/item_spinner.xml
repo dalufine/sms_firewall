@@ -4,14 +4,16 @@
     a:layout_height="wrap_content"
     a:padding="5dp"
     a:orientation="vertical" >
+
     <TextView
-        a:text="@string/default_text"
         a:id="@+id/spinner_list_value"
         a:layout_width="match_parent"
-        a:layout_height="wrap_content"        
-        a:textSize="18sp"
+        a:layout_height="wrap_content"
+        a:layout_marginLeft="5dp"
+        a:gravity="left"
+        a:text="@string/default_text"
         a:textColor="#000"
         a:textColorHighlight="#f00"
-        a:gravity="left" 
-        a:layout_marginLeft="5dp"/>    
+        a:textSize="18sp" />
+    
 </LinearLayout>
