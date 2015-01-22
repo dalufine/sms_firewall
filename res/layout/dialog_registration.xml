@@ -77,13 +77,26 @@
                 a:layout_height="wrap_content"
                 a:text="@string/send_suspicious_text" />
 
-            <CheckBox
-                a:id="@+id/sendSuspicious"
-                a:layout_width="match_parent"
+            <LinearLayout
+                a:layout_width="fill_parent"
                 a:layout_height="wrap_content"
-                a:checked="true"
-                a:lines="2"
-                a:text="@string/send_suspicious" />
+                a:orientation="horizontal" >
+
+                <CheckBox
+                    a:id="@+id/sendSuspicious"
+                    a:layout_width="wrap_content"
+                    a:layout_height="wrap_content"
+                    a:checked="true"/>
+
+                <TextView
+                    style="?android:attr/checkboxStyle"
+                    a:layout_width="match_parent"
+                    a:layout_height="match_parent"
+                    a:gravity="left|center_vertical"
+                    a:lines="2"
+                    a:padding="0dp"
+                    a:text="@string/send_suspicious" />
+            </LinearLayout>
         </LinearLayout>
 
         <Button

@@ -23,11 +23,12 @@
                 a:layout_width="fill_parent"
                 a:layout_height="35dp"
                 a:gravity="right"
-                a:paddingRight="10dp"
+                a:paddingRight="0dp"
                 a:paddingTop="10dp" >
 
                 <ImageButton
                     style="@style/HelpButton" 
+                    a:layout_marginTop="5dp"
                     a:contentDescription="@string/default_text"/>
             </LinearLayout>
 

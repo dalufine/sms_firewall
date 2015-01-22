@@ -3,6 +3,7 @@ package com.quazar.sms_firewall;
 import android.app.Activity;
 import android.content.Intent;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 
 import com.quazar.sms_firewall.activities.FiltersActivity;
 import com.quazar.sms_firewall.activities.LogsActivity;
@@ -16,6 +17,7 @@ public class StateManager{
 
 	public static void getContact(Activity activity){
 		Intent intent=new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+		intent.setType(Phone.CONTENT_TYPE);
 		activity.startActivityForResult(intent, CONTACTS_REQUEST_ID);
 	}
 	public static void showFilters(Activity activity){

@@ -1,15 +1,20 @@
 package com.quazar.sms_firewall;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
 public enum Param{
 	IS_NEW(true), BLOCKED_SMS_CNT(0), RECIEVED_SMS_CNT(0), SUSPICIOUS_SMS_CNT(0), LAST_SYNC(0L), PASSWORD(null),
-	USE_SYNC(false), USER_EMAIL(null), SEND_SUSPICIOUS(true), VERSION("1.0.0"), LOCALE(null), FRAUD_NOTIFICATION(true);
+	USE_SYNC(false), USER_EMAIL(null), SEND_SUSPICIOUS(true), VERSION("1.0.0"), LOCALE(null), DEFAULT_LOCALE(Locale.getDefault()), FRAUD_NOTIFICATION(true);
 
 	private Object value;
 	private static SharedPreferences store;
 	private static boolean loaded;
+	private static List<Param> constants = Arrays.asList(VERSION, DEFAULT_LOCALE);
 
 	Param(Object value){
 		this.value = value;
@@ -18,17 +23,21 @@ public enum Param{
 	public static void load(Context context){
 		store = context.getSharedPreferences("sms_firewall_params", 0);
 		for (Param p:Param.values()) {
-			if (p.value instanceof Integer)
-				p.value = store.getInt(p.name(), 0);
-			else if (p.value instanceof Long)
-				p.value = store.getLong(p.name(), 0);
-			else if (p.value instanceof Boolean)
-				p.value = store.getBoolean(p.name(), true);
-			else if (p.value instanceof String)
-				p.value = store.getString(p.name(), "");
-			else if (p.value instanceof Float)
-				p.value = store.getFloat(p.name(), 0);
-			else p.value = store.getString(p.name(), "");
+			if (!constants.contains(p)) {
+				if (p.value instanceof Integer) {
+					p.value = store.getInt(p.name(), 0);
+				} else if (p.value instanceof Long) {
+					p.value = store.getLong(p.name(), 0);
+				} else if (p.value instanceof Boolean) {
+					p.value = store.getBoolean(p.name(), true);
+				} else if (p.value instanceof String) {
+					p.value = store.getString(p.name(), "");
+				} else if (p.value instanceof Float) {
+					p.value = store.getFloat(p.name(), 0);
+				} else {
+					p.value = store.getString(p.name(), "");
+				}
+			}
 		}
 		loaded = true;
 	}

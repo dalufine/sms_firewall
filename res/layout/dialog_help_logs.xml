@@ -71,7 +71,7 @@
             </LinearLayout>           
 
             <TextView
-                style="@style/HelpFont"
+                style="@style/HelpFontSmall"
                 a:text="@string/logs_help" />
         </LinearLayout>
     </ScrollView>

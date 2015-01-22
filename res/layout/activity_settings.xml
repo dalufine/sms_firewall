@@ -40,6 +40,7 @@
                     a:layout_marginLeft="5dp"
                     a:choiceMode="singleChoice"
                     a:entries="@array/languages" />
+                
             </LinearLayout>
 
             <CheckBox

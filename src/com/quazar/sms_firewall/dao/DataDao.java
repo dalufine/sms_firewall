@@ -163,7 +163,8 @@ public class DataDao extends SQLiteOpenHelper{
 			dbase = getReadableDatabase();
 			String where = "status=" + status.ordinal();
 			if (filter != null) {
-				where = addWhereFilter(where, "body LIKE '%%%s%%'", filter.getBodyLike());
+				String body = filter.getBodyLike();
+				where = addWhereFilter(where, "LOWER(body) LIKE '%%%s%%'", body == null?null:body.toLowerCase());
 				where = addWhereFilter(where, "phone_name='%s'", filter.getPhoneName());
 				where =
 						addWhereFilter(where, "add_time>='%s'", (filter.getFrom() == null)?null:sqlFromFormat
@@ -214,7 +215,8 @@ public class DataDao extends SQLiteOpenHelper{
 			dbase = getReadableDatabase();
 			String where = "status=" + status.ordinal();
 			if (filter != null) {
-				where = addWhereFilter(where, "body LIKE '%%%s%%'", filter.getBodyLike());
+				String body = filter.getBodyLike();
+				where = addWhereFilter(where, "LOWER(body) LIKE '%%%s%%'", body == null?null:body.toLowerCase());
 				where = addWhereFilter(where, "phone_name='%s'", filter.getPhoneName());
 				where =
 						addWhereFilter(where, "add_time>='%s'", (filter.getFrom() == null)?null:sqlFromFormat

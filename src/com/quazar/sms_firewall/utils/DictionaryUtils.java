@@ -5,6 +5,7 @@ import java.util.HashMap;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 public class DictionaryUtils {
 	private HashMap<String, String> contactsMap;
@@ -16,6 +17,9 @@ public class DictionaryUtils {
 			instance.contactsMap=new HashMap<String, String>();
 			while (cursor.moveToNext()) {
 				String name =cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+				if(name.equals("По Квартире")){
+					Log.i("", "");
+				}				
 				String phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 				instance.contactsMap.put(ContentUtils.getFormatedPhoneNumber(context, phoneNumber), name);
 			}			

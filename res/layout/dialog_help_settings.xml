@@ -47,7 +47,7 @@
             </LinearLayout>           
 
             <TextView
-                style="@style/HelpFont"
+                style="@style/HelpFontSmall"
                 a:text="@string/settings_help" />
         </LinearLayout>
     </ScrollView>

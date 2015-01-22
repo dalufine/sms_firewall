@@ -98,7 +98,7 @@
             </LinearLayout>
 
             <TextView
-                style="@style/HelpFont"
+                style="@style/HelpFontSmall"
                 a:text="@string/main_help" />
         </LinearLayout>
     </ScrollView>

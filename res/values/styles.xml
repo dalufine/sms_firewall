@@ -93,7 +93,10 @@
     </style>
     
     <style name="HelpFontSmall" parent="HelpFont">        
-        <item name="android:textSize">10sp</item>        
+        <item name="android:textSize">11sp</item>        
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textColor">#FFF887</item>
     </style>
 
     <style name="FilterListItemFont" parent="ListDateFont">
@@ -243,8 +246,8 @@
     </style>
 
     <style name="HelpButton">
-        <item name="android:layout_width">15dp</item>
-        <item name="android:layout_height">15dp</item>
+        <item name="android:layout_width">20dp</item>        
+        <item name="android:layout_height">20dp</item>
         <item name="android:background">@null</item>
         <item name="android:onClick">onHelpClick</item>
         <item name="android:scaleType">centerInside</item>

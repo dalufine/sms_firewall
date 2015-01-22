@@ -38,10 +38,7 @@ public class MainActivity extends Activity{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
-		super.onCreate(savedInstanceState);
-		if((Boolean)Param.IS_NEW.getValue()){
-			Param.saveDefaults(this);
-		}
+		super.onCreate(savedInstanceState);		
 		Param.load(this);
 		if(Param.LOCALE.getValue()!=null&&((String)Param.LOCALE.getValue()).length()>0){
 			LocaleUtils.setLanguage(this, (String)Param.LOCALE.getValue(), false);
@@ -70,7 +67,7 @@ public class MainActivity extends Activity{
 			}catch(Exception ex){
 				LogUtil.error(this, "onCreate", ex);
 			}
-			//Param.LAST_SYNC.setValue(System.currentTimeMillis());//TODO uncomment on prod
+			Param.LAST_SYNC.setValue(System.currentTimeMillis());
 		}
 	}
 	@Override

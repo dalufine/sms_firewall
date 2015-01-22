@@ -50,7 +50,7 @@ public class TopsActivity extends BaseActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		this.windowType=Window.TOPS;
+		this.windowType = Window.TOPS;
 		setContentView(R.layout.activity_tops);
 		tabHost = (TabHost) findViewById(R.id.tops_tabhost);
 		tabHost.setup();
@@ -112,7 +112,8 @@ public class TopsActivity extends BaseActivity{
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
 		if (requestCode == StateManager.CONTACTS_REQUEST_ID && resultCode == Activity.RESULT_OK) {
-			sendAndProccessCheck(ContentUtils.getPhoneNumber(this, data.getData()));
+			sendAndProccessCheck(ContentUtils.getFormatedPhoneNumber(this, ContentUtils.getPhoneNumber(this, data
+					.getData())));
 		}
 	}
 

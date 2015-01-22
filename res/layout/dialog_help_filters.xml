@@ -60,7 +60,7 @@
             </LinearLayout>
 
             <TextView
-                style="@style/HelpFont"
+                style="@style/HelpFontSmall"
                 a:text="@string/filters_help" />
         </LinearLayout>
     </ScrollView>

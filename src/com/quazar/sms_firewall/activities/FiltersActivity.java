@@ -98,7 +98,7 @@ public class FiltersActivity extends BaseActivity{
 		super.onActivityResult(requestCode, resultCode, data);
 		if(requestCode==StateManager.CONTACTS_REQUEST_ID&&resultCode==Activity.RESULT_OK){
 			String phoneNumber=ContentUtils.getPhoneNumber(this, data.getData());
-			dataDao.insertUserFilter(FilterType.PHONE_NAME, phoneNumber);
+			dataDao.insertUserFilter(FilterType.PHONE_NAME, ContentUtils.getFormatedPhoneNumber(this, phoneNumber));
 			phonesList.setAdapter(getAdapter(FilterType.PHONE_NAME));
 		}
 	}

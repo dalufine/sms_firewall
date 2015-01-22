@@ -1,8 +1,13 @@
 package com.quazar.sms_firewall.activities;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,10 +33,16 @@ public class SettingsActivity extends BaseActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		this.windowType=Window.SETTINGS;
+		this.windowType = Window.SETTINGS;
 		setContentView(R.layout.activity_settings);
 		dao = new DataDao(this);
 		langSpinner = ((Spinner) findViewById(R.id.language_select));
+//		List<HashMap<String, Object>> list=new ArrayList<HashMap<String, Object>>();
+//		Map<String, Object>
+//		SimpleAdapter adapter =
+//				new SimpleAdapter(this, list, R.layout.item_spinner_lang, new String[] {"flag", "lang_value"}, new int[] {R.id.flag, R.id.lang_value});
+//		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//		langSpinner.setAdapter(adapter);
 		if (Param.LOCALE.getValue() != null && ((String) Param.LOCALE.getValue()).length() > 0) {
 			for (int i = 0; i < langSpinner.getCount(); i++) {
 				String lang = ((String) langSpinner.getItemAtPosition(i)).substring(1, 3);
@@ -46,7 +57,7 @@ public class SettingsActivity extends BaseActivity{
 		top100CheckBox = ((CheckBox) findViewById(R.id.top_filter_on));
 		top100CheckBox.setChecked((Boolean) Param.FRAUD_NOTIFICATION.getValue());
 		//set version
-		TextView copyright=(TextView)findViewById(R.id.copyright);
+		TextView copyright = (TextView) findViewById(R.id.copyright);
 		copyright.setText(String.format(copyright.getText().toString(), Param.VERSION.getValue().toString()));
 	}
 

@@ -138,7 +138,7 @@
     <string name="your_email">Ваш e-mail:</string>
     <string name="enter_password_text">Введеите пароль для журнала sms и синхронизации Ваших фильтров с сервером:</string>
     <string name="send_suspicious_text">Дайте нам возможность улучшить Sms Firewall:</string>
-    <string name="send_suspicious">посылать подозрительные</string>
+    <string name="send_suspicious">посылать подозрительные sms</string>
     <string name="send">Отправить</string>
     <string name="enter_email">Пожалуйста, введите корректный e-mail!</string>
     <string name="password_length_error">Пароль слишком короткий, минимальнаяя длина 8 символов</string>
