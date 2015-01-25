@@ -119,6 +119,11 @@
         <item name="android:paddingRight">10dp</item>
         <item name="android:textColor">@drawable/button_text_color</item>        
     </style>
+    
+    <style name="OneLineButton" parent="BlackButton">
+        <item name="android:lines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
 
     <style name="BottomPanelButton" parent="BlackButton">
         <item name="android:layout_marginLeft">20dp</item>
@@ -195,7 +200,7 @@
     <style name="GroupPanel">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0px</item>
-        <item name="android:layout_gravity">center</item>
+        
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:layout_marginLeft">30dp</item>
         <item name="android:layout_marginRight">30dp</item>
@@ -273,6 +278,12 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:background">@android:color/transparent</item>
+    </style>
+    
+    <style name="SettingsCheckBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_marginTop">5dp</item>
     </style>
     
     <style name="ErrorDialog" parent="Dialog">

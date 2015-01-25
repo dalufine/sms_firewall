@@ -1,19 +1,22 @@
 package com.quazar.sms_firewall.activities;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quazar.sms_firewall.Param;
 import com.quazar.sms_firewall.R;
+import com.quazar.sms_firewall.adapters.SpinnerAdapter;
+import com.quazar.sms_firewall.adapters.SpinnerModel;
 import com.quazar.sms_firewall.dao.DataDao;
 import com.quazar.sms_firewall.dialogs.EnterPasswordDialog;
 import com.quazar.sms_firewall.dialogs.HelpDialog.Window;
@@ -37,20 +40,22 @@ public class SettingsActivity extends BaseActivity{
 		setContentView(R.layout.activity_settings);
 		dao = new DataDao(this);
 		langSpinner = ((Spinner) findViewById(R.id.language_select));
-//		List<HashMap<String, Object>> list=new ArrayList<HashMap<String, Object>>();
-//		Map<String, Object>
-//		SimpleAdapter adapter =
-//				new SimpleAdapter(this, list, R.layout.item_spinner_lang, new String[] {"flag", "lang_value"}, new int[] {R.id.flag, R.id.lang_value});
-//		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//		langSpinner.setAdapter(adapter);
+		//spinner init
+		List<SpinnerModel> items = new ArrayList<SpinnerModel>();
+		String[] languages = getResources().getStringArray(R.array.languages);
+		SpinnerModel model = new SpinnerModel();
+		model.setImageId(R.drawable.gb);
+		model.setText(languages[0]);
+		items.add(model);
+		model = new SpinnerModel();
+		model.setImageId(R.drawable.ru);
+		model.setText(languages[1]);
+		items.add(model);
+		langSpinner.setAdapter(new SpinnerAdapter(this, items));
+		//
 		if (Param.LOCALE.getValue() != null && ((String) Param.LOCALE.getValue()).length() > 0) {
-			for (int i = 0; i < langSpinner.getCount(); i++) {
-				String lang = ((String) langSpinner.getItemAtPosition(i)).substring(1, 3);
-				if (lang.equalsIgnoreCase((String) Param.LOCALE.getValue())) {
-					langSpinner.setSelection(i);
-					break;
-				}
-			}
+			langSpinner.setSelection(Arrays.asList(getResources().getStringArray(R.array.lang_iso_codes)).indexOf(
+					(String) Param.LOCALE.getValue()));
 		}
 		syncCheckBox = ((CheckBox) findViewById(R.id.sync_on));
 		syncCheckBox.setChecked((Boolean) Param.USE_SYNC.getValue());
@@ -59,6 +64,11 @@ public class SettingsActivity extends BaseActivity{
 		//set version
 		TextView copyright = (TextView) findViewById(R.id.copyright);
 		copyright.setText(String.format(copyright.getText().toString(), Param.VERSION.getValue().toString()));
+		//set last sync
+		TextView lastSync = (TextView) findViewById(R.id.server_sync);
+		String syncStr=String.format(lastSync.getText().toString(), SimpleDateFormat.getDateTimeInstance().format(new Date(
+				(Long) Param.LAST_SYNC.getValue())));
+		lastSync.setText(syncStr);
 	}
 
 	public void onClearLogs(View view){
@@ -121,10 +131,14 @@ public class SettingsActivity extends BaseActivity{
 		//fraud notification
 		boolean fraudNotification = top100CheckBox.isChecked();
 		Param.FRAUD_NOTIFICATION.setValue(fraudNotification);
-		//set language
-		String lang = langSpinner.getSelectedItem().toString().substring(1, 3);
-		LocaleUtils.setLanguage(this, lang, true);
+		//set language				
+		LocaleUtils.setLanguage(this, getLangIsoCode(langSpinner.getSelectedItem().toString()), true);
 		onCreate(null);
 		MainActivity.invalidate();
+	}
+
+	private String getLangIsoCode(String lang){
+		int index = Arrays.binarySearch(getResources().getStringArray(R.array.languages), lang);
+		return getResources().getStringArray(R.array.lang_iso_codes)[index];
 	}
 }

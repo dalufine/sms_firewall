@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
     a:layout_width="match_parent"
-    a:layout_height="35dp"
+    a:layout_height="50dp"
     a:background="@drawable/list_item_bg"
     a:gravity="center_vertical"
     a:orientation="horizontal"
@@ -22,6 +22,7 @@
         a:text="@string/default_text"
         a:textColor="#fff"
         a:textColorHighlight="#f00"
+        a:background="@android:color/transparent"
         a:textSize="18sp" />
 
 </LinearLayout>

@@ -107,8 +107,12 @@
         <item>Enter value</item>
     </string-array>
     <string-array name="languages">
-        <item>(RU) Русский</item>
-        <item>(EN) English</item>        
+        <item>English</item>
+        <item>Русский</item>                
+    </string-array>
+    <string-array name="lang_iso_codes">
+        <item>US</item>
+        <item>RU</item>                
     </string-array>
     
     <string-array name="filter_categories">
@@ -167,6 +171,7 @@
     <string name="body_contains">Body contains:</string>
     <string name="date_from">Date from:</string>
     <string name="date_to">Date to:</string>
+    <string name="date">Date:</string>
     <string name="add_all_from_top">Do you really want to add all filters on this tab?</string>    
     <string name="item_not_selected">Select the item first</string>
     <string name="example_added_to_filter">Example added to filter</string>
@@ -174,11 +179,13 @@
     <string name="filter_added">Filter added!</string>
     <string name="example_added">We have such filter. Your example have been added!</string>
     <string name="have_such_filter_and_example">We have such filter and example.</string>
-    <string name="message_examples">Message examples:</string>
+    <string name="message_examples">Message examples:</string>    
     <string name="message_example">Message example:</string>
+    <string name="message">Message:</string>
     <string name="messages_votes">Votes:</string>
     <string name="messages_position">Top position:</string>
     <string name="filter_info_title">Filter information and examples</string>
+    <string name="message_view_title">Message view</string>
     <string name="complain_info_title">Complain information</string>
     <string name="votes_per_day_error">You can not vote for this item this day</string>
     <string name="error_dialog_title">Error occurred</string>
@@ -186,8 +193,9 @@
     <string name="voted_today_error">You have voted today for this filter</string>
     <string name="vote_added">Vote successfuly added</string>
     <string name="add_new_sms_filter">Add new SMS filter</string>
-    <string name="logs_control">Logs control</string>
-    <string name="statistics">Statistics</string>
+    <string name="content_control">Content control</string>    
+    <string name="statistics">Statistics</string>    
+    <string name="last_sync">Last server sync %s</string>
     
     <string name="copyright">© 2015 Quantum Mobile Inc. Verion %s</string>
 

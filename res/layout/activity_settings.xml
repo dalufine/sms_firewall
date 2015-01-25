@@ -13,62 +13,48 @@
 
         <LinearLayout
             style="@style/GroupPanel"
-            a:layout_height="0dp"
+            a:layout_height="200dp"
             a:layout_margin="10dp"
-            a:layout_weight="2"
+            a:gravity="left|top"
             a:orientation="vertical"
             a:padding="10dp" >
 
-            <LinearLayout
+            <TextView
+                style="?android:attr/checkboxStyle"
                 a:layout_width="match_parent"
                 a:layout_height="wrap_content"
-                a:layout_marginLeft="10dp"
-                a:layout_marginRight="10dp"
-                a:gravity="center_horizontal"
-                a:orientation="horizontal" >
+                a:layout_margin="0dp"
+                a:padding="0dp"
+                a:text="@string/language" />
 
-                <TextView
-                    a:layout_width="70dp"
-                    a:layout_height="wrap_content"
-                    a:layout_gravity="center_vertical"
-                    a:text="@string/language" />
-
-                <Spinner
-                    a:id="@+id/language_select"
-                    a:layout_width="match_parent"
-                    a:layout_height="40dp"
-                    a:layout_marginLeft="5dp"
-                    a:choiceMode="singleChoice"
-                    a:entries="@array/languages" />
-                
-            </LinearLayout>
+            <Spinner
+                a:id="@+id/language_select"
+                a:layout_width="match_parent"
+                a:layout_height="45dp"
+                a:background="@drawable/spinner_bg"
+                a:choiceMode="singleChoice"
+                a:padding="0dp" />
 
             <CheckBox
                 a:id="@+id/sync_on"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:gravity="center|left"
+                style="@style/SettingsCheckBox"
                 a:text="@string/sync_on" />
 
             <CheckBox
                 a:id="@+id/top_filter_on"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:layout_marginTop="10dp"
-                a:gravity="center|left"
+                style="@style/SettingsCheckBox"
                 a:text="@string/fraud_sms_notification" />
         </LinearLayout>
 
         <LinearLayout
             style="@style/ButtonsPanel"
-            a:layout_height="0dp"
-            a:layout_weight="1"
+            a:layout_height="150dp"
             a:orientation="vertical" >
 
             <TextView
                 style="@style/GroupHeaderText"
                 a:layout_marginBottom="10dp"
-                a:text="@string/logs_control" />
+                a:text="@string/content_control" />
 
             <LinearLayout
                 a:layout_width="wrap_content"
@@ -76,38 +62,38 @@
                 a:orientation="horizontal" >
 
                 <Button
-                    style="@style/BlackButton"
+                    style="@style/OneLineButton"
                     a:layout_width="wrap_content"
                     a:onClick="onClearLogs"
                     a:text="@string/clear_logs" />
 
                 <Button
-                    style="@style/BlackButton"
+                    style="@style/OneLineButton"
                     a:layout_width="wrap_content"
                     a:layout_marginLeft="10dp"
-                    a:ellipsize="end"
-                    a:onClick="onResetLogsPassword"
-                    a:singleLine="true"
-                    a:text="@string/reset_logs_password" />
+                    a:onClick="onResetStatistics"
+                    a:text="@string/reset_stats" />
             </LinearLayout>
+
+            <TextView
+                a:id="@+id/server_sync"
+                style="@style/StatisticsFont"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:layout_marginTop="10dp"                
+                a:gravity="center_horizontal"
+                a:text="@string/last_sync" />
         </LinearLayout>
-
-        <Button
-            style="@style/BlackButton"
-            a:layout_width="wrap_content"
-            a:layout_gravity="center_horizontal"
-            a:onClick="onResetStatistics"
-            a:text="@string/reset_stats" />
-
-        <TextView
-            a:id="@+id/copyright"
-            style="@style/StatisticsFont"
-            a:layout_marginTop="5dp"
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content"
-            a:gravity="center_horizontal"
-            a:text="@string/copyright" />
     </LinearLayout>
+
+    <TextView
+        a:id="@+id/copyright"
+        style="@style/StatisticsFont"
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content"
+        a:layout_marginTop="5dp"
+        a:gravity="center_horizontal"
+        a:text="@string/copyright" />
 
     <LinearLayout style="@style/NavPanel" >
 

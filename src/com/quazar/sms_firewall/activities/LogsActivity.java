@@ -14,12 +14,14 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quazar.sms_firewall.R;
 import com.quazar.sms_firewall.dao.DataDao;
 import com.quazar.sms_firewall.dialogs.HelpDialog.Window;
 import com.quazar.sms_firewall.dialogs.LogsFilterDialog;
+import com.quazar.sms_firewall.dialogs.MessageViewDialog;
 import com.quazar.sms_firewall.dialogs.listeners.DialogListener;
 import com.quazar.sms_firewall.models.LogFilter;
 import com.quazar.sms_firewall.models.SmsLogItem;
@@ -120,9 +122,9 @@ public class LogsActivity extends BaseActivity implements OnScrollListener{
 		tabHost.addTab(blockedLogsTab);
 		listViews.add(blockedList);
 		tabHost.setCurrentTab(2);
-		blockedList.setOnScrollListener(this);
-		suspiciousList.setOnScrollListener(this);
-		filteredList.setOnScrollListener(this);
+		blockedList.setOnScrollListener(this);		
+		suspiciousList.setOnScrollListener(this);		
+		filteredList.setOnScrollListener(this);		
 	}
 
 	@Override
@@ -231,4 +233,11 @@ public class LogsActivity extends BaseActivity implements OnScrollListener{
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState){}
+
+	public void onItemClick(View v){
+		String number=(String) ((TextView)v.findViewById(R.id.item_name)).getText();
+		String date=(String) ((TextView)v.findViewById(R.id.item_date)).getText();
+		String text=(String) ((TextView)v.findViewById(R.id.item_text)).getText();
+		new MessageViewDialog(this, number, text, date).show();		
+	}
 }

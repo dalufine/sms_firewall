@@ -104,11 +104,7 @@
         <item>Входящие SMS</item>
         <item>Входящие звонки</item>
         <item>Введите значение</item>
-    </string-array>
-    <string-array name="languages">
-        <item>(RU) Русский</item>
-        <item>(EN) English</item>
-    </string-array>
+    </string-array>    
     <string-array name="filter_categories">
         <item>Общий</item>
         <item>Спам</item>
@@ -164,6 +160,7 @@
     <string name="body_contains">Текст sms содержит:</string>
     <string name="date_from">Дата с:</string>
     <string name="date_to">Дата до:</string>
+    <string name="date">Дата:</string>
     <string name="add_all_from_top">Вы действительно хотите добавить все фильтры с этой вкладки?</string>
     <string name="item_not_selected">Сначала выберите элемент!</string>
     <string name="example_added_to_filter">Пример добавлен к фильтру!</string>
@@ -173,9 +170,11 @@
     <string name="have_such_filter_and_example">У нас есть такой фильтр с таким примером.</string>
     <string name="message_examples">Примеры сообщений:</string>
     <string name="message_example">Пример сообщения:</string>
+    <string name="message">Сообщение:</string>
     <string name="messages_votes">Голосов:</string>
     <string name="messages_position">Позиция в топе:</string>
     <string name="filter_info_title">Информация о фильтре и его примеры</string>
+    <string name="message_view_title">Просмотр сообщения</string>
     <string name="complain_info_title">Информация для жалобы</string>
     <string name="votes_per_day_error">Вы уже голосовали за этот фильтр сегодня!</string>
     <string name="error_dialog_title">Произошла ошибка</string>
@@ -183,8 +182,9 @@
     <string name="voted_today_error">Вы уже голосовали за этот фильтр сегодня!</string>
     <string name="vote_added">Голос успешно добавлен</string>
     <string name="add_new_sms_filter">Добавить новый sms-фильтр</string>
-    <string name="logs_control">Управление журналом</string>
+    <string name="content_control">Управление содержимым</string>
     <string name="statistics">Статистика</string>
+    <string name="last_sync">Последняя синхронизация с сервером %s</string>
     
     <string name="copyright">© 2015 Quantum Mobile Inc. Версия %s</string>
 

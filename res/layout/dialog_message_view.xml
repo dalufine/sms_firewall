@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    a:layout_width="fill_parent"
+    a:layout_height="fill_parent"
+    
+    a:minWidth="250dp"
+    a:orientation="vertical"
+    a:padding="5dp" >
+
+    <TextView
+        style="@style/DialogHeaderText"
+        a:text="@string/message_view_title" />
+
+    <LinearLayout
+        a:layout_width="match_parent"
+        a:layout_height="0dp"
+        a:layout_weight="1"
+        a:orientation="vertical" >
+
+        <LinearLayout
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:orientation="horizontal" >
+
+            <TextView
+                a:id="@+id/header_ex"
+                style="@style/PropertyTitleFont"
+                a:layout_width="wrap_content"
+                a:text="@string/phone_number_with_dots" />
+
+            <TextView
+                a:id="@+id/phone_number"
+                style="@style/PropertyValueFont"
+                a:gravity="right"                
+                a:textIsSelectable="true"
+                a:text="@string/default_numbers" />
+        </LinearLayout>
+
+        <LinearLayout
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:layout_marginTop="10dp"
+            a:orientation="horizontal" >
+
+            <TextView
+                style="@style/PropertyTitleFont"
+                a:layout_width="wrap_content"
+                a:text="@string/date" />
+
+            <TextView
+                a:id="@+id/date"
+                style="@style/PropertyValueFont"
+                a:gravity="right"
+                a:textIsSelectable="true"                
+                a:text="@string/default_numbers" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/PropertyTitleFont"
+            a:layout_marginTop="10dp"
+            a:text="@string/message" />
+
+        <TextView
+            a:id="@+id/message"
+            style="@style/PropertyValueFont"
+            a:textSize="12sp"
+            a:layout_marginTop="10dp"
+            a:textIsSelectable="true"
+            a:lines="5"
+            a:text="@string/default_text" />
+    </LinearLayout>
+
+    <Button
+        a:id="@+id/close_btn"
+        style="@style/BlackButton"
+        a:layout_gravity="center_horizontal"
+        a:layout_marginTop="10dp"
+        a:text="@string/close" />
+
+</LinearLayout>

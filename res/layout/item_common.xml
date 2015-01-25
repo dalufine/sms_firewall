@@ -4,6 +4,7 @@
     a:layout_height="50dp"
     a:background="@drawable/list_item_bg"
     a:orientation="horizontal"
+    a:onClick="onItemClick"
     a:padding="5dp" >
 
     <TextView
